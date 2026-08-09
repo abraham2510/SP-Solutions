@@ -98,22 +98,22 @@ export default function Products() {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="flex items-center gap-3 shrink-0 self-end md:self-auto">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 self-end md:self-auto">
             <button
               onClick={() => scroll("left")}
-              className="w-12 h-12 rounded-full border border-[#D5DEF0] bg-white text-[#00266A] hover:bg-[#00266A] hover:text-white hover:border-[#00266A] transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
+              className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-[#D5DEF0] bg-white text-[#00266A] hover:bg-[#00266A] hover:text-white hover:border-[#00266A] transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
               aria-label="Previous product"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               onClick={() => scroll("right")}
-              className="w-12 h-12 rounded-full border border-[#D5DEF0] bg-white text-[#00266A] hover:bg-[#00266A] hover:text-white hover:border-[#00266A] transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
+              className="w-9 h-9 sm:w-12 sm:h-12 rounded-full border border-[#D5DEF0] bg-white text-[#00266A] hover:bg-[#00266A] hover:text-white hover:border-[#00266A] transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"
               aria-label="Next product"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
+              <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -123,7 +123,8 @@ export default function Products() {
         {/* Horizontal Scroll Track */}
         <div
           ref={sliderRef}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 pt-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          data-lenis-prevent
+          className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-proximity sm:snap-mandatory scroll-smooth pb-6 pt-2 touch-pan-x [webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {PRODUCTS.map((product, i) => (
             <div
