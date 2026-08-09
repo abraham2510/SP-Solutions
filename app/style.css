@@ -458,19 +458,19 @@ button {
 }
 
 .hero-stat b {
-  @apply block text-[26px] text-[#00266A] font-extrabold tracking-tight;
+  @apply block text-[22px] sm:text-[26px] text-[#00266A] font-extrabold tracking-tight;
 }
 
 .hero-stat b span {
-  @apply inline text-[26px] text-[#00266A] font-extrabold tracking-tight;
+  @apply inline text-[22px] sm:text-[26px] text-[#00266A] font-extrabold tracking-tight;
 }
 
-.hero-stat>span {
-  @apply block text-[11px] text-[#334155] font-semibold tracking-[0.06em] uppercase mt-[6px];
+.hero-stat > span {
+  @apply block text-[10px] sm:text-[11px] text-[#334155] font-semibold tracking-[0.04em] uppercase mt-[4px] whitespace-nowrap;
 }
 
 .hero-stats {
-  @apply grid grid-cols-4 gap-x-[36px] gap-y-[24px] border border-[#E7EAEE] bg-white/80 backdrop-blur-md p-6 rounded-2xl shadow-[0_12px_32px_-16px_rgba(0,38,106,0.12)] mt-[48px] max-w-[640px] mx-auto justify-center;
+  @apply grid grid-cols-2 sm:grid-cols-4 gap-x-4 sm:gap-x-8 gap-y-4 border border-[#E7EAEE] bg-white/80 backdrop-blur-md p-4 sm:p-6 rounded-2xl shadow-[0_12px_32px_-16px_rgba(0,38,106,0.12)] mt-10 sm:mt-[48px] max-w-full sm:max-w-[660px] mx-auto text-center justify-items-center items-center;
 }
 
 .scroll-cue {
@@ -813,11 +813,15 @@ button {
 }
 
 .counter b {
-  @apply block text-[38px] font-bold text-white;
+  @apply block text-[38px] font-bold text-white leading-tight;
 }
 
-.counter span {
-  @apply text-[11px] text-white/60 tracking-[0.06em] uppercase;
+.counter b span {
+  @apply text-[38px] font-bold text-white tracking-normal inline;
+}
+
+.counter > span {
+  @apply block text-[11px] text-white/60 tracking-[0.06em] uppercase mt-[4px];
 }
 
 /* ---- Process ---- */
@@ -1252,7 +1256,7 @@ button {
   }
 
   .hero-stats {
-    @apply grid-cols-2 w-auto;
+    @apply grid-cols-2 w-auto gap-x-2 gap-y-3 px-3 py-3.5;
   }
 
   .products-grid,
@@ -1313,4 +1317,37 @@ button {
 .animate-logo-scroll {
   animation: logo-scroll 24s linear infinite;
   will-change: transform;
+}
+
+/* ---- Lenis Smooth Scroll ---- */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ---- Hide Global Scrollbars ---- */
+html, body {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }

@@ -18,7 +18,7 @@ export default function ClientLogos() {
   return (
     <section className="py-12 relative overflow-hidden">
       <div className="wrap mb-6 text-center">
-        <span className="eyebrow text-[#D5BD66] justify-center">TRUSTED BY INDUSTRY LEADING BRANDS</span>
+        <span className="eyebrow text-[#D5BD66] justify-center">TRUSTED PACKAGING MACHINERY &amp; SERVICE PROVIDER IN TAMIL NADU</span>
       </div>
 
       {/* Infinite Seamless Logo Carousel */}

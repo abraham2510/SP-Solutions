@@ -16,7 +16,7 @@ export default function Footer() {
               </span>
             </a>
             <p className="mt-4 text-[14px] leading-relaxed text-[#5B6572] max-w-full lg:max-w-[280px]">
-              Packaging machinery and service for manufacturers across Tamil Nadu — shrink wrap to spares, engineered by a founder-led team based in Chennai.
+              Chennai-based manufacturer and service provider for packaging machinery, equipment repair, contract shrink wrapping, and machine rentals across Tamil Nadu &amp; India.
             </p>
             <div className="footer-social">
               <a href="#" aria-label="Facebook"><FacebookIcon /></a>
@@ -32,20 +32,20 @@ export default function Footer() {
               <li><a href="#">Home</a></li>
               <li><a href="#about">About Us</a></li>
               <li><a href="#products">Products</a></li>
-              <li><a href="#">Blog</a></li>
+              <li><a href="#services">Services &amp; Rentals</a></li>
               <li><a href="#gallery">Photo Gallery</a></li>
             </ul>
           </div>
 
-          {/* Products */}
+          {/* Products & Services */}
           <div className="footer-col col-span-1">
-            <h5>Products</h5>
+            <h5>Offerings</h5>
             <ul>
-              <li><a href="#products">Shrink Wrap Machines</a></li>
               <li><a href="#products">Flow Wrap Machines</a></li>
-              <li><a href="#products">L-Sealer Packagers</a></li>
-              <li><a href="#products">Metal Detectors</a></li>
-              <li><a href="#products">Strapping Machines</a></li>
+              <li><a href="#products">Shrink Tunnel Machines</a></li>
+              <li><a href="#products">Batch Coding &amp; Printers</a></li>
+              <li><a href="#services">Packaging Machine Repair</a></li>
+              <li><a href="#services">Shrink Machine Rental</a></li>
             </ul>
           </div>
 
@@ -62,8 +62,8 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom flex-col sm:flex-row items-start sm:items-center gap-2">
-          <span>© 2025 SP Solution Pvt. Ltd. All rights reserved.</span>
-          <span className="mono opacity-70">Chennai, India</span>
+          <span>© 2026 SP Solutions (Proprietorship · GST Reg. 2024 · CEO: A S). All rights reserved.</span>
+          <span className="mono opacity-70">Chennai, Tamil Nadu</span>
         </div>
       </div>
     </footer>

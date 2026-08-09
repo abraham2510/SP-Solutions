@@ -21,10 +21,10 @@ export default function About() {
         holdDistance={0.05}
       >
         <h2 className="text-3xl sm:text-6xl font-bold text-white mb-3 tracking-tight">
-          Every Line, Running.
+          Machines &amp; Repairs. Built for Uptime.
         </h2>
-        <p className="text-white text-base sm:text-lg max-w-[520px] mx-auto font-normal">
-          Engineering-first packaging machinery, installed and serviced across Tamil Nadu.
+        <p className="text-white text-base sm:text-lg max-w-[560px] mx-auto font-normal">
+          Chennai-based manufacturer &amp; service provider — flow wrap, shrink tunnels, batch coders, machine repairs, and rentals.
         </p>
       </ScrollExpand>
     </section>

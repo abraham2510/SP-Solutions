@@ -23,52 +23,52 @@ interface Product {
 
 const PRODUCTS: Product[] = [
   {
-    station: "STATION 01",
-    title: "Shrink Wrap Machines",
-    desc: "High-speed tunnels and wrappers that deliver a tight, tamper-evident finish across varying pack sizes.",
-    image: "https://images.unsplash.com/photo-1530037335614-e68828dcf258?auto=format&fit=crop&w=900&q=80",
-    alt: "Bottles moving through a shrink wrap packaging machine",
-    icon: <ShrinkWrapIcon />,
-  },
-  {
-    station: "STATION 02",
+    station: "CATEGORY 01",
     title: "Flow Wrap Machines",
-    desc: "Horizontal form-fill-seal wrapping that forms pillow packs on the fly, sealing in freshness on a continuous line.",
+    desc: "Horizontal Flow Wrap and Bottom Flow Wrapper packaging machines designed for high-speed pillow packing.",
     image: "https://images.unsplash.com/photo-1780145180040-0beda1df60e6?auto=format&fit=crop&w=900&q=80",
     alt: "Bottles moving on a factory conveyor belt for flow wrapping",
     icon: <FlowWrapIcon />,
   },
   {
-    station: "STATION 03",
-    title: "L-Sealer Packagers",
-    desc: "L-bar sealing and shrink wrapping in a single station, sized for retail-ready cartons and multipacks.",
-    image: "https://images.unsplash.com/photo-1651525670033-279c26cc2347?auto=format&fit=crop&w=900&q=80",
-    alt: "Stack of sealed cartons ready for dispatch",
-    icon: <LSealerIcon />,
+    station: "CATEGORY 02",
+    title: "Shrink Tunnel Machines & L-Sealers",
+    desc: "Shrink Tunnel Packaging equipment, Auto L-Sealer systems, and Chamber Machines for tight protective seals.",
+    image: "https://images.unsplash.com/photo-1530037335614-e68828dcf258?auto=format&fit=crop&w=900&q=80",
+    alt: "Bottles moving through a shrink wrap packaging machine",
+    icon: <ShrinkWrapIcon />,
   },
   {
-    station: "STATION 04",
-    title: "Metal Detectors",
-    desc: "In-line contaminant detection with automatic rejection, tuned for ferrous and non-ferrous sensitivity.",
-    image: "https://images.unsplash.com/photo-1716191300020-b52dec5b70a8?auto=format&fit=crop&w=900&q=80",
-    alt: "Line of electrical inspection equipment in a factory",
-    icon: <MetalDetectorIcon />,
-  },
-  {
-    station: "STATION 05",
-    title: "Strapping Machines",
-    desc: "Automatic and semi-automatic strapping for secure palletised loads and carton-level transport.",
+    station: "CATEGORY 03",
+    title: "Strapping & Stretch Wrapping",
+    desc: "Semi-Automatic Strapping Machines and Stretch Wrappers for secure carton bundle transport and palletized loads.",
     image: "https://images.unsplash.com/photo-1764745021344-317b80f09e40?auto=format&fit=crop&w=900&q=80",
     alt: "Industrial conveyor belt machine with metal parts used for strapping",
     icon: <StrappingIcon />,
   },
   {
-    station: "STATION 06",
-    title: "Coding & Printing Systems",
-    desc: "Batch codes, dates, and barcodes printed directly on-line, without slowing down the pack rate.",
+    station: "CATEGORY 04",
+    title: "Batch Coding & Inkjet Printers",
+    desc: "Mild Steel Batch Coding Machines, Handheld Thermal Inkjet Printers, and Continuous Inkjet printing systems.",
     image: "https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=900&q=80",
     alt: "Industrial machinery and pipework used for coding and printing systems",
     icon: <CodingIcon />,
+  },
+  {
+    station: "CATEGORY 05",
+    title: "Polyolefin Shrink Film",
+    desc: "Premium White Polyolefin (POF) Shrink Film offering superior clarity, puncture resistance, and tamper evidence.",
+    image: "https://images.unsplash.com/photo-1651525670033-279c26cc2347?auto=format&fit=crop&w=900&q=80",
+    alt: "Stack of sealed cartons wrapped in shrink film",
+    icon: <LSealerIcon />,
+  },
+  {
+    station: "CATEGORY 06",
+    title: "Machine Repairs & Rentals",
+    desc: "Specialized repair services for shrink tunnels, strapping equipment, and Chamber Shrink Packing Machine rental.",
+    image: "https://images.unsplash.com/photo-1716191300020-b52dec5b70a8?auto=format&fit=crop&w=900&q=80",
+    alt: "Technician inspecting packaging machinery",
+    icon: <MetalDetectorIcon />,
   },
 ];
 
@@ -98,7 +98,7 @@ export default function Products() {
           </div>
 
           {/* Navigation Arrows */}
-          <div className="flex items-center gap-3 shrink-0 self-start md:self-auto">
+          <div className="flex items-center gap-3 shrink-0 self-end md:self-auto">
             <button
               onClick={() => scroll("left")}
               className="w-12 h-12 rounded-full border border-[#D5DEF0] bg-white text-[#00266A] hover:bg-[#00266A] hover:text-white hover:border-[#00266A] transition-all duration-200 shadow-sm flex items-center justify-center cursor-pointer"

@@ -1,80 +1,46 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import CountUp from "../../components/CountUp";
 
 const WHY_ITEMS = [
-  { num: "01", title: "Founder-led engineering", desc: "Every install is walked through by the people who built the company, not a call centre." },
-  { num: "02", title: "Spares actually in stock", desc: "Shrink film, cartridges, ink, and electrical spares, ready to ship without a six-week wait." },
-  { num: "03", title: "24/7 support line", desc: "A machine down at 2\u00a0AM still gets a person who picks up, not a ticket queue." },
-  { num: "04", title: "Built for Indian production lines", desc: "Voltage, humidity, and duty cycles matched to how factories here actually run." },
-];
-
-interface CounterDef {
-  value: string;
-  count?: number;
-  suffix?: string;
-  plain?: boolean;
-  label: string;
-}
-
-const COUNTERS: CounterDef[] = [
-  { value: "2019", plain: true, label: "Founded" },
-  { value: "0", count: 6, label: "Machine categories" },
-  { value: "0", count: 48, suffix: "H", label: "Spares dispatch" },
-  { value: "24/7", plain: true, label: "Support line" },
+  {
+    num: "01",
+    title: "Chennai manufacturing & service",
+    desc: "Dedicated factory and technical repair base located in Chennai, Tamil Nadu.",
+  },
+  {
+    num: "02",
+    title: "In-house machine repairs",
+    desc: "Expert repair services for shrink tunnels, strapping machines, and packaging equipment.",
+  },
+  {
+    num: "03",
+    title: "Polyolefin shrink film & spares",
+    desc: "Supplying high-grade POF shrink film and machine replacement components.",
+  },
+  {
+    num: "04",
+    title: "Proprietor-led engineering",
+    desc: "Proprietorship company led by CEO A S and a dedicated team of up to 10 specialists.",
+  },
 ];
 
 export default function StatsBand() {
-  const counterRefs = useRef<(HTMLElement | null)[]>([]);
-
-  const setRef = useCallback((el: HTMLElement | null, idx: number) => {
-    counterRefs.current[idx] = el;
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          const target = parseInt(el.dataset.count || "0", 10);
-          const suffix = el.dataset.suffix || "";
-          if (el.dataset.plain) {
-            observer.unobserve(el);
-            return;
-          }
-          const dur = 1400;
-          const start = performance.now();
-          function tick(now: number) {
-            const p = Math.min((now - start) / dur, 1);
-            const eased = 1 - Math.pow(1 - p, 3);
-            el.textContent = Math.round(eased * target) + suffix;
-            if (p < 1) requestAnimationFrame(tick);
-          }
-          requestAnimationFrame(tick);
-          observer.unobserve(el);
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    counterRefs.current.forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section className="section stats-band">
-      <div className="wrap relative">
-        <div className="section-head reveal">
-          <span className="eyebrow">Why us</span>
-          <h2>Why manufacturers call SP Solutions first</h2>
-          <p>We&apos;re a small, founder-led team — which means fewer handoffs between the person who sold you the machine and the one who fixes it.</p>
+    <section className="section bg-[#00266A] text-white overflow-hidden relative" id="why-us">
+      <div className="wrap relative z-10">
+        <div className="section-head section-head-light reveal max-w-[620px] mb-12">
+          <span className="eyebrow !text-white">Why SP Solutions</span>
+          <h2 className="!text-white text-3xl sm:text-4xl font-bold tracking-tight mb-4">
+            Built for uptime. Serviced by the team that built it.
+          </h2>
+          <p className="!text-white/75 text-base leading-relaxed">
+            We&apos;re a dedicated, proprietor-led team in Chennai — offering machinery, technical repairs, packaging services, and equipment rentals.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7 relative">
+        {/* Feature Cards Grid */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7 relative">
           {WHY_ITEMS.map((item, i) => (
             <div
               key={i}
@@ -82,26 +48,41 @@ export default function StatsBand() {
               style={{ "--i": i } as React.CSSProperties}
             >
               <span className="num mono">{item.num}</span>
-              <h3>{item.title}</h3>
-              <p>{item.desc}</p>
+              <h3 className="text-base sm:text-[17px]">{item.title}</h3>
+              <p className="text-xs sm:text-[14px]">{item.desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7 border-t border-white/15 pt-10 mt-16 relative">
-          {COUNTERS.map((c, i) => (
-            <div key={i} className="counter reveal" style={{ "--i": i } as React.CSSProperties}>
-              <b
-                ref={(el) => setRef(el, i)}
-                data-count={c.count}
-                data-suffix={c.suffix}
-                data-plain={c.plain || undefined}
-              >
-                {c.value}
-              </b>
-              <span>{c.label}</span>
-            </div>
-          ))}
+        {/* Animated Counter Stats Grid using CountUp */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-7 border-t border-white/15 pt-8 sm:pt-10 mt-12 sm:mt-16 relative">
+          <div className="counter reveal" style={{ "--i": 0 } as React.CSSProperties}>
+            <b>
+              <CountUp from={2000} to={2024} duration={2.2} separator="" className="tabular-nums" />
+            </b>
+            <span>GST REGISTERED</span>
+          </div>
+
+          <div className="counter reveal" style={{ "--i": 1 } as React.CSSProperties}>
+            <b>
+              0<CountUp from={0} to={6} duration={1.8} className="tabular-nums" />
+            </b>
+            <span>MACHINE CATEGORIES</span>
+          </div>
+
+          <div className="counter reveal" style={{ "--i": 2 } as React.CSSProperties}>
+            <b>
+              &lt;<CountUp from={0} to={10} duration={1.8} className="tabular-nums" />
+            </b>
+            <span>TECHNICAL TEAM</span>
+          </div>
+
+          <div className="counter reveal" style={{ "--i": 3 } as React.CSSProperties}>
+            <b>
+              <CountUp from={0} to={24} duration={2} className="tabular-nums" />/7
+            </b>
+            <span>SUPPORT LINE</span>
+          </div>
         </div>
       </div>
     </section>
