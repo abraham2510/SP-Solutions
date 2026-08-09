@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SP Solutions — Packaging Machinery &amp; Service, Chennai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+/* Google Sans Flex / Google Symbols are Google-internal fonts with no public
+   webfont file, so we declare them first (in case the visitor's OS or a
+   Google app has them installed) and fall back to the same system stack
+   Google's own sites use, which reproduces the "Antigravity" Google look
+   everywhere else. */
+@font-face{
+  font-family:'Google Sans Flex';
+  src: local('Google Sans Flex'), local('GoogleSansFlex');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face{
+  font-family:'Google Symbols';
+  src: local('Google Symbols'), local('Google Sans Text'), local('Google Sans');
+  font-display: swap;
+}
+
+/* ============ TOKENS — white theme, navy as the only accent ============ */
+:root{
+  --navy:        #10233D;
+  --navy-2:      #17304F;   /* hover / gradient step */
+  --navy-3:      #0B1A2E;   /* deepest, for heavy overlays */
+  --navy-tint:   #EEF2F7;   /* faint blue-tinted surface */
+  --navy-tint-2: #DCE4EC;   /* border / divider tone, same family */
+
+  --ink:         #10151C;
+  --gray:        #5B6572;
+  --gray-soft:   #8892A0;
+  --line:        #E7EAEE;
+  --white:       #FFFFFF;
+
+  --font-display: 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Google Symbols', 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-body:    '-apple-system', BlinkMacSystemFont, 'Google Sans Flex', 'Google Symbols', 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-mono:    'Google Symbols', 'Google Sans Flex', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  --container: 1200px;
+  --radius: 6px;
+  --ease: cubic-bezier(.22,.72,.24,1);
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+}
+
+.font-\[\'Google_Sans_Flex\'\], .font-google-sans-flex{ font-family:'Google Sans Flex', sans-serif; }
+.font-\[\'-apple-system\'\], .font-apple-system{ font-family:'-apple-system', sans-serif; }
+.font-\[\'Google_Symbols\'\], .font-google-symbols{ font-family:'Google Symbols', sans-serif; }
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family:var(--font-body);
+  color:var(--ink);
+  background:var(--white);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,svg{ display:block; max-width:100%; }
+a{ color:inherit; text-decoration:none; }
+ul{ list-style:none; }
+button{ font-family:inherit; cursor:pointer; background:none; border:none; }
+.wrap{ width:100%; max-width:var(--container); margin:0 auto; padding:0 28px; }
+.mono{ font-family:var(--font-mono); letter-spacing:.06em; }
+:focus-visible{ outline:2px solid var(--navy); outline-offset:3px; }
+
+.reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease), transform .7s var(--ease); }
+.reveal.in{ opacity:1; transform:translateY(0); }
+.reveal-stagger > *{ transition-delay: calc(var(--i,0) * 90ms); }
+
+/* ============ TOPBAR ============ */
+.topbar{ background:var(--navy); color:rgba(255,255,255,.8); font-family:var(--font-mono); font-size:12px; }
+.topbar .wrap{ display:flex; align-items:center; justify-content:space-between; height:38px; }
+.topbar-left{ display:flex; gap:22px; }
+.topbar a{ transition:color .2s; }
+.topbar a:hover{ color:var(--white); }
+.topbar-left span, .topbar-left a{ display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+.topbar-hide-sm{ display:inline-flex; }
+
+/* ============ NAVBAR ============ */
+.navbar{
+  position:sticky; top:0; z-index:200;
+  background:rgba(255,255,255,.92); backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  transition:box-shadow .3s, border-color .3s;
+}
+.navbar.scrolled{ box-shadow:0 8px 24px -14px rgba(16,35,61,.18); }
+.navbar .wrap{ display:flex; align-items:center; justify-content:space-between; height:78px; }
+.logo{ display:flex; align-items:center; gap:10px; }
+.logo-mark{ width:38px; height:38px; flex-shrink:0; transition:transform .45s var(--ease); }
+.logo:hover .logo-mark{ transform:rotate(-10deg) scale(1.06); }
+.logo-text{ display:flex; flex-direction:column; line-height:1.05; }
+.logo-text b{ font-family:var(--font-display); font-weight:700; font-size:19px; color:var(--navy); letter-spacing:.01em; }
+.logo-text small{ font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; color:var(--gray-soft); text-transform:uppercase; }
+
+.nav-links{ display:flex; align-items:center; gap:34px; }
+.nav-links a{ color:var(--ink); font-size:14.5px; font-weight:500; position:relative; padding:6px 0; }
+.nav-links a::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--navy); transform:scaleX(0); transform-origin:left; transition:transform .25s var(--ease); }
+.nav-links a:hover{ color:var(--navy); }
+.nav-links a:hover::after{ transform:scaleX(1); }
+
+.btn{ position:relative; isolation:isolate; overflow:hidden; display:inline-flex; align-items:center; justify-content:center; gap:8px; font-weight:600; font-size:14px; letter-spacing:.01em; padding:13px 24px; border-radius:var(--radius); border:1.5px solid transparent; transition:transform .2s var(--ease), background .2s, border-color .2s, color .2s, box-shadow .2s; white-space:nowrap; }
+.btn:active{ transform:translateY(1px) scale(.98); }
+.btn:hover{ transform:translateY(-2px); }
+.btn-primary{ background:var(--navy); color:var(--white); }
+.btn-primary:hover{ background:var(--navy-2); box-shadow:0 10px 24px -10px rgba(16,35,61,.5); }
+.btn-outline{ border-color:var(--navy-tint-2); color:var(--navy); background:var(--white); }
+.btn-outline:hover{ border-color:var(--navy); background:var(--navy-tint); }
+.btn-ghost-white{ border-color:rgba(255,255,255,.4); color:var(--white); }
+.btn-ghost-white:hover{ border-color:var(--white); background:rgba(255,255,255,.1); }
+.btn-sm{ padding:10px 18px; font-size:13px; }
+
+/* wave / ripple hover animation, shared by every button */
+.btn::before, .btn::after{
+  content:''; position:absolute; left:50%; top:50%; z-index:-1;
+  width:14px; height:14px; border-radius:50%;
+  transform:translate(-50%,-50%) scale(0);
+  opacity:0; pointer-events:none;
+}
+.btn:hover::before, .btn:hover::after{ animation:btnWave 1s var(--ease) infinite; }
+.btn:hover::after{ animation-delay:.4s; }
+@keyframes btnWave{
+  0%{ opacity:.45; transform:translate(-50%,-50%) scale(0); }
+  70%{ opacity:.12; }
+  100%{ opacity:0; transform:translate(-50%,-50%) scale(16); }
+}
+.btn-primary::before, .btn-primary::after{ background:rgba(255,255,255,.9); }
+.btn-outline::before, .btn-outline::after{ background:rgba(16,35,61,.9); }
+.btn-ghost-white::before, .btn-ghost-white::after{ background:rgba(255,255,255,.9); }
+
+.nav-cta{ display:flex; align-items:center; gap:18px; }
+
+/* burger -> X */
+.burger{ display:none; width:42px; height:42px; align-items:center; justify-content:center; position:relative; z-index:301; }
+.burger span{ position:absolute; width:20px; height:2px; background:var(--navy); border-radius:2px; transition:transform .3s var(--ease), opacity .2s, top .3s var(--ease); }
+.burger span:nth-child(1){ top:15px; }
+.burger span:nth-child(2){ top:20px; }
+.burger span:nth-child(3){ top:25px; }
+.burger.open span:nth-child(1){ top:20px; transform:rotate(45deg); }
+.burger.open span:nth-child(2){ opacity:0; }
+.burger.open span:nth-child(3){ top:20px; transform:rotate(-45deg); }
+
+/* right-side drawer */
+.drawer-backdrop{
+  position:fixed; inset:0; background:rgba(11,26,46,.55); z-index:290;
+  opacity:0; pointer-events:none; transition:opacity .35s var(--ease);
+}
+.drawer-backdrop.open{ opacity:1; pointer-events:auto; }
+.mobile-drawer{
+  position:fixed; top:0; right:0; bottom:0; width:min(340px, 84vw); background:var(--white);
+  z-index:295; box-shadow:-16px 0 40px -10px rgba(16,35,61,.3);
+  transform:translateX(100%); transition:transform .4s var(--ease);
+  display:flex; flex-direction:column; padding:26px 26px 30px;
+}
+.mobile-drawer.open{ transform:translateX(0); }
+.drawer-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; }
+.mobile-drawer nav{ display:flex; flex-direction:column; }
+.mobile-drawer nav a{
+  font-family:var(--font-display); font-size:20px; font-weight:600; color:var(--ink);
+  padding:15px 2px; border-bottom:1px solid var(--line);
+  opacity:0; transform:translateX(16px); transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.mobile-drawer.open nav a{ opacity:1; transform:translateX(0); }
+.mobile-drawer nav a:nth-child(1){ transition-delay:.08s; }
+.mobile-drawer nav a:nth-child(2){ transition-delay:.13s; }
+.mobile-drawer nav a:nth-child(3){ transition-delay:.18s; }
+.mobile-drawer nav a:nth-child(4){ transition-delay:.23s; }
+.mobile-drawer nav a:nth-child(5){ transition-delay:.28s; }
+.mobile-drawer nav a:nth-child(6){ transition-delay:.33s; }
+.mobile-drawer .btn{ margin-top:26px; }
+.drawer-foot{ margin-top:auto; padding-top:24px; border-top:1px solid var(--line); font-family:var(--font-mono); font-size:12px; color:var(--gray); line-height:1.8; }
+
+/* ============ HERO — white, with animated machine rigs left & right ============ */
+.hero{ position:relative; min-height:92vh; display:flex; align-items:center; overflow:hidden; background:var(--white); }
+.hero::before{
+  content:''; position:absolute; inset:0; z-index:0;
+  background-image: linear-gradient(rgba(16,35,61,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(16,35,61,.05) 1px, transparent 1px);
+  background-size:46px 46px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 40%, black, transparent 90%);
+}
+.hero::after{
+  content:''; position:absolute; inset:0; z-index:0; pointer-events:none;
+  background:radial-gradient(520px 420px at 50% 32%, rgba(16,35,61,.05), transparent 70%);
+}
+.hero .wrap{ position:relative; z-index:3; padding-top:40px; padding-bottom:40px; }
+.hero-inner{ max-width:660px; margin:0 auto; text-align:center; }
+.eyebrow{ display:inline-flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--gray); margin-bottom:22px; justify-content:center; }
+.eyebrow::before{ content:''; width:22px; height:1.5px; background:var(--gray-soft); }
+.eyebrow-dark{ color:var(--navy); }
+.eyebrow-dark::before{ background:var(--navy); }
+.hero h1{ font-family:var(--font-display); font-weight:700; color:var(--ink); font-size:clamp(34px, 4.6vw, 56px); line-height:1.08; letter-spacing:-.01em; }
+.hero h1 em{ font-style:normal; color:var(--navy); }
+.hero p.lead{ margin:22px auto 0; font-size:17px; line-height:1.65; color:var(--gray); max-width:520px; }
+.hero-actions{ display:flex; gap:14px; margin-top:34px; flex-wrap:wrap; justify-content:center; }
+.hero-stats{ margin:60px auto 0; display:grid; grid-template-columns:repeat(4,auto); gap:34px 44px; border-top:1px solid var(--line); padding-top:26px; max-width:600px; justify-content:center; }
+.hero-stats div b{ display:block; font-family:var(--font-display); font-size:24px; color:var(--ink); font-weight:700; }
+.hero-stats div span{ font-family:var(--font-mono); font-size:10.5px; color:var(--gray-soft); letter-spacing:.04em; }
+.scroll-cue{ position:absolute; left:50%; bottom:28px; transform:translateX(-50%); z-index:3; display:flex; flex-direction:column; align-items:center; gap:8px; color:var(--gray-soft); }
+.scroll-cue span{ font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; }
+.scroll-cue .line{ width:1px; height:34px; background:linear-gradient(var(--gray-soft), transparent); animation:scrollcue 1.8s ease-in-out infinite; }
+@keyframes scrollcue{ 0%{ opacity:0; transform:scaleY(0); transform-origin:top;} 40%{opacity:1; transform:scaleY(1); transform-origin:top;} 100%{opacity:0; transform:scaleY(1); transform-origin:bottom;} }
+
+/* ---- hero machine rigs (left / right) ---- */
+.hero-rig{ position:absolute; top:0; bottom:0; width:min(24vw, 340px); z-index:1; pointer-events:none; opacity:.9; }
+.hero-rig-left{ left:0; }
+.hero-rig-right{ right:0; }
+.hero-rig svg{ width:100%; height:100%; }
+.rig-fade-l{ position:absolute; inset:0; z-index:2; background:linear-gradient(90deg, rgba(255,255,255,0) 55%, var(--white) 100%); }
+.rig-fade-r{ position:absolute; inset:0; z-index:2; background:linear-gradient(270deg, rgba(255,255,255,0) 55%, var(--white) 100%); }
+
+.gear{ transform-box:fill-box; transform-origin:center; }
+.gear-cw{ animation:gearSpin 9s linear infinite; }
+.gear-ccw{ animation:gearSpinRev 12s linear infinite; }
+.gear-slow{ animation-duration:20s; }
+@keyframes gearSpin{ to{ transform:rotate(360deg); } }
+@keyframes gearSpinRev{ to{ transform:rotate(-360deg); } }
+
+.rig-float{ animation:rigFloat 5s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes rigFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-10px); } }
+
+.rig-arm{ transform-box:fill-box; transform-origin:top center; animation:rigArm 3.4s ease-in-out infinite; }
+@keyframes rigArm{ 0%,100%{ transform:rotate(-6deg); } 50%{ transform:rotate(6deg); } }
+
+.belt-dash{ stroke-dasharray:10 8; animation:beltMove 1.1s linear infinite; }
+@keyframes beltMove{ to{ stroke-dashoffset:-36; } }
+
+.pulse-dot{ animation:rigPulse 1.8s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
+@keyframes rigPulse{ 0%,100%{ opacity:.35; transform:scale(1); } 50%{ opacity:1; transform:scale(1.35); } }
+
+.rig-beam{ animation:rigBeam 2.6s ease-in-out infinite; }
+@keyframes rigBeam{ 0%,100%{ opacity:.15; } 50%{ opacity:.55; } }
+
+@media (max-width: 1180px){ .hero-rig{ display:none; } }
+
+/* ============ TICKER ============ */
+.ticker{ background:var(--navy-tint); border-top:1px solid var(--line); border-bottom:1px solid var(--line); overflow:hidden; padding:15px 0; }
+.ticker-track{ display:flex; width:max-content; animation:scroll-left 32s linear infinite; }
+.ticker:hover .ticker-track{ animation-play-state:paused; }
+.ticker-item{ display:flex; align-items:center; gap:14px; font-family:var(--font-mono); font-size:13px; letter-spacing:.08em; text-transform:uppercase; color:var(--navy); padding:0 22px; white-space:nowrap; }
+.ticker-item b{ font-weight:600; }
+.ticker-item .dot{ width:4px; height:4px; border-radius:50%; background:var(--gray-soft); }
+@keyframes scroll-left{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+/* ============ SECTION HEADERS ============ */
+.section{ padding:104px 0; }
+.section-tight{ padding:84px 0; }
+.section-head{ max-width:640px; margin-bottom:56px; }
+.section-head h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(26px,3vw,38px); color:var(--ink); line-height:1.15; letter-spacing:-.01em; }
+.section-head p{ margin-top:16px; font-size:16px; line-height:1.65; color:var(--gray); }
+.section-alt{ background:var(--navy-tint); }
+.center{ text-align:center; margin-left:auto; margin-right:auto; }
+
+/* ============ ABOUT / INTRO SPLIT ============ */
+.about-split{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.about-media{ position:relative; }
+.about-media .frame{ position:relative; border-radius:10px; overflow:hidden; aspect-ratio:4/5; }
+.about-media img{ width:100%; height:100%; object-fit:cover; transition:transform .8s var(--ease); }
+.about-media:hover img{ transform:scale(1.05); }
+.about-media .frame::after{ content:''; position:absolute; inset:0; background:linear-gradient(200deg, rgba(16,35,61,.35), transparent 55%); }
+.about-badge{
+  position:absolute; bottom:-26px; left:-26px; background:var(--white); border:1px solid var(--line);
+  border-radius:10px; padding:22px 26px; box-shadow:0 20px 44px -18px rgba(16,35,61,.25);
+  display:flex; gap:16px; align-items:center; max-width:260px;
+}
+.about-badge svg{ width:34px; height:34px; color:var(--navy); flex-shrink:0; }
+.about-badge b{ display:block; font-family:var(--font-display); font-size:15px; color:var(--ink); margin-bottom:2px; }
+.about-badge span{ font-size:12.5px; color:var(--gray); line-height:1.4; }
+.about-copy h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(26px,3vw,36px); color:var(--ink); line-height:1.18; margin-bottom:18px; }
+.about-copy p{ font-size:15.5px; line-height:1.75; color:var(--gray); margin-bottom:16px; }
+.about-points{ margin-top:28px; display:flex; flex-direction:column; gap:16px; }
+.about-point{ display:flex; gap:14px; align-items:flex-start; }
+.about-point .ico{ width:34px; height:34px; border-radius:8px; background:var(--navy-tint); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.about-point svg{ width:18px; height:18px; color:var(--navy); }
+.about-point b{ display:block; font-size:14.5px; color:var(--ink); margin-bottom:2px; }
+.about-point span{ font-size:13.5px; color:var(--gray); }
+
+/* ============ PRODUCTS ============ */
+.products-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:26px; }
+.product-card{
+  background:var(--white); border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), border-color .35s;
+}
+.product-card:hover{ transform:translateY(-6px); box-shadow:0 26px 50px -24px rgba(16,35,61,.28); border-color:transparent; }
+.product-media{ position:relative; height:190px; overflow:hidden; }
+.product-media img{ width:100%; height:100%; object-fit:cover; transition:transform .7s var(--ease); }
+.product-card:hover .product-media img{ transform:scale(1.08); }
+.product-media::after{ content:''; position:absolute; inset:0; background:linear-gradient(200deg, rgba(11,26,46,.75) 0%, rgba(11,26,46,.15) 55%, transparent 75%); }
+.station-tag{
+  position:absolute; top:14px; left:14px; z-index:2; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em;
+  color:var(--white); background:rgba(16,35,61,.55); backdrop-filter:blur(4px); padding:5px 10px; border-radius:20px; border:1px solid rgba(255,255,255,.25);
+}
+.product-media-icon{
+  position:absolute; bottom:-22px; left:20px; z-index:2; width:46px; height:46px; border-radius:9px; background:var(--white);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -10px rgba(16,35,61,.4);
+}
+.product-media-icon svg{ width:24px; height:24px; color:var(--navy); transition:transform .4s var(--ease); }
+.product-card:hover .product-media-icon{ transform:translateY(-3px); }
+.product-card:hover .product-media-icon svg{ transform:rotate(-8deg) scale(1.08); }
+.product-body{ padding:36px 24px 26px; }
+.product-body h3{ font-family:var(--font-display); font-weight:600; font-size:18.5px; color:var(--ink); margin-bottom:10px; }
+.product-body p{ font-size:14.5px; line-height:1.65; color:var(--gray); margin-bottom:20px; }
+.card-link{ display:inline-flex; align-items:center; gap:7px; font-size:13.5px; font-weight:600; color:var(--navy); }
+.card-link svg{ width:14px; height:14px; transition:transform .2s; }
+.product-card:hover .card-link svg{ transform:translateX(4px); }
+
+/* ============ GALLERY (signature overlay-image moment) ============ */
+.gallery-grid{ display:grid; grid-template-columns:repeat(4, 1fr); grid-template-rows:repeat(2, 220px); gap:16px; }
+.gallery-item{ position:relative; border-radius:10px; overflow:hidden; cursor:default; }
+.gallery-item img{ width:100%; height:100%; object-fit:cover; transition:transform .7s var(--ease), filter .5s; filter:saturate(.92) contrast(1.02); }
+.gallery-item:hover img{ transform:scale(1.09); filter:saturate(1.05) contrast(1.05); }
+.gallery-item::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(11,26,46,.88) 0%, rgba(11,26,46,.15) 45%, transparent 65%); transition:background .4s; }
+.gallery-item .cap{ position:absolute; left:0; right:0; bottom:0; padding:18px; z-index:2; transform:translateY(6px); opacity:.92; transition:transform .4s var(--ease); }
+.gallery-item:hover .cap{ transform:translateY(0); opacity:1; }
+.gallery-item .cap b{ display:block; font-family:var(--font-display); font-size:14.5px; color:var(--white); }
+.gallery-item .cap span{ font-family:var(--font-mono); font-size:10.5px; color:rgba(255,255,255,.7); letter-spacing:.04em; }
+.gallery-item.big{ grid-column:span 2; grid-row:span 2; }
+.gallery-item.tall{ grid-row:span 2; }
+
+/* ============ STATS BAND (solid navy — the only "blue block") ============ */
+.stats-band{ background:var(--navy); position:relative; overflow:hidden; }
+.stats-band::before{ content:''; position:absolute; inset:0; background-image:linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size:48px 48px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%, black, transparent 90%); }
+.stats-band .wrap{ position:relative; }
+.stats-band .section-head h2, .stats-band .section-head p{ color:var(--white); }
+.stats-band .section-head p{ color:rgba(255,255,255,.65); }
+.why-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px; position:relative; }
+.why-item{ border-top:2px solid rgba(255,255,255,.35); padding-top:20px; }
+.why-item .num{ font-family:var(--font-mono); font-size:12px; color:#8FB6E8; margin-bottom:14px; display:block; }
+.why-item h3{ font-family:var(--font-display); font-size:17px; font-weight:600; color:var(--white); margin-bottom:10px; line-height:1.3; }
+.why-item p{ font-size:14px; line-height:1.6; color:rgba(255,255,255,.65); }
+
+.counters{ margin-top:64px; display:grid; grid-template-columns:repeat(4,1fr); gap:28px; border-top:1px solid rgba(255,255,255,.15); padding-top:40px; position:relative; }
+.counter b{ display:block; font-family:var(--font-display); font-size:38px; font-weight:700; color:var(--white); }
+.counter span{ font-family:var(--font-mono); font-size:11px; color:rgba(255,255,255,.6); letter-spacing:.06em; text-transform:uppercase; }
+
+/* ============ PROCESS (with image) ============ */
+.process-wrap{ display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:start; }
+.process-media{ position:sticky; top:110px; border-radius:12px; overflow:hidden; aspect-ratio:3/4; position:relative; }
+.process-media img{ width:100%; height:100%; object-fit:cover; }
+.process-media::after{ content:''; position:absolute; inset:0; background:linear-gradient(200deg, rgba(11,26,46,.55), transparent 55%); }
+.process-media .tag{ position:absolute; top:18px; left:18px; font-family:var(--font-mono); font-size:11px; color:var(--white); background:rgba(16,35,61,.5); backdrop-filter:blur(4px); padding:6px 12px; border-radius:20px; border:1px solid rgba(255,255,255,.25); }
+.process-list{ display:flex; flex-direction:column; }
+.process-row{ display:grid; grid-template-columns:56px 1fr; gap:22px; padding:28px 0; border-top:1px solid var(--line); align-items:start; }
+.process-list .process-row:last-child{ border-bottom:1px solid var(--line); }
+.process-num{ font-family:var(--font-mono); font-size:13px; color:var(--navy); padding-top:4px; width:40px; height:40px; border-radius:50%; border:1.5px solid var(--navy-tint-2); display:flex; align-items:center; justify-content:center; }
+.process-body h3{ font-family:var(--font-display); font-weight:600; font-size:19px; color:var(--ink); margin-bottom:8px; }
+.process-body p{ font-size:15px; line-height:1.65; color:var(--gray); max-width:520px; }
+
+/* ============ INDUSTRIES (photo tiles) ============ */
+.industries-row{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+.industry-card{ position:relative; border-radius:10px; overflow:hidden; aspect-ratio:3/3.6; }
+.industry-card img{ width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease); }
+.industry-card:hover img{ transform:scale(1.08); }
+.industry-card::after{ content:''; position:absolute; inset:0; background:linear-gradient(0deg, rgba(11,26,46,.86) 0%, rgba(11,26,46,.25) 55%, rgba(11,26,46,.1) 100%); }
+.industry-card .content{ position:absolute; left:0; right:0; bottom:0; padding:20px; z-index:2; }
+.industry-card svg{ width:24px; height:24px; color:var(--white); margin-bottom:10px; }
+.industry-card h4{ font-family:var(--font-display); font-weight:600; font-size:15.5px; color:var(--white); }
+
+/* ============ SPARES BANNER (image bg) ============ */
+.spares{ position:relative; border-radius:14px; overflow:hidden; min-height:340px; display:flex; align-items:center; }
+.spares img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.spares::before{ content:''; position:absolute; inset:0; background:linear-gradient(100deg, rgba(11,26,46,.95) 20%, rgba(11,26,46,.82) 55%, rgba(11,26,46,.45) 100%); z-index:1; }
+.spares-inner{ position:relative; z-index:2; padding:52px 48px; display:grid; grid-template-columns:1.2fr auto auto; align-items:center; gap:36px; width:100%; }
+.spares-copy h2{ font-family:var(--font-display); font-weight:700; font-size:clamp(22px,2.6vw,30px); color:var(--white); line-height:1.2; }
+.spares-copy p{ margin-top:14px; color:rgba(255,255,255,.75); font-size:15px; line-height:1.65; max-width:460px; }
+.spares-list{ display:flex; flex-direction:column; gap:12px; font-family:var(--font-mono); font-size:12.5px; color:rgba(255,255,255,.85); }
+.spares-list li{ display:flex; align-items:center; gap:9px; }
+.spares-list li::before{ content:''; width:6px; height:6px; background:#8FB6E8; flex-shrink:0; }
+
+/* ============ CTA BAND (image bg) ============ */
+.cta-band{ position:relative; border-radius:14px; overflow:hidden; padding:74px 52px; text-align:center; }
+.cta-band img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; }
+.cta-band::before{ content:''; position:absolute; inset:0; background:radial-gradient(120% 100% at 50% 0%, rgba(11,26,46,.65), rgba(11,26,46,.94) 70%); z-index:1; }
+.cta-band .inner{ position:relative; z-index:2; }
+.cta-band h2{ font-family:var(--font-display); font-weight:700; color:var(--white); font-size:clamp(26px,3.4vw,40px); max-width:560px; margin:0 auto 16px; line-height:1.2; }
+.cta-band p{ color:rgba(255,255,255,.75); font-size:16px; max-width:480px; margin:0 auto 32px; line-height:1.6; }
+.cta-actions{ display:flex; gap:16px; justify-content:center; flex-wrap:wrap; margin-bottom:40px; }
+.cta-contacts{ display:flex; gap:36px; justify-content:center; flex-wrap:wrap; border-top:1px solid rgba(255,255,255,.15); padding-top:28px; }
+.cta-contacts div{ text-align:left; }
+.cta-contacts span{ display:block; font-family:var(--font-mono); font-size:11px; color:#8FB6E8; letter-spacing:.08em; text-transform:uppercase; margin-bottom:6px; }
+.cta-contacts a, .cta-contacts p{ color:var(--white); font-size:14.5px; font-weight:500; }
+
+/* ============ FOOTER ============ */
+footer{ background:var(--white); color:var(--gray); padding:72px 0 0; border-top:1px solid var(--line); }
+.footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-bottom:48px; border-bottom:1px solid var(--line); }
+.footer-brand p{ margin-top:16px; font-size:14px; line-height:1.7; max-width:280px; color:var(--gray); }
+.footer-social{ display:flex; gap:12px; margin-top:24px; }
+.footer-social a{ width:34px; height:34px; border:1px solid var(--line); border-radius:6px; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.footer-social a:hover{ border-color:var(--navy); background:var(--navy); }
+.footer-social a:hover svg{ color:var(--white); }
+.footer-social svg{ width:15px; height:15px; color:var(--gray); }
+.footer-col h5{ font-family:var(--font-mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--navy); margin-bottom:20px; }
+.footer-col ul{ display:flex; flex-direction:column; gap:12px; }
+.footer-col a{ font-size:14.5px; transition:color .2s; }
+.footer-col a:hover{ color:var(--navy); }
+.footer-col p{ font-size:14.5px; line-height:1.6; }
+.footer-bottom{ display:flex; justify-content:space-between; align-items:center; padding:22px 0; flex-wrap:wrap; gap:10px; font-size:13px; color:var(--gray-soft); }
+.footer-bottom a:hover{ color:var(--navy); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1040px){
+  .about-split{ grid-template-columns:1fr; }
+  .process-wrap{ grid-template-columns:1fr; }
+  .process-media{ position:relative; top:0; aspect-ratio:16/9; }
+  .gallery-grid{ grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(4,200px); }
+  .gallery-item.big{ grid-column:span 2; grid-row:span 1; }
+  .gallery-item.tall{ grid-row:span 1; }
+}
+@media (max-width: 980px){
+  .nav-links{ display:none; }
+  .burger{ display:flex; }
+  .hero{ min-height:82vh; }
+  .products-grid{ grid-template-columns:repeat(2,1fr); }
+  .why-grid, .counters{ grid-template-columns:repeat(2,1fr); }
+  .industries-row{ grid-template-columns:repeat(2,1fr); }
+  .spares-inner{ grid-template-columns:1fr; text-align:left; padding:40px 30px; }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+  .topbar-hide-sm{ display:none; }
+}
+@media (max-width: 620px){
+  .wrap{ padding:0 20px; }
+  .section{ padding:72px 0; }
+  .hero-actions .btn{ flex:1; }
+  .hero-stats{ grid-template-columns:repeat(2,auto); }
+  .products-grid, .why-grid, .counters, .industries-row{ grid-template-columns:1fr; }
+  .gallery-grid{ grid-template-columns:1fr; grid-template-rows:repeat(6,200px); }
+  .gallery-item.big{ grid-column:span 1; }
+  .process-row{ grid-template-columns:1fr; gap:10px; }
+  .process-num{ margin-bottom:4px; }
+  .cta-band{ padding:48px 22px; }
+  .cta-contacts{ justify-content:flex-start; width:100%; }
+  .footer-grid{ grid-template-columns:1fr; gap:32px; }
+  .footer-bottom{ flex-direction:column; align-items:flex-start; }
+  .about-badge{ position:static; margin-top:-40px; margin-left:16px; margin-right:16px; max-width:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ TOPBAR ============ -->
+<div class="topbar">
+  <div class="wrap">
+    <div class="topbar-left">
+      <span class="topbar-hide-sm">30, Thiruvalluvar St, T.M.P Nagar, Padi, Chennai&nbsp;600050</span>
+      <span>Mon–Fri 9AM–7PM</span>
+    </div>
+    <div class="topbar-left">
+      <a href="tel:+916374580330">+91 63745 80330</a>
+      <a class="topbar-hide-sm" href="mailto:alexnavinkumar@spsolutionsc.com">alexnavinkumar@spsolutionsc.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="wrap">
+    <a href="#" class="logo">
+      <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+        <rect x="1" y="1" width="38" height="38" rx="6" stroke="#10233D" stroke-width="1.6"/>
+        <path d="M9 27V13h6.5a4 4 0 010 8H9" stroke="#10233D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 27l5-14 5 14" stroke="#10233D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M24.4 21.5h5.2" stroke="#10233D" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="logo-text"><b>SP SOLUTIONS</b><small>Packaging Systems</small></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#about">About</a>
+      <a href="#products">Products</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Services</a>
+      <a href="#industries">Industries</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-cta">
+      <a href="#contact" class="btn btn-primary btn-sm">Request a quote</a>
+      <button class="burger" id="burgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mobileDrawer">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+<div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-label="Mobile navigation">
+  <div class="drawer-head">
+    <span class="logo-text"><b>SP SOLUTIONS</b><small>Packaging Systems</small></span>
+  </div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#products">Products</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#process">Services</a>
+    <a href="#industries">Industries</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a href="#contact" class="btn btn-primary">Request a quote</a>
+  <div class="drawer-foot">
+    +91 63745 80330<br>
+    alexnavinkumar@spsolutionsc.com<br>
+    Chennai, India
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <!-- left animated machine rig -->
+  <div class="hero-rig hero-rig-left" aria-hidden="true">
+    <svg viewBox="0 0 260 640" xmlns="http://www.w3.org/2000/svg">
+      <!-- support frame -->
+      <path d="M40 40v560M120 120v480" stroke="#B9C1CB" stroke-width="2"/>
+      <!-- large gear -->
+      <g class="gear gear-cw" transform="translate(72,150)">
+        <circle r="46" fill="none" stroke="#8892A0" stroke-width="3"/>
+        <circle r="14" fill="#5B6572"/>
+        <g stroke="#8892A0" stroke-width="8" stroke-linecap="round">
+          <line x1="0" y1="-46" x2="0" y2="-60"/>
+          <line x1="0" y1="46" x2="0" y2="60"/>
+          <line x1="-46" y1="0" x2="-60" y2="0"/>
+          <line x1="46" y1="0" x2="60" y2="0"/>
+          <line x1="-32" y1="-32" x2="-42" y2="-42"/>
+          <line x1="32" y1="32" x2="42" y2="42"/>
+          <line x1="-32" y1="32" x2="-42" y2="42"/>
+          <line x1="32" y1="-32" x2="42" y2="-42"/>
+        </g>
+      </g>
+      <!-- small counter gear -->
+      <g class="gear gear-ccw" transform="translate(150,206)">
+        <circle r="26" fill="none" stroke="#B9C1CB" stroke-width="3"/>
+        <circle r="8" fill="#8892A0"/>
+        <g stroke="#B9C1CB" stroke-width="6" stroke-linecap="round">
+          <line x1="0" y1="-26" x2="0" y2="-35"/>
+          <line x1="0" y1="26" x2="0" y2="35"/>
+          <line x1="-26" y1="0" x2="-35" y2="0"/>
+          <line x1="26" y1="0" x2="35" y2="0"/>
+        </g>
+      </g>
+      <!-- robotic arm -->
+      <g class="rig-float" transform="translate(150,330)">
+        <rect x="-14" y="-10" width="28" height="30" rx="4" fill="#10233D"/>
+        <g class="rig-arm">
+          <rect x="-6" y="-70" width="12" height="70" rx="5" fill="#5B6572"/>
+          <circle cy="-70" r="9" fill="#10233D"/>
+          <rect x="-4" y="-96" width="8" height="30" rx="3" fill="#8892A0"/>
+        </g>
+      </g>
+      <!-- conveyor with moving belt -->
+      <g transform="translate(20,470)">
+        <rect x="0" y="0" width="150" height="16" rx="6" fill="#EEF2F7" stroke="#DCE4EC" stroke-width="1.5"/>
+        <line x1="6" y1="8" x2="144" y2="8" stroke="#8892A0" stroke-width="2" class="belt-dash"/>
+        <rect x="10" y="-14" width="20" height="14" rx="2" fill="#10233D"/>
+        <rect x="60" y="-14" width="20" height="14" rx="2" fill="#5B6572"/>
+        <rect x="110" y="-14" width="20" height="14" rx="2" fill="#10233D"/>
+        <circle cx="16" cy="24" r="6" fill="#B9C1CB"/>
+        <circle cx="134" cy="24" r="6" fill="#B9C1CB"/>
+      </g>
+      <!-- status light -->
+      <circle class="pulse-dot" cx="72" cy="60" r="5" fill="#10233D"/>
+      <circle class="rig-beam" cx="150" cy="120" r="3" fill="#8892A0"/>
+    </svg>
+    <div class="rig-fade-l"></div>
+  </div>
+
+  <div class="wrap">
+    <div class="hero-inner">
+      <span class="eyebrow eyebrow-dark">Chennai · Packaging Machinery &amp; Service</span>
+      <h1 class="reveal in">Packaging machinery, engineered to keep your <em>line running.</em></h1>
+      <p class="lead reveal in">SP Solutions designs, installs, and services shrink wrap, flow wrap, and end-of-line packaging systems for manufacturers across Tamil Nadu — backed by spares and support that actually show up.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">Request a quote</a>
+        <a href="#products" class="btn btn-outline">See the product range</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>2019</b><span>FOUNDED IN CHENNAI</span></div>
+        <div><b>06</b><span>MACHINE CATEGORIES</span></div>
+        <div><b>24/7</b><span>SUPPORT LINE</span></div>
+        <div><b>&lt;48H</b><span>SPARES DISPATCH</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- right animated machine rig -->
+  <div class="hero-rig hero-rig-right" aria-hidden="true">
+    <svg viewBox="0 0 260 640" xmlns="http://www.w3.org/2000/svg">
+      <path d="M220 40v560M140 120v480" stroke="#B9C1CB" stroke-width="2"/>
+      <!-- printer / coder head -->
+      <g class="rig-float" transform="translate(150,110)">
+        <rect x="-40" y="-24" width="80" height="48" rx="8" fill="#10233D"/>
+        <rect x="-30" y="-14" width="60" height="10" rx="3" fill="#EEF2F7" opacity=".5"/>
+        <circle class="pulse-dot" cx="26" cy="-14" r="4" fill="#8FB6E8"/>
+        <rect x="-6" y="24" width="12" height="30" fill="#5B6572"/>
+      </g>
+      <!-- large gear -->
+      <g class="gear gear-ccw" transform="translate(188,260)">
+        <circle r="50" fill="none" stroke="#8892A0" stroke-width="3"/>
+        <circle r="15" fill="#5B6572"/>
+        <g stroke="#8892A0" stroke-width="8" stroke-linecap="round">
+          <line x1="0" y1="-50" x2="0" y2="-64"/>
+          <line x1="0" y1="50" x2="0" y2="64"/>
+          <line x1="-50" y1="0" x2="-64" y2="0"/>
+          <line x1="50" y1="0" x2="64" y2="0"/>
+          <line x1="-35" y1="-35" x2="-46" y2="-46"/>
+          <line x1="35" y1="35" x2="46" y2="46"/>
+          <line x1="-35" y1="35" x2="-46" y2="46"/>
+          <line x1="35" y1="-35" x2="46" y2="-46"/>
+        </g>
+      </g>
+      <g class="gear gear-cw gear-slow" transform="translate(112,300)">
+        <circle r="22" fill="none" stroke="#B9C1CB" stroke-width="3"/>
+        <circle r="7" fill="#8892A0"/>
+        <g stroke="#B9C1CB" stroke-width="5" stroke-linecap="round">
+          <line x1="0" y1="-22" x2="0" y2="-30"/>
+          <line x1="0" y1="22" x2="0" y2="30"/>
+          <line x1="-22" y1="0" x2="-30" y2="0"/>
+          <line x1="22" y1="0" x2="30" y2="0"/>
+        </g>
+      </g>
+      <!-- shrink-wrap tunnel -->
+      <g transform="translate(90,430)">
+        <rect x="0" y="-20" width="120" height="56" rx="10" fill="#17304F"/>
+        <rect x="10" y="-10" width="100" height="36" rx="6" fill="#EEF2F7" opacity=".18"/>
+        <line x1="16" y1="8" x2="104" y2="8" stroke="#8FB6E8" stroke-width="2" class="belt-dash" opacity=".7"/>
+        <circle cx="14" cy="50" r="7" fill="#B9C1CB"/>
+        <circle cx="106" cy="50" r="7" fill="#B9C1CB"/>
+      </g>
+      <circle class="rig-beam" cx="150" cy="380" r="3" fill="#8892A0"/>
+    </svg>
+    <div class="rig-fade-r"></div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
+</section>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <div class="ticker-item"><b>Shrink Wrap</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>Flow Wrap</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>L-Sealer</b> Packagers<span class="dot"></span></div>
+    <div class="ticker-item"><b>Metal</b> Detectors<span class="dot"></span></div>
+    <div class="ticker-item"><b>Strapping</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>Coding &amp; Printing</b> Systems<span class="dot"></span></div>
+    <div class="ticker-item"><b>Spares &amp;</b> Consumables<span class="dot"></span></div>
+    <div class="ticker-item"><b>Shrink Wrap</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>Flow Wrap</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>L-Sealer</b> Packagers<span class="dot"></span></div>
+    <div class="ticker-item"><b>Metal</b> Detectors<span class="dot"></span></div>
+    <div class="ticker-item"><b>Strapping</b> Machines<span class="dot"></span></div>
+    <div class="ticker-item"><b>Coding &amp; Printing</b> Systems<span class="dot"></span></div>
+    <div class="ticker-item"><b>Spares &amp;</b> Consumables<span class="dot"></span></div>
+  </div>
+</div>
+
+<!-- ============ ABOUT / INTRO ============ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="about-split">
+      <div class="about-media reveal">
+        <div class="frame">
+          <img src="https://images.unsplash.com/photo-1716194583732-0b9874234218?auto=format&fit=crop&w=1200&q=80" alt="Technician working on packaging machinery on the factory floor">
+        </div>
+        <div class="about-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 6 6.5.9-4.7 4.6 1.1 6.5L12 17l-5.9 3 1.1-6.5L2.5 8.9 9 8z"/></svg>
+          <div><b>Founder-led since 2019</b><span>Two engineers, one workshop, still on every install today.</span></div>
+        </div>
+      </div>
+      <div class="about-copy reveal">
+        <span class="eyebrow eyebrow-dark">Who we are</span>
+        <h2>Built by two engineers who were tired of machines that didn't get serviced.</h2>
+        <p>SP Solutions started in Chennai in 2019, when two colleagues who'd spent years maintaining packaging lines for other companies decided to build the support system they wished they'd had — machinery paired with people who actually pick up the phone.</p>
+        <p>Today we design, supply, install, and service shrink wrap, flow wrap, and end-of-line systems for food, pharma, and FMCG manufacturers across Tamil Nadu, with spares stocked so a worn part never becomes a lost shift.</p>
+        <div class="about-points">
+          <div class="about-point">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div><b>Engineering-first quotes</b><span>Machines sized to your product and line speed, not a catalogue.</span></div>
+          </div>
+          <div class="about-point">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div><b>On-site commissioning</b><span>We install, run test batches, and train your operators before we leave.</span></div>
+          </div>
+          <div class="about-point">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <div><b>Spares held in Chennai</b><span>Film, cartridges, ink, and electrical spares — dispatched within 48 hours.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="section section-alt" id="products">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-dark">The product line</span>
+      <h2>Six machine families. One line that doesn't stop.</h2>
+      <p>Every station below is built to run alongside the others — pick one machine or spec a full end-of-line system.</p>
+    </div>
+
+    <div class="products-grid reveal-stagger">
+      <div class="product-card reveal" style="--i:0">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1530037335614-e68828dcf258?auto=format&fit=crop&w=900&q=80" alt="Bottles moving through a shrink wrap packaging machine">
+          <span class="station-tag">STATION 01</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="20" width="20" height="16" rx="1.5"/><path d="M15 20c6-5 12-5 18 0" stroke-dasharray="2 3"/><path d="M17 12c1.5-2.5 -1-3.5 0-6M24 12c1.5-2.5 -1-3.5 0-6M31 12c1.5-2.5 -1-3.5 0-6"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>Shrink Wrap Machines</h3>
+          <p>High-speed tunnels and wrappers that deliver a tight, tamper-evident finish across varying pack sizes.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="--i:1">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1780145180040-0beda1df60e6?auto=format&fit=crop&w=900&q=80" alt="Bottles moving on a factory conveyor belt for flow wrapping">
+          <span class="station-tag">STATION 02</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 24c0-5 3-8 6-8h12c3 0 6 3 6 8s-3 8-6 8H18c-3 0-6-3-6-8z"/><line x1="18" y1="16" x2="18" y2="32"/><line x1="30" y1="16" x2="30" y2="32"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>Flow Wrap Machines</h3>
+          <p>Horizontal form-fill-seal wrapping that forms pillow packs on the fly, sealing in freshness on a continuous line.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="--i:2">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1651525670033-279c26cc2347?auto=format&fit=crop&w=900&q=80" alt="Stack of sealed cartons ready for dispatch">
+          <span class="station-tag">STATION 03</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14v20h22"/><rect x="18" y="18" width="14" height="12" rx="1.2"/><path d="M34 34l3 3M37 34l-3 3"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>L-Sealer Packagers</h3>
+          <p>L-bar sealing and shrink wrapping in a single station, sized for retail-ready cartons and multipacks.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="--i:3">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1716191300020-b52dec5b70a8?auto=format&fit=crop&w=900&q=80" alt="Line of electrical inspection equipment in a factory">
+          <span class="station-tag">STATION 04</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 34V20a13 13 0 0126 0v14"/><line x1="11" y1="34" x2="11" y2="38"/><line x1="37" y1="34" x2="37" y2="38"/><rect x="20" y="24" width="8" height="8" rx="1"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>Metal Detectors</h3>
+          <p>In-line contaminant detection with automatic rejection, tuned for ferrous and non-ferrous sensitivity.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="--i:4">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1764745021344-317b80f09e40?auto=format&fit=crop&w=900&q=80" alt="Industrial conveyor belt machine with metal parts used for strapping">
+          <span class="station-tag">STATION 05</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="13" y="14" width="22" height="20" rx="1.5"/><path d="M13 20h22M13 28h22"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>Strapping Machines</h3>
+          <p>Automatic and semi-automatic strapping for secure palletised loads and carton-level transport.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+
+      <div class="product-card reveal" style="--i:5">
+        <div class="product-media">
+          <img src="https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=900&q=80" alt="Industrial machinery and pipework used for coding and printing systems">
+          <span class="station-tag">STATION 06</span>
+          <div class="product-media-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="14" y="12" width="16" height="10" rx="1.5"/><line x1="18" y1="26" x2="30" y2="26"/><line x1="18" y1="31" x2="34" y2="31"/><line x1="18" y1="36" x2="26" y2="36"/></svg></div>
+        </div>
+        <div class="product-body">
+          <h3>Coding &amp; Printing Systems</h3>
+          <p>Batch codes, dates, and barcodes printed directly on-line, without slowing down the pack rate.</p>
+          <a href="#" class="card-link">View range <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 8h8M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GALLERY ============ -->
+<section class="section" id="gallery">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-dark">On the floor</span>
+      <h2>Manufacturing, in motion</h2>
+      <p>A look at the lines, installs, and workshops behind every machine we ship.</p>
+    </div>
+    <div class="gallery-grid reveal-stagger">
+      <div class="gallery-item big reveal" style="--i:0">
+        <img src="https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=1200&q=80" alt="Interior of a large industrial factory floor">
+        <div class="cap"><b>Factory floor</b><span>Chennai service base</span></div>
+      </div>
+      <div class="gallery-item tall reveal" style="--i:1">
+        <img src="https://images.unsplash.com/photo-1730584476141-232435a40c32?auto=format&fit=crop&w=900&q=80" alt="Technician welding a metal machine part">
+        <div class="cap"><b>Fabrication</b><span>In-house machine builds</span></div>
+      </div>
+      <div class="gallery-item reveal" style="--i:2">
+        <img src="https://images.unsplash.com/photo-1717386255767-52643970d483?auto=format&fit=crop&w=900&q=80" alt="Factory filled with production machines">
+        <div class="cap"><b>Production line</b><span>End-to-end setups</span></div>
+      </div>
+      <div class="gallery-item reveal" style="--i:3">
+        <img src="https://images.unsplash.com/photo-1741176508062-a79aa6b48bdc?auto=format&fit=crop&w=900&q=80" alt="Workers in an industrial manufacturing facility">
+        <div class="cap"><b>Commissioning</b><span>On-site handover</span></div>
+      </div>
+      <div class="gallery-item reveal" style="--i:4">
+        <img src="https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&fit=crop&w=900&q=80" alt="Row of industrial machines on a factory floor">
+        <div class="cap"><b>Workshop</b><span>Machines ready to ship</span></div>
+      </div>
+      <div class="gallery-item reveal" style="--i:5">
+        <img src="https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&w=900&q=80" alt="Large industrial machine inside a factory building">
+        <div class="cap"><b>Assembly</b><span>Built before it ships</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS / WHY US ============ -->
+<section class="section stats-band">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why us</span>
+      <h2>Why manufacturers call SP Solutions first</h2>
+      <p>We're a small, founder-led team — which means fewer handoffs between the person who sold you the machine and the one who fixes it.</p>
+    </div>
+    <div class="why-grid reveal-stagger">
+      <div class="why-item reveal" style="--i:0">
+        <span class="num mono">01</span>
+        <h3>Founder-led engineering</h3>
+        <p>Every install is walked through by the people who built the company, not a call centre.</p>
+      </div>
+      <div class="why-item reveal" style="--i:1">
+        <span class="num mono">02</span>
+        <h3>Spares actually in stock</h3>
+        <p>Shrink film, cartridges, ink, and electrical spares, ready to ship without a six-week wait.</p>
+      </div>
+      <div class="why-item reveal" style="--i:2">
+        <span class="num mono">03</span>
+        <h3>24/7 support line</h3>
+        <p>A machine down at 2&nbsp;AM still gets a person who picks up, not a ticket queue.</p>
+      </div>
+      <div class="why-item reveal" style="--i:3">
+        <span class="num mono">04</span>
+        <h3>Built for Indian production lines</h3>
+        <p>Voltage, humidity, and duty cycles matched to how factories here actually run.</p>
+      </div>
+    </div>
+
+    <div class="counters reveal-stagger">
+      <div class="counter reveal" style="--i:0"><b data-count="2019" data-plain="true">2019</b><span>Founded</span></div>
+      <div class="counter reveal" style="--i:1"><b data-count="6">0</b><span>Machine categories</span></div>
+      <div class="counter reveal" style="--i:2"><b data-count="48" data-suffix="H">0</b><span>Spares dispatch</span></div>
+      <div class="counter reveal" style="--i:3"><b data-plain="true">24/7</b><span>Support line</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-dark">How we work</span>
+      <h2>From enquiry to a running line</h2>
+    </div>
+    <div class="process-wrap">
+      <div class="process-media reveal">
+        <img src="https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=900&q=80" alt="Engineer commissioning industrial machinery">
+        <span class="tag mono">ON-SITE COMMISSIONING</span>
+      </div>
+      <div class="process-list">
+        <div class="process-row reveal">
+          <span class="process-num">01</span>
+          <div class="process-body"><h3>Enquiry &amp; consultation</h3><p>Tell us the product, the pack size, and the line speed you need — we recommend machinery, not a catalogue.</p></div>
+        </div>
+        <div class="process-row reveal">
+          <span class="process-num">02</span>
+          <div class="process-body"><h3>Quote &amp; machine selection</h3><p>A written quote with the right shrink, wrap, or detection system sized to your volume and budget.</p></div>
+        </div>
+        <div class="process-row reveal">
+          <span class="process-num">03</span>
+          <div class="process-body"><h3>Installation &amp; commissioning</h3><p>We install on-site, run test batches, and train your operators before we leave.</p></div>
+        </div>
+        <div class="process-row reveal">
+          <span class="process-num">04</span>
+          <div class="process-body"><h3>AMC &amp; spares support</h3><p>Scheduled maintenance and same-week spares keep unplanned downtime off your production schedule.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section class="section section-alt" id="industries">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eyebrow-dark">Industries served</span>
+      <h2>Built to meet each industry's own standards</h2>
+    </div>
+    <div class="industries-row reveal-stagger">
+      <div class="industry-card reveal" style="--i:0">
+        <img src="https://images.unsplash.com/photo-1780145180040-0beda1df60e6?auto=format&fit=crop&w=700&q=80" alt="Bottles on a food and beverage packaging line">
+        <div class="content">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v10a4 4 0 004 4v10M9 4v6M13 4v6"/><path d="M23 4c-3 3-3 8 0 11v13"/></svg>
+          <h4>Food &amp; Beverage</h4>
+        </div>
+      </div>
+      <div class="industry-card reveal" style="--i:1">
+        <img src="https://images.unsplash.com/photo-1610891015188-5369212db097?auto=format&fit=crop&w=700&q=80" alt="Pharmaceutical manufacturing equipment and pipework">
+        <div class="content">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="4" width="14" height="24" rx="7"/><line x1="9" y1="16" x2="23" y2="16"/></svg>
+          <h4>Pharmaceutical</h4>
+        </div>
+      </div>
+      <div class="industry-card reveal" style="--i:2">
+        <img src="https://images.unsplash.com/photo-1651525670033-279c26cc2347?auto=format&fit=crop&w=700&q=80" alt="Stacked cartons for FMCG distribution">
+        <div class="content">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="10" width="8" height="16" rx="1"/><rect x="18" y="6" width="8" height="20" rx="1"/><line x1="6" y1="16" x2="14" y2="16"/><line x1="18" y1="14" x2="26" y2="14"/></svg>
+          <h4>FMCG &amp; Consumer Goods</h4>
+        </div>
+      </div>
+      <div class="industry-card reveal" style="--i:3">
+        <img src="https://images.unsplash.com/photo-1717386255773-1e3037c81788?auto=format&fit=crop&w=700&q=80" alt="Large industrial manufacturing machine">
+        <div class="content">
+          <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26V13l7-5 7 5v13"/><path d="M18 26V17l6-4 4 3v10"/></svg>
+          <h4>Industrial Manufacturing</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SPARES BANNER ============ -->
+<section class="section-tight">
+  <div class="wrap">
+    <div class="spares reveal">
+      <img src="https://images.unsplash.com/photo-1716191300020-b52dec5b70a8?auto=format&fit=crop&w=1600&q=80" alt="Electrical and mechanical spare parts on a factory shelf">
+      <div class="spares-inner">
+        <div class="spares-copy">
+          <span class="eyebrow" style="color:#8FB6E8">Spares &amp; consumables</span>
+          <h2>Spares and consumables, without the wait</h2>
+          <p>A worn part shouldn't stop a shift. We stock what your machines actually run on and ship it fast.</p>
+        </div>
+        <ul class="spares-list">
+          <li>POF shrink film</li>
+          <li>Printer cartridges</li>
+          <li>Ink solvents &amp; solutions</li>
+          <li>Electrical spares</li>
+        </ul>
+        <div>
+          <a href="#contact" class="btn btn-primary">Browse spares</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section-tight" id="contact">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <img src="https://images.unsplash.com/photo-1496247749665-49cf5b1022e9?auto=format&fit=crop&w=1800&q=80" alt="Interior of an industrial manufacturing facility">
+      <div class="inner">
+        <span class="eyebrow" style="justify-content:center; color:#8FB6E8">Get in touch</span>
+        <h2>Tell us what you're packing.</h2>
+        <p>Send us your product, pack size, and line speed — we'll get back with the right machine and a straight quote.</p>
+        <div class="cta-actions">
+          <a href="mailto:alexnavinkumar@spsolutionsc.com" class="btn btn-primary">Request a quote</a>
+          <a href="tel:+916374580330" class="btn btn-ghost-white">Call +91 63745 80330</a>
+        </div>
+        <div class="cta-contacts">
+          <div><span>Visit</span><p>30, Thiruvalluvar St, T.M.P Nagar, Padi, Chennai 600050</p></div>
+          <div><span>Call</span><a href="tel:+916374580330">+91 63745 80330</a></div>
+          <div><span>Email</span><a href="mailto:alexnavinkumar@spsolutionsc.com">alexnavinkumar@spsolutionsc.com</a></div>
+          <div><span>Hours</span><p>Mon–Fri, 9AM–7PM</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <svg class="logo-mark" viewBox="0 0 40 40" fill="none">
+            <rect x="1" y="1" width="38" height="38" rx="6" stroke="#10233D" stroke-width="1.6"/>
+            <path d="M9 27V13h6.5a4 4 0 010 8H9" stroke="#10233D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M22 27l5-14 5 14" stroke="#10233D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24.4 21.5h5.2" stroke="#10233D" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-text"><b>SP SOLUTIONS</b><small>Packaging Systems</small></span>
+        </a>
+        <p>Packaging machinery and service for manufacturers across Tamil Nadu — shrink wrap to spares, engineered by a founder-led team based in Chennai.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 8h-2a2 2 0 00-2 2v10M8 13h5"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="12" cy="12" r="3.4"/><circle cx="16.6" cy="7.4" r="1"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M10.5 9.5l4 2.5-4 2.5z" fill="currentColor" stroke="none"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#gallery">Photo Gallery</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Products</h5>
+        <ul>
+          <li><a href="#products">Shrink Wrap Machines</a></li>
+          <li><a href="#products">Flow Wrap Machines</a></li>
+          <li><a href="#products">L-Sealer Packagers</a></li>
+          <li><a href="#products">Metal Detectors</a></li>
+          <li><a href="#products">Strapping Machines</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Get to us</h5>
+        <ul>
+          <li><p>30, Thiruvalluvar St, T.M.P Nagar,<br>Padi, Chennai 600050</p></li>
+          <li><a href="tel:+916369667449">+91 63696 67449</a></li>
+          <li><a href="tel:+916374580330">+91 63745 80330</a></li>
+          <li><a href="mailto:alexnavinkumar@spsolutionsc.com">alexnavinkumar@spsolutionsc.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 SP Solution Pvt. Ltd. All rights reserved.</span>
+      <span class="mono" style="opacity:.7">Chennai, India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Sticky navbar shadow
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 12);
+}, { passive:true });
+
+// Right-side mobile drawer
+const burger = document.getElementById('burgerBtn');
+const drawer = document.getElementById('mobileDrawer');
+const backdrop = document.getElementById('drawerBackdrop');
+function openDrawer(){
+  drawer.classList.add('open'); backdrop.classList.add('open'); burger.classList.add('open');
+  burger.setAttribute('aria-expanded','true'); document.body.style.overflow='hidden';
+}
+function closeDrawer(){
+  drawer.classList.remove('open'); backdrop.classList.remove('open'); burger.classList.remove('open');
+  burger.setAttribute('aria-expanded','false'); document.body.style.overflow='';
+}
+burger.addEventListener('click', () => drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+backdrop.addEventListener('click', closeDrawer);
+drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeDrawer));
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeDrawer(); });
+
+// Scroll reveal
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// Count-up stats
+const counters = document.querySelectorAll('.counter b[data-count]');
+const cio = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el = entry.target;
+    if (el.dataset.plain) { cio.unobserve(el); return; }
+    const target = parseInt(el.dataset.count, 10);
+    const suffix = el.dataset.suffix || '';
+    const dur = 1400; const start = performance.now();
+    function tick(now){
+      const p = Math.min((now - start) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    cio.unobserve(el);
+  });
+}, { threshold: 0.6 });
+counters.forEach(el => cio.observe(el));
+</script>
+</body>
+</html>
