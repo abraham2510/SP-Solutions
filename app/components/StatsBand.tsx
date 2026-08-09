@@ -72,7 +72,7 @@ export default function StatsBand() {
 
           <div className="counter reveal" style={{ "--i": 2 } as React.CSSProperties}>
             <b>
-              &lt;<CountUp from={0} to={10} duration={1.8} className="tabular-nums" />
+              <CountUp from={0} to={10} duration={1.8} className="tabular-nums" />
             </b>
             <span>TECHNICAL TEAM</span>
           </div>

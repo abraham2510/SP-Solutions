@@ -19,6 +19,7 @@ export default function About() {
         mediaZoom={1}
         scrollDistance={0.5}
         holdDistance={0.05}
+        smoothing={0}
       >
         <h2 className="text-3xl sm:text-6xl font-bold text-white mb-3 tracking-tight">
           Machines &amp; Repairs. Built for Uptime.

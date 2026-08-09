@@ -3,6 +3,7 @@ import "./globals.css";
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "./components/SmoothScroll";
+import Preloader from "./components/Preloader";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="font-body text-ink bg-white overflow-x-hidden">
+        <Preloader />
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>
