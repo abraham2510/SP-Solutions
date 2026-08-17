@@ -1,0 +1,203 @@
+// This is your Prisma schema file.
+// Connection URL is configured in prisma.config.ts (Prisma 7+)
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Auth.js v5 required tables ────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?   // bcrypt hash — null for OAuth users
+  role          Role      @default(ADMIN)
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+// ─── Catalogue ─────────────────────────────────────────────────────────────
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum EnquiryStatus {
+  NEW
+  CONTACTED
+  CLOSED
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  type        String    @default("machine")
+  description String?
+  imageUrl    String?
+  images      String[]  @default([])
+  sortOrder   Int       @default(0)
+  status      Status    @default(ACTIVE)
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@map("categories")
+}
+
+model Product {
+  id               String                 @id @default(cuid())
+  categoryId       String
+  category         Category               @relation(fields: [categoryId], references: [id])
+  name             String
+  slug             String                 @unique
+  model            String?
+  shortDescription String?
+  description      String?
+  imageUrl         String?
+  images           String[]               @default([])
+  featured         Boolean                @default(false)
+  status           Status                 @default(ACTIVE)
+  features         ProductFeature[]
+  applications     ProductApplication[]
+  specifications   ProductSpecification[]
+  enquiries        Enquiry[]
+  createdAt        DateTime               @default(now())
+  updatedAt        DateTime               @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+  @@index([status])
+  @@index([featured])
+  @@map("products")
+}
+
+model ProductFeature {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  feature   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_features")
+}
+
+model ProductApplication {
+  id          String   @id @default(cuid())
+  productId   String
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  application String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_applications")
+}
+
+model ProductSpecification {
+  id            String   @id @default(cuid())
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  specification String
+  value         String
+  unitOrNote    String?
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  @@index([productId])
+  @@map("product_specifications")
+}
+
+model Service {
+  id               String    @id @default(cuid())
+  name             String
+  slug             String    @unique
+  shortDescription String?
+  description      String?
+  imageUrl         String?
+  images           String[]  @default([])
+  featured         Boolean   @default(false)
+  status           Status    @default(ACTIVE)
+  sortOrder        Int       @default(0)
+  enquiries        Enquiry[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([status])
+  @@map("services")
+}
+
+model Enquiry {
+  id        String        @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  subject   String?
+  message   String
+  productId String?
+  product   Product?      @relation(fields: [productId], references: [id], onDelete: SetNull)
+  serviceId String?
+  service   Service?      @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  status    EnquiryStatus @default(NEW)
+  createdAt DateTime      @default(now())
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("enquiries")
+}

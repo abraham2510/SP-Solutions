@@ -27,6 +27,9 @@ export default function Hero() {
 
   return (
     <section className="hero flex items-center">
+      {/* Lime #C1FF72 accent sparks on grid intersections */}
+      <div className="hero-grid-sparks" aria-hidden="true" />
+
       {/* Left animated machine rig */}
       <HeroRig side="left" />
 

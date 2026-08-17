@@ -1,20 +1,31 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import LogoMark from "./icons/LogoMark";
 
-const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#products", label: "Products" },
-  { href: "#gallery", label: "Gallery" },
-  { href: "#process", label: "Services" },
-  { href: "#industries", label: "Industries" },
-  { href: "#contact", label: "Contact" },
+interface NavLink {
+  href: string;
+  label: string;
+  isPage?: boolean; // true = Next.js page route, false = hash anchor
+}
+
+const NAV_LINKS: NavLink[] = [
+  { href: "#about",    label: "About" },
+  { href: "/machines", label: "Products", isPage: true },
+  { href: "/services", label: "Services", isPage: true },
+  { href: "#gallery",  label: "Gallery" },
+  { href: "#contact",  label: "Contact" },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (link: NavLink) =>
+    link.isPage && (pathname === link.href || pathname.startsWith(link.href + "/"));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -40,22 +51,56 @@ export default function Navbar() {
     return () => document.removeEventListener("keydown", onKey);
   }, [closeDrawer]);
 
+  // Render a nav item as either a Next.js Link or a plain <a> anchor
+  function NavItem({
+    link,
+    onClick,
+    className,
+  }: {
+    link: NavLink;
+    onClick?: () => void;
+    className?: string;
+  }) {
+    const active = isActive(link);
+    const cls = `${className ?? ""} ${active ? "active" : ""}`.trim();
+
+    if (link.isPage) {
+      return (
+        <Link href={link.href} className={cls} onClick={onClick}>
+          {link.label}
+        </Link>
+      );
+    }
+    return (
+      <a href={link.href} className={cls} onClick={onClick}>
+        {link.label}
+      </a>
+    );
+  }
+
   return (
     <>
       <header className={`navbar ${scrolled ? "scrolled" : ""}`} id="navbar">
         <div className="wrap flex items-center justify-between h-[78px]">
-          <a href="#" className="logo flex items-center gap-2">
+          {/* Logo — links to homepage */}
+          <Link href="/" className="logo flex items-center gap-2">
             <LogoMark />
-          </a>
+          </Link>
 
+          {/* Desktop nav */}
           <nav className="nav-links hidden lg:flex items-center gap-[34px]">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href}>{link.label}</a>
+              <NavItem key={link.href} link={link} />
             ))}
           </nav>
 
           <div className="flex items-center gap-[18px]">
-            <a href="#contact" className="btn btn-primary !text-white !hidden md:!inline-flex px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5">Request a quote</a>
+            <a
+              href="#contact"
+              className="btn btn-primary !text-white !hidden md:!inline-flex px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5"
+            >
+              Request a quote
+            </a>
             <button
               className={`burger burger-btn lg:hidden w-[42px] h-[42px] flex items-center justify-center relative z-[301] ${
                 drawerOpen ? "open burger-open" : ""
@@ -87,9 +132,9 @@ export default function Navbar() {
         aria-label="Mobile navigation"
       >
         <div className="drawer-head flex items-center justify-between mb-[30px]">
-          <a href="#" className="logo flex items-center gap-2" onClick={closeDrawer}>
+          <Link href="/" className="logo flex items-center gap-2" onClick={closeDrawer}>
             <LogoMark />
-          </a>
+          </Link>
           <button
             className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#F4F6FA] text-[#00266A] hover:bg-[#D5DEF0] transition-colors"
             onClick={closeDrawer}
@@ -100,13 +145,13 @@ export default function Navbar() {
             </svg>
           </button>
         </div>
+
         <nav className="flex flex-col">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} onClick={closeDrawer}>
-              {link.label}
-            </a>
+            <NavItem key={link.href} link={link} onClick={closeDrawer} />
           ))}
         </nav>
+
         <a href="#contact" className="btn btn-primary mt-[26px]" onClick={closeDrawer}>
           Request a quote
         </a>

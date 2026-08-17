@@ -30,6 +30,9 @@
   --color-gold-hover: #C4AB52;
   --color-gold-tint: #FAF7E8;
 
+  --color-lime: #C1FF72;
+  --color-lime-glow: rgba(193, 255, 114, 0.18);
+
   --color-ink: #10151C;
   --color-gray-sp: #5B6572;
   --color-gray-soft: #8892A0;
@@ -67,16 +70,19 @@ a {
   @apply text-inherit no-underline;
 }
 
-ul {
-  @apply list-none p-0 m-0;
-}
+@layer base {
+  ul {
+    @apply list-none p-0 m-0;
+  }
 
-button {
-  @apply font-[inherit] cursor-pointer bg-transparent border-none p-0;
-}
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
 
-:focus-visible {
-  @apply outline-2 outline-[#D5BD66] outline-offset-2;
+  :focus-visible {
+    @apply outline-2 outline-[#D5BD66] outline-offset-2;
+  }
 }
 
 /* ==========================================================
@@ -485,6 +491,109 @@ button {
   @apply w-[1px] h-[34px];
   background: linear-gradient(#8892A0, transparent);
   animation: scrollcue 1.8s ease-in-out infinite;
+}
+
+/* ---- Hero lime grid box fills ---- */
+/* Grid = 46×46px. Fill = 44×44px (1px inset keeps grid lines visible).         */
+/* Left boxes: 1px + (col × 46px). Right boxes: calc(100% - (1px + col×46px))  */
+.hero-grid-sparks {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background-image:
+    /* ── left / center ───────────────────── */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* A  col 2,  row 3  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* B  col 7,  row 1  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* C  col 4,  row 5  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* D  col 10, row 2  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* E  col 1,  row 7  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* F  col 13, row 4  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* G  col 3,  row 1  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* H  col 6,  row 8  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* I  col 9,  row 4  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* J  col 15, row 2  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* K  col 11, row 6  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* L  col 0,  row 5  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* M  col 16, row 3  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* N  col 5,  row 10 */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* O  col 8,  row 7  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* P  col 19, row 5  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* Q  col 12, row 9  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* R  col 22, row 1  */
+    /* ── right side (calc from right edge) ── */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* S  col 2  from right, row 3  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* T  col 5  from right, row 1  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* U  col 3  from right, row 6  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* V  col 7  from right, row 2  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* W  col 4  from right, row 8  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* X  col 10 from right, row 4  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* Y  col 6  from right, row 9  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* Z  col 1  from right, row 5  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AA col 8  from right, row 0  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AB col 11 from right, row 3  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AC col 4  from right, row 11 */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AD col 13 from right, row 5  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AE col 2  from right, row 7  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AF col 9  from right, row 1  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AG col 5  from right, row 4  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AH col 12 from right, row 7  */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%),  /* AI col 3  from right, row 10 */
+    linear-gradient(#C1FF72 0%, #C1FF72 100%);  /* AJ col 14 from right, row 2  */
+
+  background-size:
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px,
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px,
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px,
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px,
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px,
+    44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px, 44px 44px;
+
+  background-position:
+    /* ── left / center ─────────────────────────────────── */
+     93px 139px,                      /* A  col 2,  row 3  */
+    323px  47px,                      /* B  col 7,  row 1  */
+    185px 231px,                      /* C  col 4,  row 5  */
+    461px  93px,                      /* D  col 10, row 2  */
+     47px 323px,                      /* E  col 1,  row 7  */
+    599px 185px,                      /* F  col 13, row 4  */
+    139px  47px,                      /* G  col 3,  row 1  */
+    277px 369px,                      /* H  col 6,  row 8  */
+    415px 185px,                      /* I  col 9,  row 4  */
+    691px  93px,                      /* J  col 15, row 2  */
+    507px 277px,                      /* K  col 11, row 6  */
+      1px 231px,                      /* L  col 0,  row 5  */
+    737px 139px,                      /* M  col 16, row 3  */
+    231px 461px,                      /* N  col 5,  row 10 */
+    369px 323px,                      /* O  col 8,  row 7  */
+    875px 231px,                      /* P  col 19, row 5  */
+    553px 415px,                      /* Q  col 12, row 9  */
+   1013px  47px,                      /* R  col 22, row 1  */
+    /* ── right side — always relative to right edge ────── */
+    calc(100% -  93px) 139px,         /* S  col 2  from right, row 3  */
+    calc(100% - 231px)  47px,         /* T  col 5  from right, row 1  */
+    calc(100% - 139px) 277px,         /* U  col 3  from right, row 6  */
+    calc(100% - 323px)  93px,         /* V  col 7  from right, row 2  */
+    calc(100% - 185px) 369px,         /* W  col 4  from right, row 8  */
+    calc(100% - 461px) 185px,         /* X  col 10 from right, row 4  */
+    calc(100% - 277px) 415px,         /* Y  col 6  from right, row 9  */
+    calc(100% -  47px) 231px,         /* Z  col 1  from right, row 5  */
+    calc(100% - 369px)   1px,         /* AA col 8  from right, row 0  */
+    calc(100% - 507px) 139px,         /* AB col 11 from right, row 3  */
+    calc(100% - 185px) 507px,         /* AC col 4  from right, row 11 */
+    calc(100% - 599px) 231px,         /* AD col 13 from right, row 5  */
+    calc(100% -  93px) 323px,         /* AE col 2  from right, row 7  */
+    calc(100% - 415px)  47px,         /* AF col 9  from right, row 1  */
+    calc(100% - 231px) 185px,         /* AG col 5  from right, row 4  */
+    calc(100% - 553px) 323px,         /* AH col 12 from right, row 7  */
+    calc(100% - 139px) 461px,         /* AI col 3  from right, row 10 */
+    calc(100% - 645px)  93px;         /* AJ col 14 from right, row 2  */
+
+  background-repeat: no-repeat;
+  opacity: 0.13;
+  mask-image: radial-gradient(ellipse 100% 80% at 50% 40%, black, transparent 95%);
+  animation: limeSparkPulse 4s ease-in-out infinite;
 }
 
 .hero-rig {
@@ -1301,6 +1410,12 @@ button {
   .about-badge {
     @apply static mt-[-40px] mx-[16px] max-w-none;
   }
+}
+
+/* ---- Lime Spark Pulse ---- */
+@keyframes limeSparkPulse {
+  0%, 100% { opacity: 0.42; }
+  50%       { opacity: 0.72; }
 }
 
 /* ---- Infinite Logo Scroll ---- */

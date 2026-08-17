@@ -26,6 +26,8 @@ export default function HeroRig({ side }: { side: "left" | "right" }) {
           <g className="gear gear-ccw" transform="translate(150,206)">
             <circle r="26" fill="none" stroke="#D5BD66" strokeWidth="3.5" />
             <circle r="8" fill="#D5BD66" />
+            {/* lime inner hub — LED accent */}
+            <circle r="4" fill="#C1FF72" opacity="0.9" />
             <g stroke="#D5BD66" strokeWidth="6" strokeLinecap="round">
               <line x1="0" y1="-26" x2="0" y2="-35" />
               <line x1="0" y1="26" x2="0" y2="35" />
@@ -49,7 +51,8 @@ export default function HeroRig({ side }: { side: "left" | "right" }) {
             <rect x="0" y="0" width="150" height="18" rx="6" fill="#F1F5F9" stroke="#00266A" strokeWidth="2" />
             <line x1="6" y1="9" x2="144" y2="9" stroke="#00266A" strokeWidth="2.5" className="belt-dash" />
             <rect x="10" y="-14" width="20" height="14" rx="2" fill="#00266A" />
-            <rect x="60" y="-14" width="20" height="14" rx="2" fill="#D5BD66" />
+            {/* lime accent box — 1 of 3 packages */}
+            <rect x="60" y="-14" width="20" height="14" rx="2" fill="#C1FF72" />
             <rect x="110" y="-14" width="20" height="14" rx="2" fill="#00266A" />
             <circle cx="16" cy="26" r="6" fill="#00266A" />
             <circle cx="134" cy="26" r="6" fill="#00266A" />
@@ -57,6 +60,8 @@ export default function HeroRig({ side }: { side: "left" | "right" }) {
 
           {/* status lights */}
           <circle className="pulse-dot" cx="72" cy="60" r="6" fill="#D5BD66" />
+          {/* lime status LED */}
+          <circle className="pulse-dot" cx="40" cy="520" r="4" fill="#C1FF72" opacity="0.85" />
           <circle className="rig-beam" cx="150" cy="120" r="4" fill="#2563EB" />
         </svg>
         <div className="rig-fade-l" />
@@ -96,6 +101,8 @@ export default function HeroRig({ side }: { side: "left" | "right" }) {
         <g className="gear gear-cw gear-slow" transform="translate(112,300)">
           <circle r="22" fill="none" stroke="#D5BD66" strokeWidth="3.5" />
           <circle r="7" fill="#D5BD66" />
+          {/* lime inner hub accent */}
+          <circle r="3.5" fill="#C1FF72" opacity="0.9" />
           <g stroke="#D5BD66" strokeWidth="5" strokeLinecap="round">
             <line x1="0" y1="-22" x2="0" y2="-30" />
             <line x1="0" y1="22" x2="0" y2="30" />
@@ -109,6 +116,8 @@ export default function HeroRig({ side }: { side: "left" | "right" }) {
           <rect x="0" y="-20" width="120" height="56" rx="10" fill="#00266A" />
           <rect x="10" y="-10" width="100" height="36" rx="6" fill="#FFFFFF" opacity=".25" />
           <line x1="16" y1="8" x2="104" y2="8" stroke="#D5BD66" strokeWidth="2.5" className="belt-dash" opacity="1" />
+          {/* lime scan beam — tech LED detail */}
+          <line x1="16" y1="-2" x2="104" y2="-2" stroke="#C1FF72" strokeWidth="1.5" opacity="0.7" className="belt-dash" />
           <circle cx="14" cy="50" r="7" fill="#00266A" />
           <circle cx="106" cy="50" r="7" fill="#00266A" />
         </g>
