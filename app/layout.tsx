@@ -8,8 +8,16 @@ import FloatingContactButtons from "./components/FloatingContactButtons";
 
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "https://sp-solutions.vercel.app");
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spsolutionsc.com"),
+  metadataBase: new URL(siteUrl),
   title: {
     default: "SP Solutions — Packaging Machinery & Industrial Automation",
     template: "%s | SP Solutions",
@@ -17,7 +25,7 @@ export const metadata: Metadata = {
   description:
     "SP Solutions designs, installs, and services shrink wrap, flow wrap, and end-of-line packaging systems for manufacturers across Tamil Nadu. Spares stocked, 24/7 support.",
   applicationName: "SP Solutions",
-  authors: [{ name: "SP Solutions", url: "https://spsolutionsc.com" }],
+  authors: [{ name: "SP Solutions", url: siteUrl }],
   keywords: [
     "packaging machinery Chennai",
     "shrink wrap machines",
@@ -35,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://spsolutionsc.com",
+    url: siteUrl,
     siteName: "SP Solutions",
     title: "SP Solutions — Packaging Machinery & Industrial Automation",
     description:
