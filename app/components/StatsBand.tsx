@@ -32,7 +32,7 @@ export default function StatsBand() {
         <div className="section-head section-head-light reveal max-w-[620px] mb-12">
           <span className="eyebrow !text-white">Why SP Solutions</span>
           <h2 className="!text-white text-3xl sm:text-4xl font-bold tracking-tight mb-4">
-            Built for uptime. Serviced by the team that built it.
+            Built for uptime. Serviced by the team that <span className="text-[#C1FF72]">built it.</span>
           </h2>
           <p className="!text-white/75 text-base leading-relaxed">
             We&apos;re a dedicated, proprietor-led team in Chennai — offering machinery, technical repairs, packaging services, and equipment rentals.

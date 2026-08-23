@@ -40,7 +40,8 @@ export default function ContactPage() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-            Let&apos;s Build or Service Your Packaging Line
+            Let&apos;s Build or Service Your{" "}
+            <span className="text-[#C1FF72]">Packaging Line</span>
           </h1>
 
           <p className="text-white/75 mt-4 text-base sm:text-lg max-w-2xl leading-relaxed">

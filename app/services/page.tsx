@@ -41,7 +41,7 @@ export default async function ServicesPage() {
           </nav>
           <span className="eyebrow eyebrow-dark text-white/60 mb-3">TECHNICAL SERVICES</span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-            Repair &amp; Technical Services
+            Repair &amp; <span className="text-[#C1FF72]">Technical Services</span>
           </h1>
           <p className="text-white/65 mt-4 text-base sm:text-lg max-w-xl leading-relaxed">
             Expert repair, maintenance, and on-site support for all packaging machinery. Chennai-based with pan-India reach.

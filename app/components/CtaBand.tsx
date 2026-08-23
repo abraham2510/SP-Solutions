@@ -25,7 +25,7 @@ export default function CtaBand() {
             </div>
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white max-w-[620px] mx-auto mb-4 tracking-tight leading-tight">
-              Tell us what you&apos;re packing.
+              Tell us what you&apos;re <span className="text-[#C1FF72]">packing.</span>
             </h2>
             <p className="text-white/85 text-base sm:text-lg max-w-[540px] mx-auto mb-9 leading-relaxed">
               Send us your product, pack size, and line speed — we&apos;ll get

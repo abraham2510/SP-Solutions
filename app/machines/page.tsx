@@ -37,7 +37,7 @@ export default async function MachinesPage() {
         <div className="wrap relative z-10">
           <span className="eyebrow eyebrow-dark !text-white/60 mb-4">PRODUCT CATALOGUE</span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-            Packaging Machines &amp; Systems
+            Packaging Machines &amp; <span className="text-[#C1FF72]">Systems</span>
           </h1>
           <p className="text-white/65 mt-4 text-base sm:text-lg max-w-xl leading-relaxed">
             {products.length} machines across {categories.length} categories — manufactured &amp;

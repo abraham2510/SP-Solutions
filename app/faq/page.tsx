@@ -50,12 +50,14 @@ export default function FaqPage() {
 
           {/* Main Title */}
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-            Frequently Asked Questions
+            Frequently Asked <span className="text-[#C1FF72]">Questions</span>
           </h1>
 
           {/* Subtitle */}
           <p className="text-white/75 mt-3 text-sm sm:text-base max-w-2xl leading-relaxed">
-            Everything you need to know about our packaging equipment, emergency repair services, factory demonstration trials, and genuine spare parts.
+            Everything you need to know about our packaging equipment, emergency
+            repair services, factory demonstration trials, and genuine spare
+            parts.
           </p>
         </div>
       </section>

@@ -43,7 +43,7 @@ export default function FaqContent() {
       {/* Top Filter Pills & Search Bar (Matching Reference Screenshot) */}
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8 sm:mb-12">
         {/* Horizontal Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-y">
           {FAQ_CATEGORIES.map((cat: FaqCategory) => {
             const isActive = activeCategory === cat.id;
             return (

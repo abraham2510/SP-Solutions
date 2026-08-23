@@ -17,7 +17,6 @@ export default function SmoothScroll({ children }: SmoothScrollProps) {
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 1,
-      syncTouch: true,
     });
 
     let animationFrameId: number;

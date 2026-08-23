@@ -62,8 +62,7 @@ export default function ServicesSection({ services }: Props) {
         {/* Horizontal Scroll Track */}
         <div
           ref={sliderRef}
-          data-lenis-prevent
-          className="flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-proximity sm:snap-mandatory scroll-smooth pb-6 pt-2 touch-pan-x [webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex gap-6 sm:gap-8 overflow-x-auto snap-x snap-proximity sm:snap-mandatory scroll-smooth pb-6 pt-2 touch-pan-y [webkit-overflow-scrolling:touch] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {services.map((service) => (
             <div
