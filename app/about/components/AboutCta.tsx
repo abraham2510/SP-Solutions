@@ -25,7 +25,8 @@ export default function AboutCta({ cta }: AboutCtaProps) {
         </span>
 
         <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4">
-          Experience Our Machines <span className="text-[#C1FF72]">in Action</span>
+          Experience Our Machines{" "}
+          <span className="text-[#C1FF72]">in Action</span>
         </h2>
 
         <p className="text-white/75 text-base sm:text-lg mb-8 leading-relaxed">
@@ -61,7 +62,7 @@ export default function AboutCta({ cta }: AboutCtaProps) {
 
           <a
             href={`tel:${cta.phone.replace(/\s+/g, "")}`}
-            className="btn btn-outline !border-white/25 !text-white hover:!bg-white/10 !rounded-xl !py-3.5 !px-6 !text-xs font-bold flex items-center gap-2 transition-all"
+            className="btn btn-outline !border-white/25 !text-black hover:!text-white hover:!bg-white/10 !rounded-xl !py-3.5 !px-6 !text-xs font-bold flex items-center gap-2 transition-all"
           >
             <PhoneCall className="w-3.5 h-3.5 text-[#D5BD66]" />
             <span>Call {cta.phone}</span>
@@ -71,7 +72,7 @@ export default function AboutCta({ cta }: AboutCtaProps) {
             href={cta.secondaryBtn.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline !border-white/25 !text-white hover:!bg-white/10 !rounded-xl !py-3.5 !px-6 !text-xs font-bold flex items-center gap-2 transition-all"
+            className="btn btn-outline !border-white/25 !text-black hover:!text-white hover:!bg-white/10 !rounded-xl !py-3.5 !px-6 !text-xs font-bold flex items-center gap-2 transition-all"
           >
             <MapPin className="w-3.5 h-3.5 text-[#D5BD66]" />
             <span>{cta.secondaryBtn.text}</span>
