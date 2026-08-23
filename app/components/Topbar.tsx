@@ -1,17 +1,31 @@
+import { SITE_CONTACTS } from "@/lib/constants";
+
 export default function Topbar() {
+  const { address, businessHours, phone, email } = SITE_CONTACTS;
+
   return (
     <div className="topbar">
       <div className="wrap flex items-center justify-between h-[38px]">
         <div className="flex gap-[22px]">
           <span className="topbar-hide-sm inline-flex items-center gap-[6px] whitespace-nowrap">
-            30, Thiruvalluvar St, T.M.P Nagar, Padi, Chennai&nbsp;600050
+            {address.singleLine}
           </span>
-          <span className="inline-flex items-center gap-[6px] whitespace-nowrap">Mon–Fri 9AM–7PM</span>
+          <span className="inline-flex items-center gap-[6px] whitespace-nowrap">
+            {businessHours.compact}
+          </span>
         </div>
         <div className="flex gap-[22px]">
-          <a href="tel:+916374580330" className="inline-flex items-center gap-[6px] whitespace-nowrap">+91 63745 80330</a>
-          <a href="mailto:alexnavinkumar@spsolutionsc.com" className="topbar-hide-sm inline-flex items-center gap-[6px] whitespace-nowrap">
-            alexnavinkumar@spsolutionsc.com
+          <a
+            href={phone.primary.tel}
+            className="inline-flex items-center gap-[6px] whitespace-nowrap"
+          >
+            {phone.primary.display}
+          </a>
+          <a
+            href={email.mailto}
+            className="topbar-hide-sm inline-flex items-center gap-[6px] whitespace-nowrap"
+          >
+            {email.primary}
           </a>
         </div>
       </div>

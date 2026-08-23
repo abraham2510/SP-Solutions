@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { SITE_CONTACTS } from "@/lib/constants";
 import { getServices, getServiceBySlug } from "@/lib/data/public";
 
 export const revalidate = 3600;
@@ -144,7 +145,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href={`https://wa.me/916374580330?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20${encodeURIComponent(service.name)}`}
+              href={SITE_CONTACTS.whatsapp.getUrl(`Hi, I'd like to enquire about ${service.name}`)}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-gold"

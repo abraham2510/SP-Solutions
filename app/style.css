@@ -358,9 +358,9 @@ a {
   @apply top-[20px] -rotate-45;
 }
 
-/* Right-side drawer */
+/* Full-width mobile drawer */
 .drawer-backdrop {
-  @apply fixed inset-0 bg-[#00143B]/55 z-[290] opacity-0 pointer-events-none transition-opacity duration-350;
+  @apply fixed inset-0 bg-[#00143B]/60 z-[290] opacity-0 pointer-events-none transition-opacity duration-300 backdrop-blur-xs;
 }
 
 .drawer-backdrop.open,
@@ -369,7 +369,7 @@ a {
 }
 
 .mobile-drawer {
-  @apply fixed top-0 right-0 bottom-0 left-0 w-full bg-white z-[295] shadow-[-16px_0_40px_-10px_rgba(0,38,106,0.3)] translate-x-full transition-transform duration-400 flex flex-col p-[26px_26px_30px];
+  @apply fixed inset-0 w-full h-full bg-white z-[295] shadow-2xl translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] flex flex-col;
 }
 
 .mobile-drawer.open,
@@ -377,53 +377,16 @@ a {
   @apply translate-x-0;
 }
 
-.mobile-drawer.open nav a,
-.mobile-drawer-open nav a {
-  @apply opacity-100 translate-x-0;
-}
-
 .drawer-head {
-  @apply flex items-center justify-between mb-[30px];
+  @apply flex items-center justify-between p-[18px_24px] border-b border-[#E7EAEE] bg-white sticky top-0 z-10 shrink-0;
 }
 
-.mobile-drawer nav {
-  @apply flex flex-col;
-}
-
-.mobile-drawer nav a {
-  @apply text-[20px] font-semibold text-[#10151C] py-[15px] px-[2px] border-b border-[#E7EAEE] opacity-0 translate-x-[16px] transition-all duration-400 hover:text-[#00266A];
-}
-
-.mobile-drawer nav a:nth-child(1) {
-  transition-delay: .08s;
-}
-
-.mobile-drawer nav a:nth-child(2) {
-  transition-delay: .13s;
-}
-
-.mobile-drawer nav a:nth-child(3) {
-  transition-delay: .18s;
-}
-
-.mobile-drawer nav a:nth-child(4) {
-  transition-delay: .23s;
-}
-
-.mobile-drawer nav a:nth-child(5) {
-  transition-delay: .28s;
-}
-
-.mobile-drawer nav a:nth-child(6) {
-  transition-delay: .33s;
-}
-
-.mobile-drawer .btn {
-  @apply mt-[26px];
+.drawer-body {
+  @apply flex-1 overflow-y-auto p-[18px_24px_32px] flex flex-col gap-2 max-w-[600px] w-full mx-auto;
 }
 
 .drawer-foot {
-  @apply mt-auto pt-[24px] border-t border-[#E7EAEE] text-[12px] text-[#5B6572] leading-[1.8];
+  @apply mt-auto pt-[20px] border-t border-[#E7EAEE] text-[12px] text-[#5B6572] leading-[1.6];
 }
 
 /* ---- Hero ---- */
@@ -1246,6 +1209,244 @@ a {
   }
 }
 
+/* ---- Clean & Realistic Conveyor Box Packing Animation (4.5s Cycle) ---- */
+
+/* 1. Conveyor Belt Rolling */
+@keyframes beltDrive {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.anim-belt-drive {
+  stroke-dasharray: 6 6;
+  animation: beltDrive 0.75s linear infinite;
+}
+
+/* 2. Overhead Dispenser Piston with Mechanical Snap */
+@keyframes dispenserPlunge {
+  0%, 14% {
+    transform: translateY(0);
+  }
+  24% {
+    transform: translateY(48px);
+  }
+  26% {
+    transform: translateY(46px);
+  }
+  38% {
+    transform: translateY(46px);
+  }
+  50%, 100% {
+    transform: translateY(0);
+  }
+}
+.anim-piston-plunge {
+  animation: dispenserPlunge 4.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* 3. Product Dispensed from Above */
+@keyframes itemDropAnimation {
+  0%, 14% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  24% {
+    transform: translateY(48px);
+    opacity: 1;
+  }
+  36% {
+    transform: translateY(46px);
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.anim-dispensed-drop {
+  animation: itemDropAnimation 4.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* 4. Left Box Journey with Inertia Easing & Drop Cushion */
+@keyframes boxConveyorPath {
+  0% {
+    transform: translateX(-55px);
+  }
+  18% {
+    transform: translateX(90px);
+  }
+  24% {
+    transform: translateX(90px) translateY(1.5px);
+  }
+  28% {
+    transform: translateX(90px) translateY(0);
+  }
+  42% {
+    transform: translateX(90px) translateY(0);
+  }
+  75% {
+    transform: translateX(185px);
+  }
+  100% {
+    transform: translateX(290px);
+  }
+}
+.anim-box-journey {
+  animation: boxConveyorPath 4.5s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+}
+
+/* 5. 3D Open Flaps Transition with Snap Fold */
+@keyframes boxOpenFlapsCycle {
+  0%, 42% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleY(0.4);
+  }
+  54%, 100% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+}
+.anim-box-open-state {
+  transform-origin: 0px -20px;
+  animation: boxOpenFlapsCycle 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* 6. 3D Closed Top Lid Appearance with Snap Lock */
+@keyframes boxClosedLidCycle {
+  0%, 46% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  52% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  56%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.anim-box-closed-state {
+  transform-origin: 0px -26px;
+  animation: boxClosedLidCycle 4.5s cubic-bezier(0.34, 1.3, 0.64, 1) infinite;
+}
+
+/* 7. Product in Box Visibility */
+@keyframes insideProductReveal {
+  0%, 23% {
+    opacity: 0;
+  }
+  24%, 100% {
+    opacity: 1;
+  }
+}
+.anim-inside-item-reveal {
+  animation: insideProductReveal 4.5s ease-in-out infinite;
+}
+
+/* 8. Right Box Journey (QA Wrap & Dispatch) */
+@keyframes rightBoxJourney {
+  0% {
+    transform: translateX(-55px);
+  }
+  18% {
+    transform: translateX(90px);
+  }
+  44% {
+    transform: translateX(90px);
+  }
+  75% {
+    transform: translateX(185px);
+  }
+  100% {
+    transform: translateX(290px);
+  }
+}
+.anim-right-box-journey {
+  animation: rightBoxJourney 4.5s cubic-bezier(0.35, 0, 0.25, 1) infinite;
+}
+
+/* 9. Protective Wrap Shrink Film Appearance */
+@keyframes wrapLayerAppear {
+  0%, 20% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  34%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.anim-wrap-layer {
+  transform-origin: center;
+  animation: wrapLayerAppear 4.5s cubic-bezier(0.34, 1.2, 0.64, 1) infinite;
+}
+
+/* 10. QA Stamper Plunge & Press */
+@keyframes qaStamperPlunge {
+  0%, 22% {
+    transform: translateY(0);
+  }
+  32% {
+    transform: translateY(36px);
+  }
+  42% {
+    transform: translateY(36px);
+  }
+  52%, 100% {
+    transform: translateY(0);
+  }
+}
+.anim-qa-stamper {
+  animation: qaStamperPlunge 4.5s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+/* 11. Laser Scan Cone & Grid */
+@keyframes scanConePulse {
+  0%, 24% {
+    opacity: 0;
+  }
+  28%, 42% {
+    opacity: 0.9;
+  }
+  46%, 100% {
+    opacity: 0;
+  }
+}
+.anim-scan-cone {
+  animation: scanConePulse 4.5s ease-in-out infinite;
+}
+
+/* 12. Green Tick Stamp Pop with Spring */
+@keyframes greenTickPop {
+  0%, 38% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  44% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+  48%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.anim-green-tick {
+  transform-origin: 0px 0px;
+  animation: greenTickPop 4.5s cubic-bezier(0.34, 1.6, 0.64, 1) infinite;
+}
+
 @keyframes scrollcue {
   0% {
     opacity: 0;
@@ -1432,6 +1633,44 @@ a {
 .animate-logo-scroll {
   animation: logo-scroll 24s linear infinite;
   will-change: transform;
+}
+
+/* ---- Infinite Gallery Marquee ---- */
+@keyframes gallery-scroll-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes gallery-scroll-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-gallery-left {
+  animation: gallery-scroll-left 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-gallery-right {
+  animation: gallery-scroll-right 40s linear infinite;
+  will-change: transform;
+}
+
+.animate-gallery-left:hover,
+.animate-gallery-right:hover,
+.gallery-row:hover .animate-gallery-left,
+.gallery-row:hover .animate-gallery-right,
+.gallery-marquee-container:hover .animate-gallery-left,
+.gallery-marquee-container:hover .animate-gallery-right {
+  animation-play-state: paused !important;
 }
 
 /* ---- Lenis Smooth Scroll ---- */

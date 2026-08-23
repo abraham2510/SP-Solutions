@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getServices } from "@/lib/data/public";
 import ServiceGrid from "@/app/catalogue/components/ServiceGrid";
 import Link from "next/link";
+import { SITE_CONTACTS } from "@/lib/constants";
 
 export const revalidate = 3600;
 
@@ -64,15 +65,15 @@ export default async function ServicesPage() {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://wa.me/916374580330"
+              href={SITE_CONTACTS.whatsapp.getUrl("Hi, I need urgent packaging machine repair assistance.")}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
             >
               WhatsApp Us
             </a>
-            <a href="tel:+916369667449" className="btn btn-outline">
-              Call +91 63696 67449
+            <a href={SITE_CONTACTS.phone.primary.tel} className="btn btn-outline">
+              Call {SITE_CONTACTS.phone.primary.display}
             </a>
           </div>
         </div>

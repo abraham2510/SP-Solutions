@@ -118,7 +118,7 @@ export default function ProductCategoryCard({
   return (
     <Link
       href={`/machines/${category.slug}`}
-      className="w-[85vw] sm:w-[350px] md:w-[370px] snap-start flex-shrink-0 flex flex-col rounded-2xl bg-white border border-[#E7EAEE] hover:border-[#D5BD66]/70 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,38,106,0.15)] group overflow-hidden"
+      className="w-full flex flex-col rounded-2xl bg-white border border-[#E7EAEE] hover:border-[#D5BD66]/70 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,38,106,0.15)] hover:-translate-y-1 group overflow-hidden"
     >
       {/* Big Media with Multi-Image Auto-Scroll */}
       <AutoImageSlider

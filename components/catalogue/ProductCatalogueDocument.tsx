@@ -2,6 +2,7 @@
 
 import React from "react";
 import type { ExportProductData } from "@/lib/utils/catalogue-export";
+import { SITE_CONTACTS } from "@/lib/constants";
 
 interface ProductCatalogueDocumentProps {
   product: ExportProductData;
@@ -811,20 +812,22 @@ export function ProductCatalogueDocument({ product }: ProductCatalogueDocumentPr
           <div className="cat-footer-contact">
             <h3>Contact Us</h3>
             <p>
-              <strong>No. 30, Thiruvalluvar Street, T.M.P Nagar,</strong>
+              <strong>{SITE_CONTACTS.address.street},</strong>
               <br />
-              Padi, Chennai – 600 050, Tamil Nadu, India
+              {SITE_CONTACTS.address.area}, {SITE_CONTACTS.address.city} – {SITE_CONTACTS.address.pincode}, {SITE_CONTACTS.address.state}, {SITE_CONTACTS.address.country}
               <br />
               <strong>GST: 33DESPA4848P2ZT</strong>
               <br />
-              <strong>sales@spsolutionsc.com</strong> &nbsp;|&nbsp; alexnavinkumar@spsolutionsc.com
+              <strong>{SITE_CONTACTS.email.sales}</strong> &nbsp;|&nbsp; {SITE_CONTACTS.email.primary}
             </p>
           </div>
           <div className="cat-footer-right">
-            <span className="cat-phone">+91 63745 80330</span>
-            <span className="cat-phone2">+91 63696 74493</span>
+            <span className="cat-phone">{SITE_CONTACTS.phone.primary.display}</span>
+            {SITE_CONTACTS.phone.secondary && (
+              <span className="cat-phone2">{SITE_CONTACTS.phone.secondary.display}</span>
+            )}
             <span className="cat-web">www.spsolutionsc.com</span>
-            <span className="cat-email">sales@spsolutionsc.com</span>
+            <span className="cat-email">{SITE_CONTACTS.email.sales}</span>
           </div>
         </div>
       </div>

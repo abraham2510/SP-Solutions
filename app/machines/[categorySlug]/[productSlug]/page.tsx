@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { SITE_CONTACTS } from "@/lib/constants";
 import {
   getAllProducts,
   getProductBySlug,
@@ -144,7 +145,7 @@ export default async function ProductDetailPage({ params }: Props) {
                 Download Catalogue (PDF)
               </Link>
               <a
-                href={`https://wa.me/916374580330?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(product.name)}`}
+                href={SITE_CONTACTS.whatsapp.getUrl(`Hi, I'm interested in the ${product.name}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-gold"

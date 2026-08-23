@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_CONTACTS } from "@/lib/constants";
 import type { CatalogueProduct, CatalogueCategory } from "@/lib/catalogue/types";
 
 interface Props {
@@ -83,7 +84,7 @@ export default function ProductHero({ product, category }: Props) {
             <span>Download Spec Sheet (PDF)</span>
           </Link>
           <a
-            href={`https://wa.me/916374580330?text=Hi%2C%20I%27m%20interested%20in%20the%20${encodeURIComponent(product.name)}`}
+            href={SITE_CONTACTS.whatsapp.getUrl(`Hi, I'm interested in the ${product.name}`)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 !text-white text-xs font-semibold hover:bg-white/20 border border-white/20 transition-colors"

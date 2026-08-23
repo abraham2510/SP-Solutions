@@ -5,11 +5,10 @@ export default function LogoMark({ className = "" }: { className?: string }) {
     <Image
       src="/logo.png"
       alt="SP Solutions Logo"
-      width={195}
-      height={70}
-      className={`h-10 w-auto object-contain ${className}`}
+      width={200}
+      height={78}
+      className={`h-12 w-auto object-contain ${className}`}
       priority
     />
   );
 }
-

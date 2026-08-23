@@ -3,6 +3,7 @@
 import { requireAdmin } from "@/lib/auth-helpers";
 import { prisma } from "@/lib/prisma";
 import { EnquirySchema } from "@/lib/validations/enquiry";
+import { sendEnquiryNotificationEmails } from "@/lib/mail";
 import { revalidatePath } from "next/cache";
 import type { EnquiryStatus } from "@prisma/client";
 import { z } from "zod";
@@ -20,18 +21,37 @@ export async function submitEnquiry(data: unknown): Promise<ActionResult> {
   if (!parsed.success) return { success: false, error: formatZodError(parsed.error) };
 
   try {
+    const subject = parsed.data.subject
+      ? `[${parsed.data.inquiryType || "Inquiry"}] ${parsed.data.subject}`
+      : parsed.data.inquiryType || null;
+
     const enquiry = await prisma.enquiry.create({
       data: {
         name: parsed.data.name,
         email: parsed.data.email,
         phone: parsed.data.phone || null,
         company: parsed.data.company || null,
-        subject: parsed.data.subject || null,
+        subject: subject,
         message: parsed.data.message,
         productId: parsed.data.productId || null,
         serviceId: parsed.data.serviceId || null,
       },
     });
+
+    // Send emails asynchronously (to admin receiver and customer sender)
+    sendEnquiryNotificationEmails({
+      id: enquiry.id,
+      name: enquiry.name,
+      email: enquiry.email,
+      phone: enquiry.phone,
+      company: enquiry.company,
+      subject: enquiry.subject,
+      message: enquiry.message,
+      inquiryType: parsed.data.inquiryType,
+    }).catch((mailErr) => {
+      console.error("[submitEnquiry] Email dispatch error:", mailErr);
+    });
+
     revalidatePath("/admin/enquiries");
     return { success: true, id: enquiry.id };
   } catch (err) {

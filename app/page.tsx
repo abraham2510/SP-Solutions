@@ -1,4 +1,3 @@
-import Topbar from "./components/Topbar";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Ticker from "./components/Ticker";
@@ -11,7 +10,11 @@ import StatsBand from "./components/StatsBand";
 import CtaBand from "./components/CtaBand";
 import Footer from "./components/Footer";
 import ScrollReveal from "./components/ScrollReveal";
-import { getAllCategories, getProductsByCategory, getServices } from "@/lib/data/public";
+import {
+  getAllCategories,
+  getProductsByCategory,
+  getServices,
+} from "@/lib/data/public";
 
 export const revalidate = 3600;
 
@@ -28,10 +31,16 @@ export default async function Home() {
 
     // Collect product images for multi-image auto-scroller
     const productImgs = products
-      .flatMap((p) => (p.images && p.images.length > 0 ? p.images : p.image ? [p.image] : []))
+      .flatMap((p) =>
+        p.images && p.images.length > 0 ? p.images : p.image ? [p.image] : [],
+      )
       .filter(Boolean);
     const combined = [
-      ...(cat.images && cat.images.length > 0 ? cat.images : cat.image ? [cat.image] : []),
+      ...(cat.images && cat.images.length > 0
+        ? cat.images
+        : cat.image
+          ? [cat.image]
+          : []),
       ...productImgs,
     ];
     cat.images = Array.from(new Set(combined));
@@ -39,7 +48,6 @@ export default async function Home() {
 
   return (
     <ScrollReveal>
-      <Topbar />
       <Navbar />
       <Hero />
       <Ticker />

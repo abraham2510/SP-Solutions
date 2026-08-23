@@ -1,0 +1,173 @@
+"use client"
+
+import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu"
+import { cva } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+import { ChevronDownIcon } from "lucide-react"
+
+function NavigationMenu({
+  align = "center",
+  className,
+  children,
+  anchor,
+  ...props
+}: NavigationMenuPrimitive.Root.Props &
+  Pick<NavigationMenuPrimitive.Positioner.Props, "align" | "anchor">) {
+  return (
+    <NavigationMenuPrimitive.Root
+      data-slot="navigation-menu"
+      className={cn(
+        "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
+        className
+      )}
+      {...props}
+    >
+      {children}
+      <NavigationMenuPositioner align={align} anchor={anchor} />
+    </NavigationMenuPrimitive.Root>
+  )
+}
+
+function NavigationMenuList({
+  className,
+  ...props
+}: React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.List>) {
+  return (
+    <NavigationMenuPrimitive.List
+      data-slot="navigation-menu-list"
+      className={cn(
+        "group flex flex-1 list-none items-center justify-center gap-0",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function NavigationMenuItem({
+  className,
+  ...props
+}: React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Item>) {
+  return (
+    <NavigationMenuPrimitive.Item
+      data-slot="navigation-menu-item"
+      className={cn("relative", className)}
+      {...props}
+    />
+  )
+}
+
+const navigationMenuTriggerStyle = cva(
+  "group/navigation-menu-trigger inline-flex h-9 w-max items-center justify-center rounded-lg px-3 py-1.5 text-[14.5px] font-medium text-[#10151C] transition-all outline-none hover:text-[#00266A] hover:bg-[#F4F6FA] focus-visible:ring-2 focus-visible:ring-[#00266A]/20 disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-[#F4F6FA] data-popup-open:text-[#00266A] data-open:bg-[#F4F6FA] data-open:text-[#00266A]"
+)
+
+function NavigationMenuTrigger({
+  className,
+  children,
+  ...props
+}: NavigationMenuPrimitive.Trigger.Props) {
+  return (
+    <NavigationMenuPrimitive.Trigger
+      data-slot="navigation-menu-trigger"
+      className={cn(navigationMenuTriggerStyle(), "group cursor-pointer", className)}
+      {...props}
+    >
+      {children}{" "}
+      <ChevronDownIcon className="relative top-px ml-1.5 size-3.5 text-[#8892A0] transition duration-300 group-hover:text-[#00266A] group-data-popup-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:text-[#00266A] group-data-open/navigation-menu-trigger:rotate-180 group-data-open/navigation-menu-trigger:text-[#00266A]" aria-hidden="true" />
+    </NavigationMenuPrimitive.Trigger>
+  )
+}
+
+function NavigationMenuContent({
+  className,
+  ...props
+}: NavigationMenuPrimitive.Content.Props) {
+  return (
+    <NavigationMenuPrimitive.Content
+      data-slot="navigation-menu-content"
+      className={cn(
+        "data-ending-style:data-activation-direction=left:translate-x-[50%] data-ending-style:data-activation-direction=right:translate-x-[-50%] data-starting-style:data-activation-direction=left:translate-x-[-50%] data-starting-style:data-activation-direction=right:translate-x-[50%] h-full w-auto p-0 transition-[opacity,transform,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[viewport=false]/navigation-menu:rounded-2xl group-data-[viewport=false]/navigation-menu:bg-white group-data-[viewport=false]/navigation-menu:text-[#10151C] group-data-[viewport=false]/navigation-menu:shadow-[0_20px_50px_-12px_rgba(0,38,106,0.18)] group-data-[viewport=false]/navigation-menu:ring-1 group-data-[viewport=false]/navigation-menu:ring-black/5 group-data-[viewport=false]/navigation-menu:duration-300 data-ending-style:opacity-0 data-starting-style:opacity-0 data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 data-[motion^=from-]:animate-in data-[motion^=from-]:fade-in data-[motion^=to-]:animate-out data-[motion^=to-]:fade-out **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none group-data-[viewport=false]/navigation-menu:data-open:animate-in group-data-[viewport=false]/navigation-menu:data-open:fade-in-0 group-data-[viewport=false]/navigation-menu:data-open:zoom-in-98 group-data-[viewport=false]/navigation-menu:data-closed:animate-out group-data-[viewport=false]/navigation-menu:data-closed:fade-out-0 group-data-[viewport=false]/navigation-menu:data-closed:zoom-out-98",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function NavigationMenuPositioner({
+  className,
+  side = "bottom",
+  sideOffset = 12,
+  align = "center",
+  alignOffset = 0,
+  anchor,
+  ...props
+}: NavigationMenuPrimitive.Positioner.Props) {
+  return (
+    <NavigationMenuPrimitive.Portal>
+      <NavigationMenuPrimitive.Positioner
+        side={side}
+        sideOffset={sideOffset}
+        align={align}
+        alignOffset={alignOffset}
+        anchor={anchor}
+        className={cn(
+          "isolate z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] data-instant:transition-none data-[side=bottom]:before:top-[-14px] data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0",
+          className
+        )}
+        {...props}
+      >
+        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-top rounded-2xl bg-white text-popover-foreground shadow-[0_20px_50px_-12px_rgba(0,38,106,0.2)] ring-1 ring-black/5 border border-[#E7EAEE] transition-[opacity,transform,width,height,scale,translate] duration-[0.3s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-95 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-95 data-starting-style:opacity-0">
+          <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden rounded-2xl" />
+        </NavigationMenuPrimitive.Popup>
+      </NavigationMenuPrimitive.Positioner>
+    </NavigationMenuPrimitive.Portal>
+  )
+}
+
+function NavigationMenuLink({
+  className,
+  ...props
+}: NavigationMenuPrimitive.Link.Props) {
+  return (
+    <NavigationMenuPrimitive.Link
+      data-slot="navigation-menu-link"
+      className={cn(
+        "flex items-center gap-2 rounded-lg p-2 text-sm transition-all outline-none hover:bg-muted focus:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-1 in-data-[slot=navigation-menu-content]:rounded-md data-active:bg-muted/50 data-active:hover:bg-muted data-active:focus:bg-muted [&_svg:not([class*='size-'])]:size-4",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function NavigationMenuIndicator({
+  className,
+  ...props
+}: React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Icon>) {
+  return (
+    <NavigationMenuPrimitive.Icon
+      data-slot="navigation-menu-indicator"
+      className={cn(
+        "top-full z-1 flex h-1.5 items-end justify-center overflow-hidden data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:animate-in data-[state=visible]:fade-in",
+        className
+      )}
+      {...props}
+    >
+      <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-border shadow-md" />
+    </NavigationMenuPrimitive.Icon>
+  )
+}
+
+export {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+  NavigationMenuPositioner,
+}

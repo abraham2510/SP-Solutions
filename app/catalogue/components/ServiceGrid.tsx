@@ -1,5 +1,5 @@
 import type { CatalogueService } from "@/lib/catalogue/types";
-import ServiceCard from "./ServiceCard";
+import ServiceCard from "@/app/components/ServiceCard";
 
 interface Props {
   services: CatalogueService[];
@@ -13,9 +13,14 @@ export default function ServiceGrid({ services }: Props) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
       {services.map((service) => (
-        <ServiceCard key={service.id} service={service} />
+        <div
+          key={service.id}
+          className="w-full md:w-[calc(50%-12px)] lg:w-[calc((100%-4rem)/3)] flex shrink-0"
+        >
+          <ServiceCard service={service} />
+        </div>
       ))}
     </div>
   );

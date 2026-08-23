@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { SITE_CONTACTS } from "@/lib/constants";
 import {
   getAllCategories,
   getCategoryBySlug,
@@ -159,7 +160,7 @@ export default async function CategoryPage({ params }: Props) {
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href="https://wa.me/916374580330"
+              href={SITE_CONTACTS.whatsapp.getUrl("Hi, I need help choosing the right packaging machine for my production line.")}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-gold"
