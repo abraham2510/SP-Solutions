@@ -20,10 +20,8 @@ export interface EnquiryEmailPayload {
  */
 function getEmailTransporter() {
   const host = process.env.SMTP_HOST || "smtp.gmail.com";
-  const port = parseInt(process.env.SMTP_PORT || "465", 10);
   const user = process.env.SMTP_USER;
   let pass = process.env.SMTP_PASS || process.env.SMTP_PASSWORD;
-  const secure = process.env.SMTP_SECURE === "true" || port === 465;
 
   if (!user || !pass) {
     return null;
@@ -33,6 +31,20 @@ function getEmailTransporter() {
   if (pass.includes(" ") && pass.replace(/\s+/g, "").length === 16) {
     pass = pass.replace(/\s+/g, "");
   }
+
+  // If using Gmail, use service: "gmail" for optimal connection handling on cloud/Vercel
+  if (host === "smtp.gmail.com" || !process.env.SMTP_HOST) {
+    return nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: user.trim(),
+        pass: pass.trim(),
+      },
+    });
+  }
+
+  const port = parseInt(process.env.SMTP_PORT || "465", 10);
+  const secure = process.env.SMTP_SECURE === "true" || port === 465;
 
   return nodemailer.createTransport({
     host,
@@ -74,15 +86,18 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
   customerSent: boolean;
   error?: string;
 }> {
-  const transporter = getEmailTransporter();
   const refCode = enquiry.id.slice(-6).toUpperCase();
   const inquiryType = enquiry.inquiryType || "General Inquiry";
 
+  console.log(`[Nodemailer] Initiating email notifications for Inquiry #${refCode} (${enquiry.email})...`);
+  console.log(`[Nodemailer Runtime Check] SMTP_USER: ${process.env.SMTP_USER ? "DEFINED" : "UNDEFINED"}, SMTP_PASS: ${process.env.SMTP_PASS || process.env.SMTP_PASSWORD ? "DEFINED" : "UNDEFINED"}, SMTP_HOST: ${process.env.SMTP_HOST || "default(smtp.gmail.com)"}`);
+
+  const transporter = getEmailTransporter();
+
   if (!transporter) {
-    console.warn(
-      "[Nodemailer] SMTP credentials (SMTP_HOST, SMTP_USER, SMTP_PASS) not found in environment variables. Email notification skipped."
-    );
-    return { adminSent: false, customerSent: false, error: "SMTP not configured" };
+    const errMsg = "[Nodemailer ERROR] SMTP credentials missing in runtime environment! Please check that SMTP_USER and SMTP_PASS are added in your deployment Environment Variables.";
+    console.error(errMsg);
+    return { adminSent: false, customerSent: false, error: errMsg };
   }
 
   const senderEmail = (process.env.SMTP_USER || "abrahambillclinton@gmail.com").trim();
@@ -98,15 +113,17 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
   ).trim();
 
   const attachments = getLogoAttachment();
-  const logoSrc = attachments.length > 0 ? "cid:spsolutionslogo" : "";
+  const logoSrc = "https://spsolutionsc.com/logo.png";
 
   let adminSent = false;
   let customerSent = false;
+  const errors: string[] = [];
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 1. ADMIN NOTIFICATION EMAIL (To Receiver / Sales & Technical Desk)
   // ─────────────────────────────────────────────────────────────────────────────
   try {
+    console.log(`[Nodemailer] Sending admin alert email to ${adminEmail}...`);
     const adminHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -234,7 +251,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       </html>
     `;
 
-    await transporter.sendMail({
+    const adminInfo = await transporter.sendMail({
       from: senderFrom,
       to: adminEmail,
       subject: `[SP Solutions] New Inquiry - ${enquiry.name} (${enquiry.company || "Individual"}) - Ref #${refCode}`,
@@ -242,15 +259,19 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       replyTo: enquiry.email,
       attachments,
     });
+    console.log(`[Nodemailer SUCCESS] Admin email sent to ${adminEmail} (MessageId: ${adminInfo.messageId})`);
     adminSent = true;
-  } catch (adminErr) {
-    console.error("[Nodemailer] Failed to send admin notification email:", adminErr);
+  } catch (adminErr: unknown) {
+    const errorDetails = adminErr instanceof Error ? `${adminErr.name}: ${adminErr.message}` : String(adminErr);
+    console.error("[Nodemailer ERROR - Admin Email Failed]:", adminErr);
+    errors.push(`Admin email error: ${errorDetails}`);
   }
 
   // ─────────────────────────────────────────────────────────────────────────────
   // 2. CUSTOMER CONFIRMATION EMAIL (To Sender / Inquirer)
   // ─────────────────────────────────────────────────────────────────────────────
   try {
+    console.log(`[Nodemailer] Sending customer confirmation email to ${enquiry.email}...`);
     const customerHtml = `
       <!DOCTYPE html>
       <html lang="en">
@@ -353,7 +374,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       </html>
     `;
 
-    await transporter.sendMail({
+    const custInfo = await transporter.sendMail({
       from: senderFrom,
       to: enquiry.email,
       subject: `SP Solutions - Inquiry Confirmation [Ref #${refCode}]`,
@@ -361,10 +382,17 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       replyTo: adminEmail,
       attachments,
     });
+    console.log(`[Nodemailer SUCCESS] Customer confirmation email sent to ${enquiry.email} (MessageId: ${custInfo.messageId})`);
     customerSent = true;
-  } catch (custErr) {
-    console.error("[Nodemailer] Failed to send customer confirmation email:", custErr);
+  } catch (custErr: unknown) {
+    const errorDetails = custErr instanceof Error ? `${custErr.name}: ${custErr.message}` : String(custErr);
+    console.error("[Nodemailer ERROR - Customer Confirmation Failed]:", custErr);
+    errors.push(`Customer confirmation error: ${errorDetails}`);
   }
 
-  return { adminSent, customerSent };
+  return {
+    adminSent,
+    customerSent,
+    error: errors.length > 0 ? errors.join("; ") : undefined,
+  };
 }

@@ -38,19 +38,26 @@ export async function submitEnquiry(data: unknown): Promise<ActionResult> {
       },
     });
 
-    // Send emails asynchronously (to admin receiver and customer sender)
-    sendEnquiryNotificationEmails({
-      id: enquiry.id,
-      name: enquiry.name,
-      email: enquiry.email,
-      phone: enquiry.phone,
-      company: enquiry.company,
-      subject: enquiry.subject,
-      message: enquiry.message,
-      inquiryType: parsed.data.inquiryType,
-    }).catch((mailErr) => {
-      console.error("[submitEnquiry] Email dispatch error:", mailErr);
-    });
+    // Await email dispatch so serverless runtimes (Vercel/Lambda) complete SMTP handshake
+    try {
+      const mailResult = await sendEnquiryNotificationEmails({
+        id: enquiry.id,
+        name: enquiry.name,
+        email: enquiry.email,
+        phone: enquiry.phone,
+        company: enquiry.company,
+        subject: enquiry.subject,
+        message: enquiry.message,
+        inquiryType: parsed.data.inquiryType,
+      });
+      if (mailResult.error) {
+        console.error("[submitEnquiry] Notification email issue:", mailResult.error);
+      } else {
+        console.log(`[submitEnquiry] Notification emails completed successfully (admin: ${mailResult.adminSent}, customer: ${mailResult.customerSent})`);
+      }
+    } catch (mailErr) {
+      console.error("[submitEnquiry Fatal] Email dispatch exception:", mailErr);
+    }
 
     revalidatePath("/admin/enquiries");
     return { success: true, id: enquiry.id };
