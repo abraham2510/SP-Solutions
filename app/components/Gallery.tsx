@@ -58,7 +58,7 @@ export default function Gallery() {
           {ITEMS.map((item, i) => (
             <div
               key={i}
-              className={`gallery-item reveal ${item.className}`}
+              className={`gallery-item ${item.className}`}
               style={{ "--i": i } as React.CSSProperties}
             >
               <Image
