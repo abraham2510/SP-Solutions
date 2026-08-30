@@ -16,7 +16,6 @@ export default function Footer() {
               <LogoMark />
               <span className="logo-text flex flex-col leading-[1.05]">
                 <b>SP SOLUTIONS</b>
-                <small>Packaging Systems</small>
               </span>
             </Link>
             <p className="mt-4 text-[14px] leading-relaxed text-[#5B6572] max-w-full lg:max-w-[280px]">
@@ -25,13 +24,28 @@ export default function Footer() {
               rentals across Tamil Nadu &amp; India.
             </p>
             <div className="footer-social">
-              <a href={socials.facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <a
+                href={socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+              >
                 <FacebookIcon />
               </a>
-              <a href={socials.instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <a
+                href={socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+              >
                 <InstagramIcon />
               </a>
-              <a href={socials.youtube} target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <a
+                href={socials.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube"
+              >
                 <YouTubeIcon />
               </a>
             </div>
@@ -108,10 +122,7 @@ export default function Footer() {
                 <a href={phone.primary.tel}>{phone.primary.display}</a>
               </li>
               <li>
-                <a
-                  href={email.mailto}
-                  className="break-all sm:break-normal"
-                >
+                <a href={email.mailto} className="break-all sm:break-normal">
                   {email.primary}
                 </a>
               </li>
@@ -121,7 +132,10 @@ export default function Footer() {
 
         <div className="footer-bottom flex-col sm:flex-row items-start sm:items-center gap-2">
           <span>
-            {legal.copyright.replace(". All", ` (${legal.legalStatus} · GST Reg. ${legal.gstRegistrationYear} · CEO: ${legal.ceo}). All`)}
+            {legal.copyright.replace(
+              ". All",
+              ` (${legal.legalStatus} · GST Reg. ${legal.gstRegistrationYear} · CEO: ${legal.ceo}). All`,
+            )}
           </span>
           <span className="mono opacity-70">Chennai, Tamil Nadu</span>
         </div>
