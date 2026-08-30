@@ -1,14 +1,42 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight, Sparkles, ArrowRight } from "lucide-react";
+import CountUp from "@/components/CountUp";
 import type { AboutPageOptions } from "../options";
 
 interface AboutHeroProps {
   hero: AboutPageOptions["hero"];
 }
 
+function StatValueCounter({ value }: { value: string }) {
+  const match = value.match(/^([^0-9.]*)([0-9]+(?:\.[0-9]+)?)(.*)$/);
+  if (!match) {
+    return <span>{value}</span>;
+  }
+
+  const prefix = match[1];
+  const num = parseFloat(match[2]);
+  const suffix = match[3];
+
+  if (isNaN(num)) {
+    return <span>{value}</span>;
+  }
+
+  const from = num >= 2000 && num <= 2100 ? num - 24 : 0;
+
+  return (
+    <span className="tabular-nums">
+      {prefix}
+      <CountUp from={from} to={num} duration={2} separator="" />
+      {suffix}
+    </span>
+  );
+}
+
 export default function AboutHero({ hero }: AboutHeroProps) {
   return (
-    <section className="bg-[#00266A] relative overflow-hidden py-14 sm:py-20 text-white">
+    <section className="bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] relative overflow-hidden py-14 sm:py-20 text-white">
       {/* Background Grid Pattern */}
       <div
         className="absolute inset-0 pointer-events-none opacity-10"
@@ -69,7 +97,7 @@ export default function AboutHero({ hero }: AboutHeroProps) {
           {hero.stats.map((stat, i) => (
             <div key={i} className="flex flex-col">
               <span className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                {stat.value}
+                <StatValueCounter value={stat.value} />
               </span>
               <span className="text-xs font-bold uppercase tracking-wider text-[#D5BD66] mt-1">
                 {stat.label}

@@ -54,7 +54,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero */}
-      <section className="relative bg-[#00266A] overflow-hidden py-14 sm:py-20">
+      <section className="relative bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] overflow-hidden py-14 sm:py-20 text-white">
         {service.image && (
           /* eslint-disable-next-line @next/next/no-img-element */
           <img

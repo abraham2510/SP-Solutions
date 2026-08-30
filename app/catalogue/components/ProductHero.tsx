@@ -9,7 +9,7 @@ interface Props {
 
 export default function ProductHero({ product, category }: Props) {
   return (
-    <div className="relative w-full min-h-[380px] sm:min-h-[420px] overflow-hidden bg-[#00266A] flex items-end">
+    <div className="relative w-full min-h-[380px] sm:min-h-[420px] overflow-hidden bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] flex items-end">
       {/* Background image */}
       {product.image ? (
         <>

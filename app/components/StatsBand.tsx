@@ -27,7 +27,7 @@ const WHY_ITEMS = [
 
 export default function StatsBand() {
   return (
-    <section className="section bg-[#00266A] text-white overflow-hidden relative" id="why-us">
+    <section className="section bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] text-white overflow-hidden relative" id="why-us">
       <div className="wrap relative z-10">
         <div className="section-head section-head-light reveal max-w-[620px] mb-12">
           <span className="eyebrow !text-white">Why SP Solutions</span>

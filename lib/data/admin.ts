@@ -53,7 +53,7 @@ export async function getDashboardStats(): Promise<DashboardStats> {
       include: { category: { select: { name: true } } },
     }),
     prisma.enquiry.findMany({
-      take: 10,
+      take: 5,
       orderBy: { createdAt: "desc" },
       include: {
         product: { select: { name: true } },
@@ -209,7 +209,7 @@ export async function getAdminEnquiryById(id: string) {
   return prisma.enquiry.findUnique({
     where: { id },
     include: {
-      product: { select: { id: true, name: true, slug: true, category: { select: { slug: true } } } },
+      product: { select: { id: true, name: true, slug: true, category: { select: { slug: true, name: true } } } },
       service: { select: { id: true, name: true, slug: true } },
     },
   });

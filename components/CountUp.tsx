@@ -1,5 +1,5 @@
 import { useInView, useMotionValue, useSpring } from 'motion/react';
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 
 interface CountUpProps {
   to: number;
@@ -52,21 +52,25 @@ export default function CountUp({
 
   const maxDecimals = Math.max(getDecimalPlaces(from), getDecimalPlaces(to));
 
+  const formatter = useMemo(() => {
+    const hasDecimals = maxDecimals > 0;
+    return new Intl.NumberFormat('en-US', {
+      useGrouping: !!separator,
+      minimumFractionDigits: hasDecimals ? maxDecimals : 0,
+      maximumFractionDigits: hasDecimals ? maxDecimals : 0
+    });
+  }, [maxDecimals, separator]);
+
   const formatValue = useCallback(
     (latest: number) => {
-      const hasDecimals = maxDecimals > 0;
-
-      const options: Intl.NumberFormatOptions = {
-        useGrouping: !!separator,
-        minimumFractionDigits: hasDecimals ? maxDecimals : 0,
-        maximumFractionDigits: hasDecimals ? maxDecimals : 0
-      };
-
-      const formattedNumber = Intl.NumberFormat('en-US', options).format(latest);
+      const minVal = Math.min(from, to);
+      const maxVal = Math.max(from, to);
+      const clamped = Math.min(Math.max(latest, minVal), maxVal);
+      const formattedNumber = formatter.format(clamped);
 
       return separator ? formattedNumber.replace(/,/g, separator) : formattedNumber;
     },
-    [maxDecimals, separator]
+    [from, to, formatter, separator]
   );
 
   useEffect(() => {
@@ -111,5 +115,9 @@ export default function CountUp({
     return () => unsubscribe();
   }, [springValue, formatValue]);
 
-  return <span className={className} ref={ref} />;
+  return (
+    <span className={className} ref={ref}>
+      {formatValue(direction === 'down' ? to : from)}
+    </span>
+  );
 }

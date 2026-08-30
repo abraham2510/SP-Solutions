@@ -138,7 +138,7 @@ export default async function DashboardPage() {
                   No products added yet.
                 </div>
               ) : (
-                stats.recentProducts.map((p: DashboardRecentProduct) => (
+                stats.recentProducts.slice(0, 5).map((p: DashboardRecentProduct) => (
                   <div
                     key={p.id}
                     className="flex items-center justify-between p-4 hover:bg-slate-50/80 transition-colors"
@@ -198,7 +198,7 @@ export default async function DashboardPage() {
                   No customer enquiries received yet.
                 </div>
               ) : (
-                stats.recentEnquiries.map((e: DashboardRecentEnquiry) => (
+                stats.recentEnquiries.slice(0, 5).map((e: DashboardRecentEnquiry) => (
                   <Link
                     key={e.id}
                     href={`/admin/enquiries/${e.id}`}

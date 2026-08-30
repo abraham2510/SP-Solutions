@@ -24,7 +24,7 @@ export default async function ServicesPage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="bg-[#00266A] relative overflow-hidden py-14 sm:py-20">
+      <section className="bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] relative overflow-hidden py-14 sm:py-20">
         <div
           className="absolute inset-0 pointer-events-none opacity-10"
           style={{

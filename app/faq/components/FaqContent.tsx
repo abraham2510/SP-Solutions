@@ -43,7 +43,7 @@ export default function FaqContent() {
       {/* Top Filter Pills & Search Bar (Matching Reference Screenshot) */}
       <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-8 sm:mb-12">
         {/* Horizontal Category Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none touch-pan-y">
+        <div className="flex items-center gap-2 overflow-x-auto max-w-full min-w-0 pb-2 sm:pb-0 scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden touch-pan-x">
           {FAQ_CATEGORIES.map((cat: FaqCategory) => {
             const isActive = activeCategory === cat.id;
             return (
@@ -51,7 +51,7 @@ export default function FaqContent() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-[13px] font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-full text-xs sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                   isActive
                     ? "bg-[#00266A] text-white shadow-xs"
                     : "bg-white text-[#5B6572] border border-[#E7EAEE] hover:border-[#00266A]/30 hover:text-[#00266A]"

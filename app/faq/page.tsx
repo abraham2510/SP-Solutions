@@ -21,7 +21,7 @@ export default function FaqPage() {
   return (
     <div className="bg-[#FAFBFD] min-h-screen">
       {/* Hero Section */}
-      <section className="bg-[#00266A] relative overflow-hidden py-12 sm:py-16 text-white">
+      <section className="bg-gradient-to-br from-[#00266A] via-[#001E54] to-[#001233] relative overflow-hidden py-12 sm:py-16 text-white">
         {/* Background Grid Pattern */}
         <div
           className="absolute inset-0 pointer-events-none opacity-10"
