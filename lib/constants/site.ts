@@ -87,8 +87,10 @@ export const SITE_CONTACTS = {
 
   socials: {
     facebook: "https://facebook.com",
-    instagram: "https://instagram.com",
-    youtube: "https://youtube.com",
+    instagram: "https://www.instagram.com/spsolutionschennai/",
+    youtube: "https://www.youtube.com/@spsolutionchennai3961",
+    youtubeChannelId: "UCV-G_rN049lavbegP920SnA",
+    youtubeChannelUrl: "https://www.youtube.com/channel/UCV-G_rN049lavbegP920SnA",
     indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
   },
 

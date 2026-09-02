@@ -288,8 +288,8 @@ export const aboutOptions: AboutPageOptions = {
           "/assets/images/users/alex.jpeg",
         socials: {
           facebook: "https://facebook.com",
-          twitter: "https://twitter.com",
-          instagram: "https://instagram.com",
+          instagram: "https://www.instagram.com/spsolutionschennai/",
+          youtube: "https://www.youtube.com/@spsolutionchennai3961",
           indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
         },
       },
@@ -301,8 +301,8 @@ export const aboutOptions: AboutPageOptions = {
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
         socials: {
           facebook: "https://facebook.com",
-          twitter: "https://twitter.com",
-          instagram: "https://instagram.com",
+          instagram: "https://www.instagram.com/spsolutionschennai/",
+          youtube: "https://www.youtube.com/@spsolutionchennai3961",
           indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
         },
       },

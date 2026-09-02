@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ScrollExpand from "../../components/ScrollExpand";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function About() {
   // Start false → SSR + hydration safe
   const [isLarge, setIsLarge] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -17,6 +17,14 @@ export default function About() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  useEffect(() => {
+    if (!isLarge && videoRef.current) {
+      videoRef.current.play().catch(() => {
+        // Autoplay policy fallback
+      });
+    }
+  }, [isLarge]);
 
   const shared = {
     title: "Built to scale",
@@ -42,35 +50,52 @@ export default function About() {
           {...shared}
         />
       ) : (
-        /* ── Mobile / tablet → smooth high-performance hero card ── */
-        <div className="wrap py-12">
-          <div className="relative w-full min-h-[360px] sm:min-h-[440px] rounded-3xl overflow-hidden shadow-xl border border-[#E7EAEE] bg-[#00143B] flex items-center justify-center p-6 sm:p-12 text-center text-white">
-            <Image
-              src="https://images.unsplash.com/photo-1716194583732-0b9874234218?auto=format&fit=crop&w=1600&q=80"
-              alt="Packaging Machinery"
-              fill
-              className="object-cover object-center opacity-40 select-none pointer-events-none"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#00143B]/90 via-[#00143B]/60 to-[#00143B]/40" />
+        /* ── Mobile / tablet → sleek presentation video card UI matching PresentationVideo ── */
+        <div className="py-12 sm:py-16 bg-gradient-to-b from-[#FAFBFD] via-[#FFFFFF] to-[#FAFBFD] relative overflow-hidden border-b border-[#E7EAEE]">
+          {/* Background Subtle Grid */}
+          <div
+            className="absolute inset-0 pointer-events-none opacity-[0.03]"
+            style={{
+              backgroundImage:
+                "linear-gradient(#00266A 1px, transparent 1px), linear-gradient(90deg, #00266A 1px, transparent 1px)",
+              backgroundSize: "44px 44px",
+            }}
+          />
 
-            <div className="relative z-10 max-w-xl mx-auto flex flex-col items-center gap-4">
-              <span className="eyebrow !text-[#C1FF72] tracking-[0.14em] uppercase text-xs font-bold bg-[#C1FF72]/10 border border-[#C1FF72]/20 px-3.5 py-1 rounded-full">
-                Engineering Excellence
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
-                Built to scale
+          <div className="wrap max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+            {/* Section Header */}
+            <div className="text-center mb-6 sm:mb-8 max-w-2xl mx-auto">
+              <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#00266A]/5 border border-[#00266A]/10 mb-3 text-[#00266A] text-[11px] font-bold tracking-widest uppercase shadow-2xs">
+                <Sparkles className="w-3.5 h-3.5 text-[#00266A]" />
+                <span>Engineering Excellence</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#10151C] tracking-tight leading-tight">
+                Built to{" "}
+                <span className="text-[#00266A] relative inline-block">
+                  scale
+                  <span className="absolute bottom-1 left-0 w-full h-[6px] bg-[#C1FF72]/50 -z-10 rounded-full" />
+                </span>
               </h2>
-              <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-md">
+
+              <p className="text-[#5B6572] text-sm sm:text-base mt-2 max-w-xl mx-auto leading-relaxed">
                 Industrial-grade packaging machinery designed, manufactured, and
                 serviced directly in Chennai for seamless operations across
                 South India.
               </p>
-              <Link
-                href="/about"
-                className="mt-2 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#C1FF72] text-[#00266A] font-bold text-sm hover:bg-[#b5f563] transition-all shadow-md active:scale-95"
-              >
-                Learn More About Us <ArrowRight className="w-4 h-4" />
-              </Link>
+            </div>
+
+            {/* Video Card */}
+            <div className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl bg-black border border-[#00266A]/15 aspect-video max-h-[520px]">
+              <video
+                ref={videoRef}
+                src="/assets/videos/homeVid.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover select-none pointer-events-none"
+              />
             </div>
           </div>
         </div>
