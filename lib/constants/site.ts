@@ -77,16 +77,29 @@ export const SITE_CONTACTS = {
     emergency: "24/7 Breakdown & AMC Support",
   },
 
+  indiamart: {
+    url: "https://www.indiamart.com/sp-solutions-chennai/",
+    title: "SP Solutions on IndiaMART",
+    catalogUrl: "https://www.indiamart.com/sp-solutions-chennai/",
+    badge: "IndiaMART Verified Supplier",
+    verified: true,
+  },
+
   socials: {
     facebook: "https://facebook.com",
     instagram: "https://instagram.com",
     youtube: "https://youtube.com",
+    indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
   },
 
   legal: {
+    companyName: "SP SOLUTIONS",
     legalStatus: "Proprietorship",
+    gstNo: "33DESPA4848P2ZT",
+    iecCode: "DESPA4848P",
+    indiamartVerified: "IndiaMART Verified Supplier",
     gstRegistrationYear: "2024",
-    ceo: "A S",
+    ceo: "Alex Navin Kumar",
     employeeCount: "Up to 10 People",
     copyright: "© 2026 SP Solutions. All rights reserved.",
   },

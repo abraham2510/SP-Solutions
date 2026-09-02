@@ -23,10 +23,28 @@ export default function ContactInfoCard() {
       <div className="relative z-20 flex flex-col justify-between h-full gap-8">
         {/* Top Header */}
         <div>
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md mb-4 text-[#D5BD66] text-[11.5px] font-bold tracking-[0.12em] uppercase shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-[#bfee90] animate-pulse" />
-            <span>Chennai Assembly &amp; Testing Facility</span>
+          {/* Eyebrow Pill & IndiaMART Verification */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-[#D5BD66] text-[11px] font-bold tracking-[0.12em] uppercase shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-[#bfee90] animate-pulse" />
+              <span>Chennai Assembly &amp; Testing Facility</span>
+            </div>
+            <a
+              href={SITE_CONTACTS.indiamart.catalogUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#C1FF72]/15 border border-[#C1FF72]/30 text-[#C1FF72] text-[11px] font-bold hover:bg-[#C1FF72]/25 transition-colors shadow-xs"
+              title="View SP Solutions on IndiaMART"
+            >
+              <Image
+                src="/assets/images/indiaMart.png"
+                alt="IndiaMART"
+                width={16}
+                height={16}
+                className="w-3.5 h-3.5 object-contain rounded-xs"
+              />
+              <span>IndiaMART Verified Supplier</span>
+            </a>
           </div>
 
           <h4 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug mb-3">

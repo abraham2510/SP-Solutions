@@ -50,13 +50,13 @@ export default function OurTeam({ team }: OurTeamProps) {
               className="transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden group"
             >
               {/* Circular Portrait Image with Dual-Ring Elevation */}
-              <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full overflow-hidden mb-5 border-4 border-white shadow-[0_8px_20px_-4px_rgba(0,38,106,0.14)] ring-4 ring-[#00266A]/8 group-hover:ring-[#00266A]/20 group-hover:scale-105 transition-all duration-300 bg-[#D5DEF0]">
+              <div className="relative w-44 h-44 sm:w-42 sm:h-42 rounded-full overflow-hidden mb-5 bg-white border border-[#E7EAEE] shadow-md ring-4 ring-[#00266A]/5">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
                   sizes="(max-width: 768px) 176px, 192px"
-                  className="object-cover object-top"
+                  className="object-contain"
                 />
               </div>
 
@@ -71,7 +71,7 @@ export default function OurTeam({ team }: OurTeamProps) {
               </div>
 
               {/* Social Media Circular Buttons */}
-              <div className="flex items-center justify-center gap-3 pt-5 border-t border-[#E7EAEE] w-full">
+              <div className="flex items-center justify-center gap-3 pt-2 border-t border-[#E7EAEE] w-full">
                 {/* Facebook */}
                 {member.socials.facebook && (
                   <a
@@ -98,21 +98,6 @@ export default function OurTeam({ team }: OurTeamProps) {
                   >
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                       <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.936 9.936 0 0024 4.59z" />
-                    </svg>
-                  </a>
-                )}
-
-                {/* YouTube */}
-                {member.socials.youtube && (
-                  <a
-                    href={member.socials.youtube}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-[#FF0000]/10 hover:bg-[#FF0000] text-[#FF0000] hover:text-white flex items-center justify-center transition-all duration-200 shadow-2xs hover:scale-110"
-                    title={`${member.name} on YouTube`}
-                  >
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                     </svg>
                   </a>
                 )}

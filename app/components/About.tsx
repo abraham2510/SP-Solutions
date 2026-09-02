@@ -37,7 +37,7 @@ export default function About() {
       {isLarge ? (
         /* ── Desktop / large screens → smooth video scroll expand ── */
         <ScrollExpand
-          src="/assets/videos/Agarbathi L-Sealer Presentation.mp4"
+          src="/assets/videos/homeVid.mp4"
           mediaType="video"
           {...shared}
         />
@@ -61,7 +61,9 @@ export default function About() {
                 Built to scale
               </h2>
               <p className="text-sm sm:text-base text-slate-200 leading-relaxed max-w-md">
-                Industrial-grade packaging machinery designed, manufactured, and serviced directly in Chennai for seamless operations across South India.
+                Industrial-grade packaging machinery designed, manufactured, and
+                serviced directly in Chennai for seamless operations across
+                South India.
               </p>
               <Link
                 href="/about"
@@ -76,4 +78,3 @@ export default function About() {
     </section>
   );
 }
-

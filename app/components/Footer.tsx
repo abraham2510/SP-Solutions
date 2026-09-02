@@ -1,6 +1,11 @@
 import Link from "next/link";
 import LogoMark from "./icons/LogoMark";
-import { FacebookIcon, InstagramIcon, YouTubeIcon } from "./icons/SocialIcons";
+import {
+  FacebookIcon,
+  InstagramIcon,
+  YouTubeIcon,
+  IndiaMartIcon,
+} from "./icons/SocialIcons";
 import { SITE_CONTACTS } from "@/lib/constants";
 
 export default function Footer() {
@@ -47,6 +52,27 @@ export default function Footer() {
                 aria-label="YouTube"
               >
                 <YouTubeIcon />
+              </a>
+              <a
+                href={socials.indiamart}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="IndiaMART"
+                title="SP Solutions on IndiaMART"
+              >
+                <IndiaMartIcon />
+              </a>
+            </div>
+            <div className="mt-3.5">
+              <a
+                href={SITE_CONTACTS.indiamart.catalogUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#00266A]/6 hover:bg-[#00266A]/12 border border-[#00266A]/15 text-[#00266A] text-[11.5px] font-bold tracking-tight transition-colors"
+                title="View SP Solutions Catalog on IndiaMART"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                <span>IndiaMART Verified Supplier</span>
               </a>
             </div>
           </div>
@@ -134,7 +160,7 @@ export default function Footer() {
           <span>
             {legal.copyright.replace(
               ". All",
-              ` (${legal.legalStatus} · GST Reg. ${legal.gstRegistrationYear} · CEO: ${legal.ceo}). All`,
+              ` (${legal.legalStatus} · GST: ${legal.gstNo} · Reg. ${legal.gstRegistrationYear}). All`,
             )}
           </span>
           <span className="mono opacity-70">Chennai, Tamil Nadu</span>

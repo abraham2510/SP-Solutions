@@ -1079,15 +1079,15 @@ a {
 }
 
 .footer-social a {
-  @apply w-[34px] h-[34px] border border-[#E7EAEE] rounded-[6px] flex items-center justify-center transition-colors duration-200 hover:border-[#00266A] hover:bg-[#00266A];
+  @apply w-[34px] h-[34px] border border-[#E7EAEE] rounded-[8px] bg-white flex items-center justify-center transition-all duration-200 hover:border-[#00266A]/25 hover:shadow-xs hover:scale-105;
 }
 
 .footer-social a:hover svg {
-  @apply text-white;
+  @apply opacity-90;
 }
 
 .footer-social svg {
-  @apply w-[15px] h-[15px] text-[#5B6572];
+  @apply w-[18px] h-[18px] shrink-0;
 }
 
 .footer-col h5 {

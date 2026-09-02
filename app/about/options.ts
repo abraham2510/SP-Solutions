@@ -31,6 +31,8 @@ export interface FactsheetStatutory {
   iecCode: string;
   banker: string;
   gstNo: string;
+  indiamartUrl?: string;
+  indiamartVerified?: string;
   verificationBadges: { title: string; subtitle: string; iconName: string }[];
 }
 
@@ -55,6 +57,7 @@ export interface TeamMember {
     twitter?: string;
     youtube?: string;
     instagram?: string;
+    indiamart?: string;
   };
 }
 
@@ -84,6 +87,24 @@ export interface WhyChooseUsOptions {
   pillars: WhyChooseUsPillar[];
 }
 
+export interface PresentationVideoHighlight {
+  iconName: string;
+  title: string;
+  description: string;
+}
+
+export interface PresentationVideoOptions {
+  eyebrow: string;
+  badge: string;
+  title: string;
+  highlightWord: string;
+  subtitle: string;
+  videoSrc: string;
+  videoTitle: string;
+  videoDescription: string;
+  highlights: PresentationVideoHighlight[];
+}
+
 export interface AboutPageOptions {
   meta: {
     title: string;
@@ -101,6 +122,7 @@ export interface AboutPageOptions {
     actionPrimary: { text: string; href: string };
     actionSecondary: { text: string; href: string };
   };
+  presentation: PresentationVideoOptions;
   story: OurStoryOptions;
   team: TeamSectionOptions;
   whyChooseUs: WhyChooseUsOptions;
@@ -162,6 +184,44 @@ export const aboutOptions: AboutPageOptions = {
     ],
     actionPrimary: { text: "Our Story & Journey", href: "#our-story" },
     actionSecondary: { text: "View Factsheet", href: "#factsheet" },
+  },
+  presentation: {
+    eyebrow: "WORKSHOP & MACHINE DEMONSTRATION",
+    badge: "Live Machine Trials at Padi, Chennai",
+    title: "Precision Engineering &",
+    highlightWord: "Live Factory Demonstrations",
+    subtitle:
+      "Watch our custom Agarbathi L-Sealer and automated shrink packaging system assembled, calibrated, and continuous-run tested directly at our Chennai facility.",
+    videoSrc: "/assets/videos/AgarbathiL-SealerPresentation.mp4",
+    videoTitle: "Custom Agarbathi L-Sealer & Shrink Packaging System",
+    videoDescription:
+      "High-speed automated L-sealing, precision temperature control, and synchronized shrink wrapping engineered for incense sticks and FMCG cartons.",
+    highlights: [
+      {
+        iconName: "Zap",
+        title: "Continuous High-Speed Sealing",
+        description:
+          "Equipped with instant impulse cutting wire and pneumatic sealing head for zero-delay cycle times.",
+      },
+      {
+        iconName: "ShieldCheck",
+        title: "Teflon-Coated Constant Heat",
+        description:
+          "Even heat dispersion prevents film tearing and guarantees clean, airtight shrink finishing.",
+      },
+      {
+        iconName: "Cpu",
+        title: "Synchronized Conveyor Feed",
+        description:
+          "Automated speed-matched conveyor transitions sealed products directly into the high-temp shrink tunnel.",
+      },
+      {
+        iconName: "Factory",
+        title: "100% In-House Chennai Build",
+        description:
+          "Heavy-gauge steel construction manufactured, calibrated, and trial-tested in Padi, Chennai.",
+      },
+    ],
   },
   story: {
     eyebrow: "OUR STORY",
@@ -225,12 +285,12 @@ export const aboutOptions: AboutPageOptions = {
         name: "Alex Navin Kumar",
         role: "SP Solutions Proprietor",
         image:
-          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+          "/assets/images/users/alex.jpeg",
         socials: {
           facebook: "https://facebook.com",
           twitter: "https://twitter.com",
-          youtube: "https://youtube.com",
           instagram: "https://instagram.com",
+          indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
         },
       },
       {
@@ -242,8 +302,8 @@ export const aboutOptions: AboutPageOptions = {
         socials: {
           facebook: "https://facebook.com",
           twitter: "https://twitter.com",
-          youtube: "https://youtube.com",
           instagram: "https://instagram.com",
+          indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
         },
       },
     ],
@@ -327,7 +387,7 @@ export const aboutOptions: AboutPageOptions = {
     basicInfo: {
       natureOfBusiness: "Manufacturer",
       additionalBusiness: ["Factory / Manufacturing", "Supplier of Services"],
-      companyCeo: "A S",
+      companyCeo: "Alex Navin Kumar",
       registeredAddress:
         "30, Thiruvalluvar St, T.M.P Nagar, Padi, Chennai, Tamil Nadu - 600050",
       shortAddress: "Chennai, Tamil Nadu",
@@ -336,10 +396,17 @@ export const aboutOptions: AboutPageOptions = {
       legalStatus: "Proprietorship",
     },
     statutory: {
-      iecCode: "*******48P",
+      iecCode: "DESPA4848P",
       banker: "Bank of Baroda",
-      gstNo: "33**********2ZT",
+      gstNo: "33DESPA4848P2ZT",
+      indiamartUrl: "https://www.indiamart.com/sp-solutions-chennai/",
+      indiamartVerified: "IndiaMART Verified Supplier",
       verificationBadges: [
+        {
+          title: "IndiaMART Verified",
+          subtitle: "Verified Supplier",
+          iconName: "ShieldCheck",
+        },
         {
           title: "GST Registered",
           subtitle: "Active Status (2024)",
@@ -347,7 +414,7 @@ export const aboutOptions: AboutPageOptions = {
         },
         {
           title: "Import Export Code",
-          subtitle: "IEC *******48P Verified",
+          subtitle: "IEC DESPA4848P Verified",
           iconName: "Globe",
         },
         {

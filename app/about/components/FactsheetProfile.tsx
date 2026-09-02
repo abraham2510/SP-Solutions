@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Building2,
   FileText,
@@ -17,6 +18,7 @@ import {
   Factory,
   Wrench,
   PackageCheck,
+  ExternalLink,
 } from "lucide-react";
 import type { AboutPageOptions } from "../options";
 
@@ -62,25 +64,25 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
   return (
     <section
       id="factsheet"
-      className="bg-[#F8FAFC] py-14 sm:py-18 border-b border-[#E7EAEE] scroll-mt-20"
+      className="bg-[#F8FAFC] py-10 sm:py-16 md:py-18 border-b border-[#E7EAEE] scroll-mt-20"
     >
-      <div className="wrap max-w-6xl mx-auto">
+      <div className="wrap max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="mb-10 text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00266A]/5 border border-[#00266A]/10 mb-2 text-[#00266A] text-[11px] font-bold tracking-widest uppercase">
+        <div className="mb-8 sm:mb-10 text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#00266A]/5 border border-[#00266A]/10 mb-2.5 text-[#00266A] text-[11px] font-bold tracking-widest uppercase">
             <FileText className="w-3.5 h-3.5 text-[#00266A]" />
             <span>{factsheet.eyebrow}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-bold text-[#10151C] tracking-tight">
             {factsheet.title}
           </h2>
-          <p className="text-[#5B6572] text-sm sm:text-base mt-1.5">
+          <p className="text-[#5B6572] text-sm sm:text-base mt-1.5 leading-relaxed">
             {factsheet.subtitle}
           </p>
         </div>
 
         {/* 3-Column Core Advantages Banner */}
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="mb-6 grid grid-cols-1 md:grid-cols-3 gap-3.5 sm:gap-4">
           {factsheet.strengths.map((str, idx) => (
             <div
               key={idx}
@@ -89,7 +91,7 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
               <div className="w-9 h-9 rounded-xl bg-[#00266A]/6 border border-[#00266A]/10 flex items-center justify-center shrink-0 mt-0.5">
                 {getStrengthIcon(str.icon)}
               </div>
-              <div>
+              <div className="min-w-0">
                 <h4 className="text-sm font-bold text-[#10151C]">
                   {str.title}
                 </h4>
@@ -100,59 +102,60 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
             </div>
           ))}
         </div>
+
         {/* 2-Column Balanced Deck: Basic Info & Statutory Profile */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6 items-stretch">
           {/* Card 1: Basic Information */}
-          <div className="bg-white rounded-2xl border border-[#E7EAEE] p-5 sm:p-6 shadow-xs flex flex-col justify-between">
+          <div className="bg-white rounded-2xl border border-[#E7EAEE] p-4 sm:p-6 shadow-xs flex flex-col justify-between">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E7EAEE]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#00266A]/8 text-[#00266A] flex items-center justify-center font-bold">
+              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E7EAEE] gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#00266A]/8 text-[#00266A] flex items-center justify-center font-bold shrink-0">
                     <Building2 className="w-4 h-4" />
                   </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-[#10151C]">
+                  <div className="min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold text-[#10151C] truncate">
                       Basic Information
                     </h3>
-                    <p className="text-xs text-[#8892A0]">
+                    <p className="text-[11px] sm:text-xs text-[#8892A0] truncate">
                       Commercial &amp; Operational Details
                     </p>
                   </div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#FAF7E8] border border-[#D5BD66]/40 text-[#00266A] text-[10.5px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#FAF7E8] border border-[#D5BD66]/40 text-[#00266A] text-[10.5px] font-bold shrink-0 whitespace-nowrap">
                   Verified 2024
                 </span>
               </div>
 
               {/* Compact Fields Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                 {/* Nature of Business */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <Factory className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <Factory className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Nature of Business</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#00266A]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#00266A]">
                     {factsheet.basicInfo.natureOfBusiness}
                   </div>
                 </div>
 
                 {/* Legal Status */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <Briefcase className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <Briefcase className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Legal Status of Firm</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#10151C]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C]">
                     {factsheet.basicInfo.legalStatus}
                   </div>
                 </div>
 
                 {/* Additional Business */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70 sm:col-span-2">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-1.5">
-                    <Briefcase className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-1.5">
+                    <Briefcase className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Additional Business</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
@@ -169,55 +172,55 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
 
                 {/* Company CEO */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <User className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <User className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Company CEO</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#10151C]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C]">
                     {factsheet.basicInfo.companyCeo}
                   </div>
                 </div>
 
                 {/* Total Employees */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <Users className="w-3.5 h-3.5 text-[#00266A]" />
-                    <span>Total Number of Employees</span>
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <Users className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
+                    <span>Total Employees</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#10151C]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C]">
                     {factsheet.basicInfo.totalEmployees}
                   </div>
                 </div>
 
                 {/* GST Registration Date */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <Calendar className="w-3.5 h-3.5 text-[#00266A]" />
-                    <span>GST Registration Date</span>
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <Calendar className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
+                    <span>Registration Date</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#10151C]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C]">
                     {factsheet.basicInfo.gstRegistrationDate}
                   </div>
                 </div>
 
                 {/* Short Registered Address */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Registered Location</span>
                   </div>
-                  <div className="text-[13.5px] font-bold text-[#10151C]">
+                  <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C]">
                     {factsheet.basicInfo.shortAddress}
                   </div>
                 </div>
 
                 {/* Full Address */}
                 <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE]/70 sm:col-span-2">
-                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
-                    <MapPin className="w-3.5 h-3.5 text-[#00266A]" />
+                  <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider mb-0.5">
+                    <MapPin className="w-3.5 h-3.5 text-[#00266A] shrink-0" />
                     <span>Full Registered Address</span>
                   </div>
-                  <div className="text-xs font-medium text-[#10151C]">
+                  <div className="text-xs font-medium text-[#10151C] leading-relaxed">
                     {factsheet.basicInfo.registeredAddress}
                   </div>
                 </div>
@@ -225,7 +228,7 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
             </div>
 
             {/* Bottom mini note */}
-            <div className="pt-3 mt-4 border-t border-[#E7EAEE] flex items-center justify-between text-[11px] text-[#8892A0]">
+            <div className="pt-3 mt-4 border-t border-[#E7EAEE] flex flex-wrap items-center justify-between gap-1 text-[11px] text-[#8892A0]">
               <span>Direct Manufacturer Profile</span>
               <span className="font-semibold text-[#00266A]">
                 SP Solutions Chennai
@@ -234,44 +237,45 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
           </div>
 
           {/* Card 2: Statutory Profile & Compliance */}
-          <div className="bg-white rounded-2xl border border-[#E7EAEE] p-5 sm:p-6 shadow-xs flex flex-col justify-between">
+          <div className="bg-white rounded-2xl border border-[#E7EAEE] p-4 sm:p-6 shadow-xs flex flex-col justify-between">
             <div>
               {/* Header */}
-              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E7EAEE]">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-[#00266A]/8 text-[#00266A] flex items-center justify-center font-bold">
+              <div className="flex items-center justify-between pb-3.5 mb-4 border-b border-[#E7EAEE] gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#00266A]/8 text-[#00266A] flex items-center justify-center font-bold shrink-0">
                     <ShieldCheck className="w-4 h-4" />
                   </div>
-                  <div>
-                    <h3 className="text-base sm:text-lg font-bold text-[#10151C]">
+                  <div className="min-w-0">
+                    <h3 className="text-base sm:text-lg font-bold text-[#10151C] truncate">
                       Statutory Profile
                     </h3>
-                    <p className="text-xs text-[#8892A0]">
+                    <p className="text-[11px] sm:text-xs text-[#8892A0] truncate">
                       Compliance &amp; Banking
                     </p>
                   </div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#bfee90]/40 text-[#1a5e00] text-[10.5px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#bfee90]/40 text-[#1a5e00] text-[10.5px] font-bold shrink-0 whitespace-nowrap">
                   Active
                 </span>
               </div>
 
               {/* Fields */}
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col gap-2.5 sm:gap-3">
                 {/* GST Number */}
-                <div className="p-3 rounded-xl bg-[#00266A]/5 border border-[#00266A]/10 flex items-center justify-between">
-                  <div>
-                    <div className="text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
+                <div className="p-3 rounded-xl bg-[#00266A]/5 border border-[#00266A]/10 flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
                       GST No.
                     </div>
-                    <div className="font-mono text-[13.5px] font-bold text-[#00266A] mt-0.5 tracking-wider">
+                    <div className="font-mono text-xs sm:text-[13.5px] font-bold text-[#00266A] mt-0.5 tracking-wider truncate">
                       {factsheet.statutory.gstNo}
                     </div>
                   </div>
                   <button
                     onClick={() => handleCopy(factsheet.statutory.gstNo, "gst")}
-                    className="p-1.5 rounded-lg bg-white text-[#00266A] hover:bg-[#D5DEF0] transition-colors border border-[#E7EAEE]"
+                    className="p-1.5 rounded-lg bg-white text-[#00266A] hover:bg-[#D5DEF0] transition-colors border border-[#E7EAEE] shrink-0"
                     title="Copy GST No"
+                    aria-label="Copy GST Number"
                   >
                     {copiedKey === "gst" ? (
                       <Check className="w-3.5 h-3.5 text-green-600" />
@@ -282,12 +286,12 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
                 </div>
 
                 {/* IEC Code */}
-                <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE] flex items-center justify-between">
-                  <div>
-                    <div className="text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
+                <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE] flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
                       Import Export Code (IEC)
                     </div>
-                    <div className="font-mono text-[13.5px] font-bold text-[#10151C] mt-0.5 tracking-wider">
+                    <div className="font-mono text-xs sm:text-[13.5px] font-bold text-[#10151C] mt-0.5 tracking-wider truncate">
                       {factsheet.statutory.iecCode}
                     </div>
                   </div>
@@ -295,8 +299,9 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
                     onClick={() =>
                       handleCopy(factsheet.statutory.iecCode, "iec")
                     }
-                    className="p-1.5 rounded-lg bg-white text-[#00266A] hover:bg-[#D5DEF0] transition-colors border border-[#E7EAEE]"
+                    className="p-1.5 rounded-lg bg-white text-[#00266A] hover:bg-[#D5DEF0] transition-colors border border-[#E7EAEE] shrink-0"
                     title="Copy IEC Code"
+                    aria-label="Copy IEC Code"
                   >
                     {copiedKey === "iec" ? (
                       <Check className="w-3.5 h-3.5 text-green-600" />
@@ -307,39 +312,79 @@ export default function FactsheetProfile({ factsheet }: FactsheetProfileProps) {
                 </div>
 
                 {/* Banker */}
-                <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE] flex items-center justify-between">
-                  <div>
-                    <div className="text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
+                <div className="p-3 rounded-xl bg-[#F8FAFC] border border-[#E7EAEE] flex items-center justify-between gap-2">
+                  <div className="min-w-0">
+                    <div className="text-[10.5px] sm:text-[11px] font-bold text-[#8892A0] uppercase tracking-wider">
                       Banker
                     </div>
-                    <div className="text-[13.5px] font-bold text-[#10151C] mt-0.5">
+                    <div className="text-[13px] sm:text-[13.5px] font-bold text-[#10151C] mt-0.5 truncate">
                       {factsheet.statutory.banker}
                     </div>
                   </div>
-                  <Landmark className="w-4 h-4 text-[#8892A0]" />
+                  <Landmark className="w-4 h-4 text-[#8892A0] shrink-0" />
                 </div>
+
+                {/* IndiaMART Verified Supplier & Catalog */}
+                {factsheet.statutory.indiamartUrl && (
+                  <div className="p-3 sm:p-3.5 rounded-xl border border-[#E5C255]/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-9 h-9 rounded-lg bg-white border border-[#E5C255]/40 flex items-center justify-center p-1 shrink-0 shadow-2xs">
+                        <Image
+                          src="/assets/images/indiaMart.png"
+                          alt="IndiaMART"
+                          width={28}
+                          height={28}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-bold text-[#8A6300] uppercase tracking-wider">
+                          <ShieldCheck className="w-3.5 h-3.5 text-[#8A6300] shrink-0" />
+                          <span>IndiaMART Verified</span>
+                        </div>
+                        <div className="text-[12.5px] sm:text-[13px] font-bold text-[#00266A] mt-0.5 truncate">
+                          SP Solutions Chennai Catalog
+                        </div>
+                      </div>
+                    </div>
+                    <a
+                      href={factsheet.statutory.indiamartUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-1.5 px-3 py-2 sm:py-1.5 rounded-lg bg-[#00266A] !text-white text-[12px] sm:text-[11.5px] font-semibold hover:bg-[#001D52] transition-colors shadow-2xs shrink-0 w-full sm:w-auto"
+                    >
+                      <span>View Catalog</span>
+                      <ExternalLink className="w-3.5 h-3.5 sm:w-3 sm:h-3" />
+                    </a>
+                  </div>
+                )}
               </div>
 
               {/* Verification Badges */}
-              <div className="grid grid-cols-3 gap-2 mt-3 pt-3 border-t border-[#E7EAEE]">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 pt-3 border-t border-[#E7EAEE]">
                 {factsheet.statutory.verificationBadges.map((badge, idx) => (
                   <div
                     key={idx}
-                    className="p-2 rounded-xl bg-[#F4F6FA] text-center flex flex-col items-center justify-center border border-[#E7EAEE]/60"
+                    className="p-2 sm:p-2.5 rounded-xl bg-[#F4F6FA] text-center flex flex-col items-center justify-center border border-[#E7EAEE]/60"
                   >
                     <div className="mb-0.5">
                       {getStatutoryIcon(badge.iconName)}
                     </div>
-                    <div className="text-[10px] font-bold text-[#10151C] leading-tight">
+                    <div className="text-[10px] sm:text-[10.5px] font-bold text-[#10151C] leading-tight">
                       {badge.title}
                     </div>
+                    {badge.subtitle && (
+                      <div className="text-[9px] text-[#5B6572] leading-tight mt-0.5 break-words line-clamp-2">
+                        {badge.subtitle}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Bottom mini note */}
-            <div className="pt-3 mt-4 border-t border-[#E7EAEE] flex items-center justify-between text-[11px] text-[#8892A0]">
+            <div className="pt-3 mt-4 border-t border-[#E7EAEE] flex flex-wrap items-center justify-between gap-1 text-[11px] text-[#8892A0]">
               <span>Statutory Compliance</span>
               <span className="font-semibold text-[#00266A]">
                 Proprietorship Firm

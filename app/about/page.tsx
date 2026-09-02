@@ -1,4 +1,5 @@
 import AboutHero from "./components/AboutHero";
+import PresentationVideo from "./components/PresentationVideo";
 import OurStory from "./components/OurStory";
 import OurTeam from "./components/OurTeam";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -15,20 +16,20 @@ export default function AboutPage() {
       {/* 1. Hero Section */}
       <AboutHero hero={aboutOptions.hero} />
 
-      {/* 2. The Story of SP Solutions (Interactive Timeline) */}
+      {/* 2. Machine Demonstration & Workshop Presentation Video */}
+      <PresentationVideo presentation={aboutOptions.presentation} />
+
+      {/* 3. The Story of SP Solutions (Interactive Timeline) */}
       <OurStory story={aboutOptions.story} />
 
-      {/* 3. Our Team / Leadership (Alex Navin Kumar & Bhagavan) */}
+      {/* 4. Our Team / Leadership (Alex Navin Kumar & Bhagavan) */}
       <OurTeam team={aboutOptions.team} />
 
-      {/* 4. Why Choose Us (Pillars & Key Advantages) */}
+      {/* 5. Why Choose Us (Pillars & Key Advantages) */}
       <WhyChooseUs whyChooseUs={aboutOptions.whyChooseUs} />
 
-      {/* 5. Company Factsheet & Statutory Profile */}
+      {/* 6. Company Factsheet & Statutory Profile */}
       <FactsheetProfile factsheet={aboutOptions.factsheet} />
-
-      {/* 6. Google Ratings & Client Trust Hub */}
-      {/* <GoogleRatingsSection googleRatings={aboutOptions.googleRatings} /> */}
 
       {/* 7. Direct Factory Visit & Quote CTA */}
       <AboutCta cta={aboutOptions.cta} />
