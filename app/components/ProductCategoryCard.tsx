@@ -39,7 +39,7 @@ function AutoImageSlider({
 
   return (
     <div
-      className="relative w-full h-[320px] sm:h-[360px] md:h-[380px] overflow-hidden bg-[#F4F6FA] shrink-0"
+      className="relative w-full aspect-[4/3] overflow-hidden bg-[#F4F6FA] shrink-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

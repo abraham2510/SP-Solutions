@@ -3,8 +3,12 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createProduct, updateProduct } from "@/actions/products";
-import { uploadImageAction } from "@/actions/upload";
+import {
+  uploadImageAction,
+  getCloudinaryVideoUploadSignatureAction,
+} from "@/actions/upload";
 import { MultiImageUploader } from "../ui/MultiImageUploader";
+import { VideoLinksEditor } from "./VideoLinksEditor";
 import { FeatureEditor } from "./FeatureEditor";
 import { ApplicationEditor } from "./ApplicationEditor";
 import { SpecificationEditor, SpecItem } from "./SpecificationEditor";
@@ -14,6 +18,7 @@ import {
   Loader2,
   Package,
   Image as ImageIcon,
+  Film,
   SlidersHorizontal,
   FileText,
   Sparkles,
@@ -65,6 +70,8 @@ interface ProductFormProps {
     description?: string | null;
     imageUrl?: string | null;
     images?: string[];
+    videoUrl?: string | null;
+    videos?: string[];
     featured: boolean;
     status: "ACTIVE" | "INACTIVE";
     features?: { feature: string }[];
@@ -79,7 +86,11 @@ interface ProductFormProps {
   };
 }
 
-export function ProductForm({ mode, categories, initialData }: ProductFormProps) {
+export function ProductForm({
+  mode,
+  categories,
+  initialData,
+}: ProductFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState<string | null>(null);
@@ -87,29 +98,41 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
   const [name, setName] = useState(initialData?.name || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
   const [categoryId, setCategoryId] = useState(
-    initialData?.categoryId || (categories[0]?.id ?? "")
+    initialData?.categoryId || (categories[0]?.id ?? ""),
   );
   const [model, setModel] = useState(initialData?.model || "");
   const [shortDescription, setShortDescription] = useState(
-    initialData?.shortDescription || ""
+    initialData?.shortDescription || "",
   );
-  const [description, setDescription] = useState(initialData?.description || "");
+  const [description, setDescription] = useState(
+    initialData?.description || "",
+  );
   const [images, setImages] = useState<string[]>(
     initialData?.images && initialData.images.length > 0
       ? initialData.images
       : initialData?.imageUrl
-      ? [initialData.imageUrl]
-      : []
+        ? [initialData.imageUrl]
+        : [],
+  );
+  const [videos, setVideos] = useState<string[]>(
+    initialData?.videos && initialData.videos.length > 0
+      ? initialData.videos
+      : initialData?.videoUrl
+        ? [initialData.videoUrl]
+        : [],
+  );
+  const [pendingVideoFiles, setPendingVideoFiles] = useState<Map<string, File>>(
+    new Map(),
   );
   const [status, setStatus] = useState<"ACTIVE" | "INACTIVE">(
-    initialData?.status || "ACTIVE"
+    initialData?.status || "ACTIVE",
   );
 
   const [features, setFeatures] = useState<string[]>(
-    initialData?.features?.map((f) => f.feature) || []
+    initialData?.features?.map((f) => f.feature) || [],
   );
   const [applications, setApplications] = useState<string[]>(
-    initialData?.applications?.map((a) => a.application) || []
+    initialData?.applications?.map((a) => a.application) || [],
   );
   const [specifications, setSpecifications] = useState<SpecItem[]>(
     initialData?.specifications?.map((s) => ({
@@ -118,7 +141,7 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
       value: s.value,
       unitOrNote: s.unitOrNote || "",
       sortOrder: s.sortOrder,
-    })) || []
+    })) || [],
   );
 
   const handleNameChange = (val: string) => {
@@ -128,7 +151,7 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
         val
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "")
+          .replace(/^-|-$/g, ""),
       );
     }
   };
@@ -157,10 +180,14 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
     for (let i = 0; i < finalImages.length; i++) {
       const img = finalImages[i];
       if (img.startsWith("data:image/")) {
-        setUploadMessage(`Uploading image ${i + 1} of ${finalImages.length}...`);
+        setUploadMessage(
+          `Uploading image ${i + 1} of ${finalImages.length}...`,
+        );
         const uploadRes = await uploadImageAction(img, "products");
         if (!uploadRes.success || !uploadRes.url) {
-          toast.error(uploadRes.error || "Failed to upload image to Cloudinary.");
+          toast.error(
+            uploadRes.error || "Failed to upload image to Cloudinary.",
+          );
           setLoading(false);
           setUploadMessage(null);
           return;
@@ -169,7 +196,70 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
       }
     }
 
+    // Upload any pending video files to Cloudinary (products/videos)
+    let finalVideos = [...videos];
+    let videoUploadCount = 0;
+    const totalPendingVideos = pendingVideoFiles.size;
+
+    for (let i = 0; i < finalVideos.length; i++) {
+      const vUrl = finalVideos[i];
+      const pendingFile = pendingVideoFiles.get(vUrl);
+      if (pendingFile) {
+        videoUploadCount++;
+        setUploadMessage(
+          `Uploading demonstration video ${videoUploadCount} of ${totalPendingVideos} to Cloudinary...`,
+        );
+
+        const sigRes = await getCloudinaryVideoUploadSignatureAction(
+          "products/videos",
+        );
+        if (!sigRes.success || !sigRes.cloudName || !sigRes.apiKey) {
+          toast.error(
+            sigRes.error || "Failed to authenticate Cloudinary video upload.",
+          );
+          setLoading(false);
+          setUploadMessage(null);
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", pendingFile);
+        formData.append("api_key", sigRes.apiKey);
+        formData.append("timestamp", String(sigRes.timestamp));
+        formData.append("signature", sigRes.signature);
+        formData.append("folder", sigRes.folder);
+
+        try {
+          const uploadRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${sigRes.cloudName}/video/upload`,
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+          const data = await uploadRes.json();
+          if (!uploadRes.ok || !data.secure_url) {
+            toast.error(
+              data.error?.message || "Failed to upload video to Cloudinary.",
+            );
+            setLoading(false);
+            setUploadMessage(null);
+            return;
+          }
+          finalVideos[i] = data.secure_url;
+        } catch (uploadErr) {
+          console.error("Video upload error:", uploadErr);
+          toast.error("Network error during video upload to Cloudinary.");
+          setLoading(false);
+          setUploadMessage(null);
+          return;
+        }
+      }
+    }
+
     setUploadMessage("Saving product to database...");
+
+    const cleanVideos = finalVideos.map((v) => v.trim()).filter(Boolean);
 
     const payload = {
       name: name.trim(),
@@ -180,6 +270,8 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
       description: description.trim(),
       imageUrl: finalImages[0] || "",
       images: finalImages,
+      videoUrl: cleanVideos[0] || "",
+      videos: cleanVideos,
       featured: false,
       status,
       features: features.filter(Boolean),
@@ -206,7 +298,7 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
       toast.success(
         mode === "create"
           ? "Product created successfully"
-          : "Product updated successfully"
+          : "Product updated successfully",
       );
       router.push("/admin/products");
       router.refresh();
@@ -286,8 +378,8 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
             {loading
               ? uploadMessage || "Saving..."
               : mode === "create"
-              ? "Create Product"
-              : "Save Changes"}
+                ? "Create Product"
+                : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -314,7 +406,10 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
             <CardContent className="p-6 space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-xs font-semibold text-slate-700">
+                  <Label
+                    htmlFor="name"
+                    className="text-xs font-semibold text-slate-700"
+                  >
                     Product Name <span className="text-rose-500">*</span>
                   </Label>
                   <Input
@@ -328,9 +423,16 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="slug" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                    <span>URL Slug <span className="text-rose-500">*</span></span>
-                    <span className="text-[10px] text-slate-400 font-normal">Auto-generated</span>
+                  <Label
+                    htmlFor="slug"
+                    className="text-xs font-semibold text-slate-700 flex items-center justify-between"
+                  >
+                    <span>
+                      URL Slug <span className="text-rose-500">*</span>
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-normal">
+                      Auto-generated
+                    </span>
                   </Label>
                   <Input
                     id="slug"
@@ -343,16 +445,26 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="category" className="text-xs font-semibold text-slate-700">
+                  <Label
+                    htmlFor="category"
+                    className="text-xs font-semibold text-slate-700"
+                  >
                     Category <span className="text-rose-500">*</span>
                   </Label>
                   <Select
                     value={categoryId}
                     onValueChange={(val) => val && setCategoryId(val)}
                   >
-                    <SelectTrigger id="category" className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200">
+                    <SelectTrigger
+                      id="category"
+                      className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200"
+                    >
                       <SelectValue placeholder="Select Category">
-                        {(val) => categories.find((c) => c.id === val)?.name || val || "Select Category"}
+                        {(val) =>
+                          categories.find((c) => c.id === val)?.name ||
+                          val ||
+                          "Select Category"
+                        }
                       </SelectValue>
                     </SelectTrigger>
                     <SelectContent className="rounded-xl border-slate-200">
@@ -366,7 +478,10 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="model" className="text-xs font-semibold text-slate-700">
+                  <Label
+                    htmlFor="model"
+                    className="text-xs font-semibold text-slate-700"
+                  >
                     Model Number / Code
                   </Label>
                   <Input
@@ -390,10 +505,11 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 </div>
                 <div>
                   <CardTitle className="text-base font-bold text-slate-900">
-                    Product Images & Media Gallery
+                    Product Images & Media Gallery (800 x 600 px)
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-500">
-                    Upload multiple machine photos, crop (16:9, 4:3, 1:1), set cover photo, and preview
+                    Upload multiple machine photos (standardized to 800 x 600 px),
+                    crop/fit, set cover photo, and preview
                   </CardDescription>
                 </div>
               </div>
@@ -423,13 +539,17 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                   Product Descriptions
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
-                  Short summary for catalog cards and full technical description for product detail pages
+                  Short summary for catalog cards and full technical description
+                  for product detail pages
                 </CardDescription>
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="shortDescription" className="text-xs font-semibold text-slate-700">
+                <Label
+                  htmlFor="shortDescription"
+                  className="text-xs font-semibold text-slate-700"
+                >
                   Short Description (Catalog Summary)
                 </Label>
                 <Textarea
@@ -443,7 +563,10 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-xs font-semibold text-slate-700">
+                <Label
+                  htmlFor="description"
+                  className="text-xs font-semibold text-slate-700"
+                >
                   Full Technical Description
                 </Label>
                 <Textarea
@@ -469,7 +592,8 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                   Technical Specifications, Features & Applications
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
-                  Define key machine highlights, target industries, and specification key-value metrics
+                  Define key machine highlights, target industries, and
+                  specification key-value metrics
                 </CardDescription>
               </div>
             </CardHeader>
@@ -508,21 +632,29 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
             </CardHeader>
             <CardContent className="p-6 space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="status" className="text-xs font-semibold text-slate-700">
+                <Label
+                  htmlFor="status"
+                  className="text-xs font-semibold text-slate-700"
+                >
                   Publication Status
                 </Label>
                 <Select
                   value={status}
-                  onValueChange={(val) => val && setStatus(val as "ACTIVE" | "INACTIVE")}
+                  onValueChange={(val) =>
+                    val && setStatus(val as "ACTIVE" | "INACTIVE")
+                  }
                 >
-                  <SelectTrigger id="status" className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200">
+                  <SelectTrigger
+                    id="status"
+                    className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200"
+                  >
                     <SelectValue placeholder="Select Status">
                       {(val) =>
                         val === "ACTIVE"
                           ? "ACTIVE (Public Website)"
                           : val === "INACTIVE"
-                          ? "INACTIVE (Hidden Draft)"
-                          : val || "Select Status"
+                            ? "INACTIVE (Hidden Draft)"
+                            : val || "Select Status"
                       }
                     </SelectValue>
                   </SelectTrigger>
@@ -539,14 +671,48 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
 
               {selectedCategoryObj && (
                 <div className="p-3.5 rounded-xl bg-slate-100/70 border border-slate-200/60 flex items-center justify-between text-xs">
-                  <span className="text-slate-500 font-medium">Assigned Category</span>
-                  <span className="font-bold text-slate-800">{selectedCategoryObj.name}</span>
+                  <span className="text-slate-500 font-medium">
+                    Assigned Category
+                  </span>
+                  <span className="font-bold text-slate-800">
+                    {selectedCategoryObj.name}
+                  </span>
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Card 2: Cover Photo Preview Badge */}
+          {/* Card 2: Product Demonstration Videos (YouTube, Instagram Reels) */}
+          <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 p-5 bg-slate-50/50">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-700">
+                  <Film className="h-5 w-5" />
+                </div>
+                <div>
+                  <CardTitle className="text-base font-bold text-slate-900">
+                    Machine Videos
+                  </CardTitle>
+                  <CardDescription className="text-xs text-slate-500">
+                    YouTube trials &amp; Instagram Reels
+                  </CardDescription>
+                </div>
+              </div>
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-700 border border-purple-500/20">
+                {videos.length} {videos.length === 1 ? "Video" : "Videos"}
+              </span>
+            </CardHeader>
+            <CardContent className="p-5">
+              <VideoLinksEditor
+                videos={videos}
+                onChange={setVideos}
+                pendingFiles={pendingVideoFiles}
+                onPendingFilesChange={setPendingVideoFiles}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Card 3: Cover Photo Preview Badge */}
           <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
             <CardHeader className="flex flex-row items-center gap-3 border-b border-slate-100 p-5 bg-slate-50/50">
               <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-700">
@@ -576,14 +742,18 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
               ) : (
                 <div className="w-full aspect-video rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-4 text-center">
                   <ImageIcon className="w-8 h-8 text-slate-300 mb-1" />
-                  <span className="text-xs font-semibold text-slate-500">No Cover Selected</span>
-                  <span className="text-[11px] text-slate-400 mt-0.5">Upload photos in media gallery</span>
+                  <span className="text-xs font-semibold text-slate-500">
+                    No Cover Selected
+                  </span>
+                  <span className="text-[11px] text-slate-400 mt-0.5">
+                    Upload photos in media gallery
+                  </span>
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Card 3: Quick Tips */}
+          {/* Card 4: Quick Tips */}
           <Card className="border-slate-200 bg-slate-900 text-white shadow-2xs rounded-2xl overflow-hidden">
             <CardContent className="p-5 space-y-3">
               <div className="flex items-center gap-2 text-xs font-bold text-sky-400">
@@ -592,7 +762,9 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
               <ul className="text-xs text-slate-300 space-y-2 list-disc list-inside font-normal leading-relaxed">
                 <li>First image in gallery is set as the primary cover.</li>
                 <li>Cropped WEBP images (800x600px) load faster on mobile.</li>
-                <li>All pending local images are uploaded atomically on submit.</li>
+                <li>
+                  All pending local images are uploaded atomically on submit.
+                </li>
               </ul>
             </CardContent>
           </Card>
@@ -613,8 +785,8 @@ export function ProductForm({ mode, categories, initialData }: ProductFormProps)
                 {loading
                   ? uploadMessage || "Saving..."
                   : mode === "create"
-                  ? "Create Product"
-                  : "Save Changes"}
+                    ? "Create Product"
+                    : "Save Changes"}
               </Button>
               <Button
                 type="button"

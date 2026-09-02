@@ -14,6 +14,10 @@ export interface CatalogueProduct {
   image: string;
   /** Array of image URLs for gallery display. */
   images: string[];
+  /** Primary video URL (YouTube, Instagram, or direct video) */
+  video_url?: string;
+  /** Array of video URLs (YouTube, Instagram, or direct videos) */
+  videos?: string[];
   featured: boolean;
   status: "active" | "inactive";
   applications: string[];

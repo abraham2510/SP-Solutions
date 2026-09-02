@@ -20,8 +20,8 @@ function RelatedProductCard({ product }: { product: CatalogueProduct }) {
       href={href}
       className="group flex flex-col rounded-2xl bg-white border border-[#E7EAEE] hover:border-[#00266A]/30 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,38,106,0.12)] overflow-hidden h-full"
     >
-      {/* Image Container with Controlled Proportions */}
-      <div className="relative w-full h-[200px] sm:h-[220px] bg-[#F4F6FA] overflow-hidden shrink-0">
+      {/* Image Container with Controlled Proportions (800x600 4:3 Ratio) */}
+      <div className="relative w-full aspect-[4/3] bg-[#F4F6FA] overflow-hidden shrink-0">
         {/* Background gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 z-10 pointer-events-none opacity-80 group-hover:opacity-60 transition-opacity" />
 

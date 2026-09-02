@@ -16,23 +16,17 @@ interface MultiImageUploaderProps {
   maxImages?: number;
 }
 
-async function compressFile(file: File, maxWidth = 1200, quality = 0.85): Promise<string> {
+async function processImageTo800x600(file: File, quality = 0.9): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
+        const targetWidth = 800;
+        const targetHeight = 600;
         const canvas = document.createElement("canvas");
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-
-        canvas.width = width;
-        canvas.height = height;
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
 
         const ctx = canvas.getContext("2d");
         if (!ctx) {
@@ -40,7 +34,30 @@ async function compressFile(file: File, maxWidth = 1200, quality = 0.85): Promis
           return;
         }
 
-        ctx.drawImage(img, 0, 0, width, height);
+        // Fill background with clean white (ideal for machine transparent cutouts)
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, targetWidth, targetHeight);
+
+        // Calculate aspect cover ratio to fit perfectly into 800x600 without distortion
+        const hRatio = targetWidth / img.width;
+        const vRatio = targetHeight / img.height;
+        const ratio = Math.max(hRatio, vRatio);
+
+        const centerShiftX = (targetWidth - img.width * ratio) / 2;
+        const centerShiftY = (targetHeight - img.height * ratio) / 2;
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          img.width,
+          img.height,
+          centerShiftX,
+          centerShiftY,
+          img.width * ratio,
+          img.height * ratio,
+        );
+
         const webpData = canvas.toDataURL("image/webp", quality);
         resolve(webpData);
       };
@@ -86,8 +103,8 @@ export function MultiImageUploader({
         toast.error(msg);
         return;
       }
-      if (file.size > 10 * 1024 * 1024) {
-        const msg = `File ${file.name} exceeds 10MB size limit.`;
+      if (file.size > 15 * 1024 * 1024) {
+        const msg = `File ${file.name} exceeds 15MB size limit.`;
         setError(msg);
         toast.error(msg);
         return;
@@ -101,18 +118,18 @@ export function MultiImageUploader({
       const newUrls: string[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        setUploadProgress(`Optimizing ${i + 1} of ${files.length}...`);
+        setUploadProgress(`Formatting image ${i + 1} of ${files.length} to 800x600...`);
 
-        const compressedBase64 = await compressFile(file);
-        newUrls.push(compressedBase64);
+        const formattedBase64 = await processImageTo800x600(file);
+        newUrls.push(formattedBase64);
       }
 
       if (newUrls.length > 0) {
         onChange([...values, ...newUrls]);
-        toast.success(`Loaded ${newUrls.length} image(s). Will upload on submit.`);
+        toast.success(`Loaded ${newUrls.length} image(s) formatted to 800x600.`);
       }
     } catch {
-      toast.error("An error occurred while reading image files.");
+      toast.error("An error occurred while formatting image files.");
     } finally {
       setUploading(false);
       setUploadProgress(null);
@@ -291,10 +308,10 @@ export function MultiImageUploader({
                   <Upload className="h-5 w-5" />
                 </div>
                 <span className="text-xs font-semibold text-slate-900">
-                  Click to select machine photos
+                  Click to select machine photos (800 x 600 px)
                 </span>
                 <span className="text-[11px] text-slate-500 mt-0.5">
-                  JPEG, PNG, WEBP up to 5MB each
+                  Automatically standardized to 800 x 600 px • JPEG, PNG, WEBP
                 </span>
               </div>
             )}

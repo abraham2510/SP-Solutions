@@ -321,10 +321,10 @@ export function ServiceForm({ mode, initialData }: ServiceFormProps) {
                 </div>
                 <div>
                   <CardTitle className="text-base font-bold text-slate-900">
-                    Service Photos & Banner Gallery
+                    Service Photos & Banner Gallery (800 × 600 px)
                   </CardTitle>
                   <CardDescription className="text-xs text-slate-500">
-                    Upload service photos, crop (16:9, 4:3), set cover photo, and preview
+                    Upload service photos standardized to 800 × 600 px, set cover photo, and preview
                   </CardDescription>
                 </div>
               </div>

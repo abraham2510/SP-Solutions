@@ -108,6 +108,8 @@ model Product {
   description      String?
   imageUrl         String?
   images           String[]               @default([])
+  videoUrl         String?
+  videos           String[]               @default([])
   featured         Boolean                @default(false)
   status           Status                 @default(ACTIVE)
   features         ProductFeature[]

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { ArrowRight, Package } from "lucide-react";
 import type { CatalogueProduct } from "@/lib/catalogue/types";
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 /**
  * Auto-scrolling multi-image slider for individual machine product cards
+ * Exact 4:3 aspect ratio matching 800x600 px images
  */
 function AutoProductImageSlider({
   images,
@@ -20,7 +22,7 @@ function AutoProductImageSlider({
 }: {
   images: string[];
   title: string;
-  categoryName: string;
+  categoryName?: string;
   model?: string;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -41,11 +43,11 @@ function AutoProductImageSlider({
 
   return (
     <div
-      className="relative w-full h-[280px] sm:h-[320px] md:h-[340px] overflow-hidden bg-[#F4F6FA] shrink-0"
+      className="relative w-full aspect-[4/3] overflow-hidden bg-[#F4F6FA] shrink-0"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Background gradient overlay */}
+      {/* Background subtle gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#00143B]/60 via-transparent to-black/10 z-10 pointer-events-none" />
 
       {validImages.length > 0 ? (
@@ -70,20 +72,8 @@ function AutoProductImageSlider({
         })
       ) : (
         <div className="w-full h-full bg-gradient-to-br from-[#00266A]/8 via-[#D5DEF0]/30 to-[#D5BD66]/10 flex flex-col items-center justify-center gap-3">
-          <svg
-            className="w-14 h-14 text-[#00266A]/20"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={1}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15M14.25 3.104c.251.023.501.05.75.082M19.8 15l-1.5 1.5M19.8 15l1.5 1.5m-3 0l1.5-1.5m-1.5 1.5v3.75m-9-3.75H6m12 0h1.5m-1.5 0v3.75"
-            />
-          </svg>
-          <span className="text-xs font-semibold text-[#5B6572]">Machine Image</span>
+          <Package className="w-14 h-14 text-[#00266A]/20" />
+          <span className="text-xs font-semibold text-[#5B6572]">SP Solutions Machinery</span>
         </div>
       )}
 
@@ -97,11 +87,13 @@ function AutoProductImageSlider({
       )}
 
       {/* Top Right Model Badge */}
-      <div className="absolute top-3.5 right-3.5 z-20">
-        <span className="text-[10px] font-semibold text-[#00266A] bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-[#D5DEF0] shadow-sm">
-          {model ? `Model: ${model}` : "Industrial Grade"}
-        </span>
-      </div>
+      {model && (
+        <div className="absolute top-3.5 right-3.5 z-20">
+          <span className="text-[10px] font-semibold text-[#00266A] bg-white/90 backdrop-blur-md px-2.5 py-0.5 rounded-md border border-[#D5DEF0] shadow-sm">
+            Model: {model}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
@@ -120,9 +112,9 @@ export default function ProductCard({ product, categorySlug }: Props) {
   return (
     <Link
       href={href}
-      className="group flex flex-col rounded-2xl bg-white border border-[#E7EAEE] hover:border-[#D5BD66]/70 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,38,106,0.15)] overflow-hidden focus-visible:outline-2 focus-visible:outline-[#D5BD66]"
+      className="w-full flex flex-col rounded-2xl bg-white border border-[#E7EAEE] hover:border-[#D5BD66]/70 transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(0,38,106,0.15)] hover:-translate-y-1 group overflow-hidden"
     >
-      {/* Big Media with Multi-Image Auto-Scroll */}
+      {/* 4:3 Ratio Media with Multi-Image Auto-Scroll */}
       <AutoProductImageSlider
         images={imagesList}
         title={product.name}
@@ -143,15 +135,7 @@ export default function ProductCard({ product, categorySlug }: Props) {
         <div className="pt-2 border-t border-[#F1F5F9] flex items-center justify-between mt-auto">
           <span className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-[#00266A] group-hover:text-[#D5BD66] transition-colors">
             <span>Explore machine</span>
-            <svg
-              className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
+            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
           </span>
           <span className="text-[11px] font-medium text-[#8892A0]">
             Overview &amp; Specs

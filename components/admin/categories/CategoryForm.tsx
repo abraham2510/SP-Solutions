@@ -316,10 +316,10 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
               </div>
               <div>
                 <CardTitle className="text-base font-bold text-slate-900">
-                  Category Images & Media
+                  Category Images & Media (800 × 600 px)
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
-                  Upload category banner and showcase images (1st image will be the primary cover)
+                  Upload category banner and showcase images standardized to 800 × 600 px (1st image will be the primary cover)
                 </CardDescription>
               </div>
             </CardHeader>

@@ -11,6 +11,7 @@ import {
 } from "@/lib/data/public";
 import ProductHero from "@/app/catalogue/components/ProductHero";
 import ProductGallery from "@/app/catalogue/components/ProductGallery";
+import ProductVideos from "@/app/catalogue/components/ProductVideos";
 import ProductFeatures from "@/app/catalogue/components/ProductFeatures";
 import ProductApplications from "@/app/catalogue/components/ProductApplications";
 import ProductSpecifications from "@/app/catalogue/components/ProductSpecifications";
@@ -100,6 +101,13 @@ export default async function ProductDetailPage({ params }: Props) {
             </h2>
             <ProductGallery product={product} />
           </section>
+
+          {/* Machine Demonstration & Live Videos (YouTube / Instagram) */}
+          <ProductVideos
+            videos={product.videos}
+            videoUrl={product.video_url}
+            productName={product.name}
+          />
 
           {hasBody ? (
             <div className="space-y-12 wrap">

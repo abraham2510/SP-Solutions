@@ -34,6 +34,7 @@ function mapCategory(c: any): CatalogueCategory {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapProduct(p: any): CatalogueProduct {
   const productImages = p.images && p.images.length > 0 ? p.images : p.imageUrl ? [p.imageUrl] : [];
+  const productVideos = p.videos && p.videos.length > 0 ? p.videos : p.videoUrl ? [p.videoUrl] : [];
   return {
     id: p.id,
     name: p.name,
@@ -46,6 +47,8 @@ function mapProduct(p: any): CatalogueProduct {
     description: p.description || "",
     image: productImages[0] || p.imageUrl || "",
     images: productImages,
+    video_url: productVideos[0] || p.videoUrl || "",
+    videos: productVideos,
     featured: p.featured,
     status: p.status === "ACTIVE" ? "active" : "inactive",
     features: p.features ? p.features.map((f: { feature: string }) => f.feature) : [],

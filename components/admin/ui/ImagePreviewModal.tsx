@@ -1,7 +1,13 @@
 "use client";
 
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Eye, Crop, Star, Trash2, X, ExternalLink } from "lucide-react";
 
@@ -32,26 +38,34 @@ export function ImagePreviewModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl bg-slate-950 border-slate-800 p-0 overflow-hidden shadow-2xl">
+      <DialogContent className="bg-slate-950 border-slate-800 p-0 overflow-hidden shadow-2xl max-w-3xl sm:max-w-4xl w-full">
         <DialogHeader className="p-4 bg-slate-900 border-b border-slate-800 flex flex-row items-center justify-between">
           <DialogTitle className="text-sm font-bold text-slate-200 flex items-center gap-2">
             <Eye className="w-4 h-4 text-sky-400" />
             Image Preview ({imageIndex + 1} of {totalImages})
+            <span className="text-[10.5px] font-mono font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-sky-400 border border-slate-700">
+              800 × 600 px
+            </span>
             {isCover && (
-              <span className="ml-2 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
+              <span className="ml-1 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1">
                 <Star className="w-3 h-3 fill-white" /> Primary Cover
               </span>
             )}
           </DialogTitle>
         </DialogHeader>
 
-        {/* Lightbox Image Preview Area */}
-        <div className="relative w-full min-h-[350px] max-h-[550px] bg-black/90 flex items-center justify-center p-4 overflow-hidden">
-          <img
-            src={imageSrc}
-            alt={`Image preview ${imageIndex + 1}`}
-            className="max-w-full max-h-[500px] object-contain rounded-lg shadow-lg"
-          />
+        {/* Lightbox Image Preview Area (800x600 Frame) */}
+        <div className="relative w-full bg-slate-950 flex flex-col items-center justify-center p-4 sm:p-6">
+          <div className="relative w-full max-w-[800px] aspect-[4/3] rounded-xl overflow-hidden border border-slate-800 bg-black shadow-2xl flex items-center justify-center">
+            <img
+              src={imageSrc}
+              alt={`Machine photo ${imageIndex + 1}`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-2.5 right-2.5 bg-black/75 backdrop-blur-xs text-white/90 text-[10.5px] font-mono font-medium px-2.5 py-1 rounded-md border border-white/15 pointer-events-none shadow-sm">
+              Standard Resolution: 800 × 600
+            </div>
+          </div>
         </div>
 
         {/* Action Controls Footer */}
@@ -67,7 +81,7 @@ export function ImagePreviewModal({
             </a>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 p-2">
             {!isCover && onSetCoverRequest && (
               <Button
                 type="button"

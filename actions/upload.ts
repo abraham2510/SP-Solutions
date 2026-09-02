@@ -108,3 +108,79 @@ export async function uploadMultipleImagesAction(images: string[], folder = "sp-
     };
   }
 }
+
+export async function uploadVideoAction(videoData: string, folder = "products/videos") {
+  await requireAdmin();
+
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    const missing = [];
+    if (!cloudName) missing.push("CLOUDINARY_CLOUD_NAME");
+    if (!apiKey) missing.push("CLOUDINARY_API_KEY");
+    if (!apiSecret) missing.push("CLOUDINARY_API_SECRET");
+
+    return {
+      success: false as const,
+      error: `Cloudinary environment variables missing: ${missing.join(", ")}.`,
+    };
+  }
+
+  cloudinary.config({
+    cloud_name: cloudName,
+    api_key: apiKey,
+    api_secret: apiSecret,
+    secure: true,
+  });
+
+  try {
+    const result = await cloudinary.uploader.upload(videoData, {
+      folder,
+      resource_type: "video",
+      chunk_size: 6000000,
+    });
+
+    return {
+      success: true as const,
+      url: result.secure_url,
+    };
+  } catch (err: unknown) {
+    console.error("Cloudinary video upload error:", err);
+    return {
+      success: false as const,
+      error: err instanceof Error ? err.message : "Failed to upload video to Cloudinary.",
+    };
+  }
+}
+
+export async function getCloudinaryVideoUploadSignatureAction(folder = "products/videos") {
+  await requireAdmin();
+
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME || process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    return {
+      success: false as const,
+      error: "Cloudinary credentials not configured on server.",
+    };
+  }
+
+  const timestamp = Math.round(new Date().getTime() / 1000);
+  const signature = cloudinary.utils.api_sign_request(
+    { folder, timestamp },
+    apiSecret
+  );
+
+  return {
+    success: true as const,
+    cloudName,
+    apiKey,
+    timestamp,
+    signature,
+    folder,
+  };
+}

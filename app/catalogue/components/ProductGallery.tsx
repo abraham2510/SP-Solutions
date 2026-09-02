@@ -78,11 +78,11 @@ export default function ProductGallery({ product }: ProductGalleryProps) {
         <div className="relative flex items-center justify-center w-full">
           {/* Bleeding 3-Card Carousel Track (Center Image Uncompressed) */}
           <div className="flex items-center justify-center gap-3 sm:gap-5 w-full">
-            {/* Left Side Bleeding Peek Image (Taller Height) */}
+            {/* Left Side Bleeding Peek Image (4:3 Ratio) */}
             {images.length > 1 && (
               <div
                 onClick={handlePrev}
-                className="hidden sm:block w-[240px] sm:w-[300px] md:w-[340px] shrink-0 -ml-[90px] sm:-ml-[140px] md:-ml-[160px] h-[320px] sm:h-[400px] md:h-[460px] rounded-2xl overflow-hidden border border-[#E7EAEE] opacity-60 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-xs relative group bg-white"
+                className="hidden sm:block w-[240px] sm:w-[280px] md:w-[320px] shrink-0 -ml-[90px] sm:-ml-[140px] md:-ml-[160px] aspect-[4/3] rounded-2xl overflow-hidden border border-[#E7EAEE] opacity-60 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-xs relative group bg-white"
               >
                 <img
                   src={images[prevIndex]}
@@ -93,14 +93,14 @@ export default function ProductGallery({ product }: ProductGalleryProps) {
               </div>
             )}
 
-            {/* Central Main Active Image (Uncompressed Fixed Width) */}
+            {/* Central Main Active Image (800x600 4:3 Aspect Ratio) */}
             <div
               onClick={() => setIsModalOpen(true)}
               className={`relative ${
                 images.length > 1
                   ? "w-full sm:w-[72%] md:w-[68%]"
                   : "w-full"
-              } shrink-0 aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden border border-[#E7EAEE] shadow-md bg-white cursor-pointer group transition-all duration-300`}
+              } shrink-0 aspect-[4/3] max-w-[680px] rounded-2xl overflow-hidden border border-[#E7EAEE] shadow-md bg-white cursor-pointer group transition-all duration-300`}
             >
               <img
                 src={images[selectedIndex]}
@@ -124,11 +124,11 @@ export default function ProductGallery({ product }: ProductGalleryProps) {
               )}
             </div>
 
-            {/* Right Side Bleeding Peek Image (Taller Height) */}
+            {/* Right Side Bleeding Peek Image (4:3 Ratio) */}
             {images.length > 1 && (
               <div
                 onClick={handleNext}
-                className="hidden sm:block w-[240px] sm:w-[300px] md:w-[340px] shrink-0 -mr-[90px] sm:-mr-[140px] md:-mr-[160px] h-[320px] sm:h-[400px] md:h-[460px] rounded-2xl overflow-hidden border border-[#E7EAEE] opacity-60 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-xs relative group bg-white"
+                className="hidden sm:block w-[240px] sm:w-[280px] md:w-[320px] shrink-0 -mr-[90px] sm:-mr-[140px] md:-mr-[160px] aspect-[4/3] rounded-2xl overflow-hidden border border-[#E7EAEE] opacity-60 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-xs relative group bg-white"
               >
                 <img
                   src={images[nextIndex]}
@@ -226,11 +226,11 @@ export default function ProductGallery({ product }: ProductGalleryProps) {
             className="relative flex-1 flex items-center justify-center my-2 sm:my-4 overflow-hidden w-full max-w-5xl mx-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full h-full max-h-[70vh] sm:max-h-[76vh] aspect-[16/10] sm:aspect-[16/9] flex items-center justify-center rounded-2xl overflow-hidden bg-black/40 border border-white/10 shadow-2xl">
+            <div className="relative w-full h-full max-h-[72vh] sm:max-h-[78vh] aspect-[4/3] max-w-[860px] flex items-center justify-center rounded-2xl overflow-hidden bg-black/40 border border-white/10 shadow-2xl">
               <img
                 src={images[selectedIndex]}
                 alt={`${product.name} preview full`}
-                className="w-full h-full object-contain p-2 sm:p-4 transition-all duration-300"
+                className="w-full h-full object-cover p-2 sm:p-4 transition-all duration-300"
               />
             </div>
 

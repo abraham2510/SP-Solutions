@@ -60,11 +60,20 @@ export async function createProduct(data: unknown): Promise<ActionResult> {
   const primaryImageUrl = images[0] || productData.imageUrl || null;
 
   try {
+    const videos = productData.videos || [];
+    const primaryVideoUrl = productData.videoUrl || videos[0] || null;
+
     const product = await prisma.product.create({
       data: {
-        ...productData,
+        name: productData.name,
+        slug: productData.slug,
+        category: { connect: { id: productData.categoryId } },
+        featured: productData.featured,
+        status: productData.status,
         imageUrl: primaryImageUrl,
         images: images,
+        videoUrl: primaryVideoUrl,
+        videos: videos,
         model: productData.model || null,
         shortDescription: productData.shortDescription || null,
         description: productData.description || null,
@@ -94,9 +103,11 @@ export async function createProduct(data: unknown): Promise<ActionResult> {
 
     revalidateProductPaths(product.category.slug, product.slug);
     return { success: true, id: product.id };
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("createProduct error:", err);
-    return { success: false, error: "Failed to create product. Please try again." };
+    const message =
+      err instanceof Error ? err.message : "Failed to create product. Please try again.";
+    return { success: false, error: message };
   }
 }
 
@@ -127,6 +138,8 @@ export async function updateProduct(id: string, data: unknown): Promise<ActionRe
   }
 
   const primaryImageUrl = images[0] || productData.imageUrl || null;
+  const videos = productData.videos || [];
+  const primaryVideoUrl = productData.videoUrl || videos[0] || null;
 
   try {
     const product = await prisma.$transaction(async (tx) => {
@@ -139,9 +152,15 @@ export async function updateProduct(id: string, data: unknown): Promise<ActionRe
       return tx.product.update({
         where: { id },
         data: {
-          ...productData,
+          name: productData.name,
+          slug: productData.slug,
+          category: { connect: { id: productData.categoryId } },
+          featured: productData.featured,
+          status: productData.status,
           imageUrl: primaryImageUrl,
           images: images,
+          videoUrl: primaryVideoUrl,
+          videos: videos,
           model: productData.model || null,
           shortDescription: productData.shortDescription || null,
           description: productData.description || null,
@@ -172,9 +191,11 @@ export async function updateProduct(id: string, data: unknown): Promise<ActionRe
 
     revalidateProductPaths(product.category.slug, product.slug);
     return { success: true, id: product.id };
-  } catch (err) {
+  } catch (err: unknown) {
     console.error("updateProduct error:", err);
-    return { success: false, error: "Failed to update product. Please try again." };
+    const message =
+      err instanceof Error ? err.message : "Failed to update product. Please try again.";
+    return { success: false, error: message };
   }
 }
 
