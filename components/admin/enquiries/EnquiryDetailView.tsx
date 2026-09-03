@@ -131,7 +131,7 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl pb-16">
+    <div className="space-y-6 pb-16">
       {/* Top Header Navigation & Status Bar */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs">
         <div className="flex items-center gap-3.5">
@@ -150,12 +150,18 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
               <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
                 {enquiry.name}
               </h1>
-              <Badge variant={getStatusBadgeVariant(status)} className="text-xs">
+              <Badge
+                variant={getStatusBadgeVariant(status)}
+                className="text-xs"
+              >
                 {status}
               </Badge>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              Enquiry ID: <span className="font-mono text-slate-700 font-semibold">{enquiry.id}</span>
+              Enquiry ID:{" "}
+              <span className="font-mono text-slate-700 font-semibold">
+                {enquiry.id}
+              </span>
             </p>
           </div>
         </div>
@@ -163,7 +169,9 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
         {/* Status Dropdown & Delete Button */}
         <div className="flex items-center gap-3 self-start sm:self-auto flex-wrap">
           <div className="flex items-center gap-2">
-            <span className="text-xs font-semibold text-slate-500 hidden md:inline">Status:</span>
+            <span className="text-xs font-semibold text-slate-500 hidden md:inline">
+              Status:
+            </span>
             <Select
               value={status}
               onValueChange={(val) => handleStatusChange(val as EnquiryStatus)}
@@ -267,7 +275,9 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
           <CardContent className="pt-5 space-y-4 text-sm">
             <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
               <div className="space-y-0.5">
-                <span className="text-xs text-slate-400 font-medium block">Full Name</span>
+                <span className="text-xs text-slate-400 font-medium block">
+                  Full Name
+                </span>
                 <span className="font-bold text-slate-900">{enquiry.name}</span>
               </div>
               <Button
@@ -276,14 +286,23 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
                 className="h-7 w-7 text-slate-400 hover:text-slate-700"
                 onClick={() => copyToClipboard(enquiry.name, "Name")}
               >
-                {copiedField === "Name" ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                {copiedField === "Name" ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-600" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
               </Button>
             </div>
 
             <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
               <div className="space-y-0.5">
-                <span className="text-xs text-slate-400 font-medium block">Email Address</span>
-                <a href={`mailto:${enquiry.email}`} className="font-semibold text-[#00266A] hover:underline">
+                <span className="text-xs text-slate-400 font-medium block">
+                  Email Address
+                </span>
+                <a
+                  href={`mailto:${enquiry.email}`}
+                  className="font-semibold text-[#00266A] hover:underline"
+                >
                   {enquiry.email}
                 </a>
               </div>
@@ -293,13 +312,19 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
                 className="h-7 w-7 text-slate-400 hover:text-slate-700"
                 onClick={() => copyToClipboard(enquiry.email, "Email")}
               >
-                {copiedField === "Email" ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                {copiedField === "Email" ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-600" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
               </Button>
             </div>
 
             <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
               <div className="space-y-0.5">
-                <span className="text-xs text-slate-400 font-medium block">Phone Number</span>
+                <span className="text-xs text-slate-400 font-medium block">
+                  Phone Number
+                </span>
                 <span className="font-semibold text-slate-800">
                   {enquiry.phone || "Not provided"}
                 </span>
@@ -311,14 +336,20 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
                   className="h-7 w-7 text-slate-400 hover:text-slate-700"
                   onClick={() => copyToClipboard(enquiry.phone!, "Phone")}
                 >
-                  {copiedField === "Phone" ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                  {copiedField === "Phone" ? (
+                    <Check className="h-3.5 w-3.5 text-emerald-600" />
+                  ) : (
+                    <Copy className="h-3.5 w-3.5" />
+                  )}
                 </Button>
               )}
             </div>
 
             <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100">
               <div className="space-y-0.5">
-                <span className="text-xs text-slate-400 font-medium block">Company / Organization</span>
+                <span className="text-xs text-slate-400 font-medium block">
+                  Company / Organization
+                </span>
                 <span className="font-semibold text-slate-800">
                   {enquiry.company || "Individual Buyer"}
                 </span>
@@ -327,7 +358,9 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
 
             <div className="flex items-start justify-between gap-3">
               <div className="space-y-0.5">
-                <span className="text-xs text-slate-400 font-medium block">Submission Date</span>
+                <span className="text-xs text-slate-400 font-medium block">
+                  Submission Date
+                </span>
                 <span className="font-medium text-slate-700 text-xs">
                   {new Date(enquiry.createdAt).toLocaleString("en-IN", {
                     dateStyle: "full",
@@ -358,7 +391,10 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
                     <Package className="h-4 w-4" />
                     Packaging Machinery
                   </span>
-                  <Badge variant="outline" className="bg-white border-[#00266A]/30 text-[#00266A] text-[10px]">
+                  <Badge
+                    variant="outline"
+                    className="bg-white border-[#00266A]/30 text-[#00266A] text-[10px]"
+                  >
                     Catalogue Product
                   </Badge>
                 </div>
@@ -391,7 +427,10 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
                     <Wrench className="h-4 w-4 text-amber-600" />
                     Technical Service
                   </span>
-                  <Badge variant="outline" className="bg-white text-slate-700 text-[10px]">
+                  <Badge
+                    variant="outline"
+                    className="bg-white text-slate-700 text-[10px]"
+                  >
                     Service Offer
                   </Badge>
                 </div>
@@ -456,8 +495,8 @@ export function EnquiryDetailView({ enquiry }: EnquiryDetailViewProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Enquiry Record</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this enquiry from <strong>{enquiry.name}</strong>?
-              This action cannot be undone.
+              Are you sure you want to delete this enquiry from{" "}
+              <strong>{enquiry.name}</strong>? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

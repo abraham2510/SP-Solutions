@@ -11,6 +11,8 @@ export const ServiceSchema = z.object({
   description: z.string().max(10000).optional().default(""),
   imageUrl: z.string().optional().default(""),
   images: z.array(z.string()).default([]),
+  videoUrl: z.string().optional().default(""),
+  videos: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
   status: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE"),
   sortOrder: z.number().int().min(0).max(9999).default(0),

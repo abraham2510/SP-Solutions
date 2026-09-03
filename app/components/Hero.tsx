@@ -69,7 +69,7 @@ export default function Hero() {
             className={`flex gap-[14px] mt-[34px] flex-wrap justify-center items-center reveal ${loaded ? "in" : ""}`}
           >
             <a
-              href="#contact"
+              href="/contact"
               className="btn btn-primary min-w-[220px] text-center justify-center"
             >
               Request a quote

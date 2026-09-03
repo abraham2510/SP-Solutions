@@ -18,6 +18,7 @@ import type {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapCategory(c: any): CatalogueCategory {
   const categoryImages = c.images && c.images.length > 0 ? c.images : c.imageUrl ? [c.imageUrl] : [];
+  const categoryVideos = c.videos && c.videos.length > 0 ? c.videos : c.videoUrl ? [c.videoUrl] : [];
   return {
     id: c.id,
     name: c.name,
@@ -26,6 +27,8 @@ function mapCategory(c: any): CatalogueCategory {
     description: c.description || "",
     image: categoryImages[0] || c.imageUrl || "",
     images: categoryImages,
+    video_url: categoryVideos[0] || c.videoUrl || "",
+    videos: categoryVideos,
     sort_order: c.sortOrder ?? 0,
     status: c.status === "ACTIVE" ? "active" : "inactive",
   };
@@ -66,6 +69,7 @@ function mapProduct(p: any): CatalogueProduct {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function mapService(s: any): CatalogueService {
+  const serviceVideos = s.videos && s.videos.length > 0 ? s.videos : s.videoUrl ? [s.videoUrl] : [];
   return {
     id: s.id,
     name: s.name,
@@ -75,6 +79,8 @@ function mapService(s: any): CatalogueService {
     description: s.description || "",
     image: s.imageUrl || "",
     images: s.images && s.images.length > 0 ? s.images : (s.imageUrl ? [s.imageUrl] : []),
+    video_url: serviceVideos[0] || s.videoUrl || "",
+    videos: serviceVideos,
     featured: s.featured,
     status: s.status === "ACTIVE" ? "active" : "inactive",
     sort_order: s.sortOrder ?? 0,

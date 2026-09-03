@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Sparkles, FileText, MessageCircle, Send } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { SITE_CONTACTS } from "@/lib/constants";
 import {
   getAllProducts,
@@ -11,7 +11,6 @@ import {
 } from "@/lib/data/public";
 import ProductHero from "@/app/catalogue/components/ProductHero";
 import ProductGallery from "@/app/catalogue/components/ProductGallery";
-import ProductVideos from "@/app/catalogue/components/ProductVideos";
 import ProductFeatures from "@/app/catalogue/components/ProductFeatures";
 import ProductApplications from "@/app/catalogue/components/ProductApplications";
 import ProductSpecifications from "@/app/catalogue/components/ProductSpecifications";
@@ -94,20 +93,13 @@ export default async function ProductDetailPage({ params }: Props) {
       {/* Body */}
       <div className="py-12 sm:py-16">
         <div className="space-y-10">
-          {/* Machine Product Gallery */}
+          {/* Machine Product Gallery & Videos */}
           <section>
             <h2 className="text-[20px] font-bold wrap px-4 text-[#10151C] mb-5 tracking-tight">
-              Product Images & Gallery
+              Product Images &amp; Media Gallery
             </h2>
             <ProductGallery product={product} />
           </section>
-
-          {/* Machine Demonstration & Live Videos (YouTube / Instagram) */}
-          <ProductVideos
-            videos={product.videos}
-            videoUrl={product.video_url}
-            productName={product.name}
-          />
 
           {hasBody ? (
             <div className="space-y-12 wrap">

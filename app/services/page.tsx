@@ -35,16 +35,22 @@ export default async function ServicesPage() {
         />
         <div className="wrap relative z-10">
           <nav className="flex items-center gap-2 text-[12px] text-white/50 mb-5">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/" className="hover:text-white transition-colors">
+              Home
+            </Link>
             <span>/</span>
             <span className="text-white/80">Services</span>
           </nav>
-          <span className="eyebrow eyebrow-dark text-white/60 mb-3">TECHNICAL SERVICES</span>
+          <span className="eyebrow eyebrow-dark !text-white/60 mb-3">
+            TECHNICAL SERVICES
+          </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-            Repair &amp; <span className="text-[#C1FF72]">Technical Services</span>
+            Repair &amp;{" "}
+            <span className="text-[#C1FF72]">Technical Services</span>
           </h1>
           <p className="text-white/65 mt-4 text-base sm:text-lg max-w-xl leading-relaxed">
-            Expert repair, maintenance, and on-site support for all packaging machinery. Chennai-based with pan-India reach.
+            Expert repair, maintenance, and on-site support for all packaging
+            machinery. Chennai-based with pan-India reach.
           </p>
         </div>
       </section>
@@ -61,18 +67,24 @@ export default async function ServicesPage() {
             Need urgent machine repair?
           </h2>
           <p className="text-[#5B6572] mb-8 max-w-md mx-auto">
-            Call us directly or WhatsApp for fastest response. We&apos;re available for emergency breakdowns.
+            Call us directly or WhatsApp for fastest response. We&apos;re
+            available for emergency breakdowns.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href={SITE_CONTACTS.whatsapp.getUrl("Hi, I need urgent packaging machine repair assistance.")}
+              href={SITE_CONTACTS.whatsapp.getUrl(
+                "Hi, I need urgent packaging machine repair assistance.",
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"
             >
               WhatsApp Us
             </a>
-            <a href={SITE_CONTACTS.phone.primary.tel} className="btn btn-outline">
+            <a
+              href={SITE_CONTACTS.phone.primary.tel}
+              className="btn btn-outline"
+            >
               Call {SITE_CONTACTS.phone.primary.display}
             </a>
           </div>

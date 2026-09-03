@@ -35,6 +35,10 @@ export interface CatalogueCategory {
   image: string;
   /** Array of image URLs for gallery display. */
   images: string[];
+  /** Primary video URL */
+  video_url?: string;
+  /** Array of video URLs */
+  videos?: string[];
   sort_order: number;
   status: "active" | "inactive";
 }
@@ -50,6 +54,10 @@ export interface CatalogueService {
   image: string;
   /** Array of image URLs for gallery display. */
   images: string[];
+  /** Primary video URL */
+  video_url?: string;
+  /** Array of video URLs */
+  videos?: string[];
   featured: boolean;
   status: "active" | "inactive";
   sort_order: number;

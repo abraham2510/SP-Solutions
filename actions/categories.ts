@@ -32,6 +32,8 @@ export async function createCategory(data: unknown): Promise<ActionResult> {
   }
 
   const primaryImageUrl = images[0] || parsed.data.imageUrl || null;
+  const videos = parsed.data.videos || [];
+  const primaryVideoUrl = parsed.data.videoUrl || videos[0] || null;
 
   const { name, slug, description, type, sortOrder, status } = parsed.data;
 
@@ -44,6 +46,8 @@ export async function createCategory(data: unknown): Promise<ActionResult> {
         description: description || null,
         imageUrl: primaryImageUrl,
         images: images,
+        videoUrl: primaryVideoUrl,
+        videos: videos,
         sortOrder,
         status,
       },
@@ -81,6 +85,8 @@ export async function updateCategory(id: string, data: unknown): Promise<ActionR
   }
 
   const primaryImageUrl = images[0] || parsed.data.imageUrl || null;
+  const videos = parsed.data.videos || [];
+  const primaryVideoUrl = parsed.data.videoUrl || videos[0] || null;
   const { name, slug, description, type, sortOrder, status } = parsed.data;
 
   try {
@@ -93,6 +99,8 @@ export async function updateCategory(id: string, data: unknown): Promise<ActionR
         description: description || null,
         imageUrl: primaryImageUrl,
         images: images,
+        videoUrl: primaryVideoUrl,
+        videos: videos,
         sortOrder,
         status,
       },

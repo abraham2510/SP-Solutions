@@ -3,14 +3,19 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createService, updateService } from "@/actions/services";
-import { uploadImageAction } from "@/actions/upload";
+import {
+  uploadImageAction,
+  getCloudinaryVideoUploadSignatureAction,
+} from "@/actions/upload";
 import { MultiImageUploader } from "../ui/MultiImageUploader";
+import { VideoLinksEditor } from "../ui/VideoLinksEditor";
 import {
   ArrowLeft,
   Save,
   Loader2,
   Wrench,
   Image as ImageIcon,
+  Film,
   FileText,
   CheckCircle2,
   AlertCircle,
@@ -48,6 +53,8 @@ interface ServiceFormProps {
     description?: string | null;
     imageUrl?: string | null;
     images?: string[];
+    videoUrl?: string | null;
+    videos?: string[];
     featured?: boolean;
     sortOrder?: number;
     status: "ACTIVE" | "INACTIVE";
@@ -71,6 +78,16 @@ export function ServiceForm({ mode, initialData }: ServiceFormProps) {
       : initialData?.imageUrl
       ? [initialData.imageUrl]
       : []
+  );
+  const [videos, setVideos] = useState<string[]>(
+    initialData?.videos && initialData.videos.length > 0
+      ? initialData.videos
+      : initialData?.videoUrl
+      ? [initialData.videoUrl]
+      : []
+  );
+  const [pendingVideoFiles, setPendingVideoFiles] = useState<Map<string, File>>(
+    new Map()
   );
   const [sortOrder, setSortOrder] = useState<number>(
     initialData?.sortOrder ?? 0
@@ -123,7 +140,70 @@ export function ServiceForm({ mode, initialData }: ServiceFormProps) {
       }
     }
 
+    // Upload any pending video files to Cloudinary (services/videos)
+    let finalVideos = [...videos];
+    let videoUploadCount = 0;
+    const totalPendingVideos = pendingVideoFiles.size;
+
+    for (let i = 0; i < finalVideos.length; i++) {
+      const vUrl = finalVideos[i];
+      const pendingFile = pendingVideoFiles.get(vUrl);
+      if (pendingFile) {
+        videoUploadCount++;
+        setUploadMessage(
+          `Uploading demonstration video ${videoUploadCount} of ${totalPendingVideos} to Cloudinary...`
+        );
+
+        const sigRes = await getCloudinaryVideoUploadSignatureAction(
+          "services/videos"
+        );
+        if (!sigRes.success || !sigRes.cloudName || !sigRes.apiKey) {
+          toast.error(
+            sigRes.error || "Failed to authenticate Cloudinary video upload."
+          );
+          setLoading(false);
+          setUploadMessage(null);
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", pendingFile);
+        formData.append("api_key", sigRes.apiKey);
+        formData.append("timestamp", String(sigRes.timestamp));
+        formData.append("signature", sigRes.signature);
+        formData.append("folder", sigRes.folder);
+
+        try {
+          const uploadRes = await fetch(
+            `https://api.cloudinary.com/v1_1/${sigRes.cloudName}/video/upload`,
+            {
+              method: "POST",
+              body: formData,
+            }
+          );
+          const data = await uploadRes.json();
+          if (!uploadRes.ok || !data.secure_url) {
+            toast.error(
+              data.error?.message || "Failed to upload video to Cloudinary."
+            );
+            setLoading(false);
+            setUploadMessage(null);
+            return;
+          }
+          finalVideos[i] = data.secure_url;
+        } catch (uploadErr) {
+          console.error("Video upload error:", uploadErr);
+          toast.error("Network error during video upload to Cloudinary.");
+          setLoading(false);
+          setUploadMessage(null);
+          return;
+        }
+      }
+    }
+
     setUploadMessage("Saving service to database...");
+
+    const cleanVideos = finalVideos.map((v) => v.trim()).filter(Boolean);
 
     const payload = {
       name: name.trim(),
@@ -132,6 +212,8 @@ export function ServiceForm({ mode, initialData }: ServiceFormProps) {
       description: description.trim(),
       imageUrl: finalImages[0] || "",
       images: finalImages,
+      videoUrl: cleanVideos[0] || "",
+      videos: cleanVideos,
       featured: false,
       sortOrder: Number(sortOrder) || 0,
       status,
@@ -440,7 +522,40 @@ export function ServiceForm({ mode, initialData }: ServiceFormProps) {
             </CardContent>
           </Card>
 
-          {/* Card 2: Cover Photo Preview Badge */}
+          {/* Card 2: Service Demonstration Videos (YouTube, Instagram Reels) */}
+          <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 p-5 bg-slate-50/50">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-700">
+                  <Film className="h-5 w-5" />
+                </div>
+                <div>
+                  <CardTitle className="text-base font-bold text-slate-900">
+                    Service Demonstration Videos
+                  </CardTitle>
+                  <CardDescription className="text-xs text-slate-500">
+                    YouTube trials &amp; Instagram Reels
+                  </CardDescription>
+                </div>
+              </div>
+              <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-purple-500/10 text-purple-700 border border-purple-500/20">
+                {videos.length} {videos.length === 1 ? "Video" : "Videos"}
+              </span>
+            </CardHeader>
+            <CardContent className="p-5">
+              <VideoLinksEditor
+                videos={videos}
+                onChange={setVideos}
+                pendingFiles={pendingVideoFiles}
+                onPendingFilesChange={setPendingVideoFiles}
+                folder="services/videos"
+                emptyMessage="No service demonstration videos added yet."
+                emptySubMessage="Add YouTube repair demos, Instagram Reels, or MP4 service walkthroughs."
+              />
+            </CardContent>
+          </Card>
+
+          {/* Card 3: Cover Photo Preview Badge */}
           <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
             <CardHeader className="flex flex-row items-center gap-3 border-b border-slate-100 p-5 bg-slate-50/50">
               <div className="p-2.5 rounded-xl bg-amber-500/10 text-amber-700">

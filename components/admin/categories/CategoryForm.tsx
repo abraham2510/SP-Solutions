@@ -12,9 +12,7 @@ import {
   FolderKanban,
   Image as ImageIcon,
   CheckCircle2,
-  AlertCircle,
   Star,
-  Info,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -58,16 +56,18 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
 
   const [name, setName] = useState(initialData?.name || "");
   const [slug, setSlug] = useState(initialData?.slug || "");
-  const [description, setDescription] = useState(initialData?.description || "");
+  const [description, setDescription] = useState(
+    initialData?.description || "",
+  );
   const [images, setImages] = useState<string[]>(
     initialData?.images && initialData.images.length > 0
       ? initialData.images
       : initialData?.imageUrl
-      ? [initialData.imageUrl]
-      : []
+        ? [initialData.imageUrl]
+        : [],
   );
   const [status, setStatus] = useState<"ACTIVE" | "INACTIVE">(
-    initialData?.status || "ACTIVE"
+    initialData?.status || "ACTIVE",
   );
 
   const handleNameChange = (val: string) => {
@@ -77,7 +77,7 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
         val
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-|-$/g, "")
+          .replace(/^-|-$/g, ""),
       );
     }
   };
@@ -104,10 +104,14 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
     for (let i = 0; i < finalImages.length; i++) {
       const img = finalImages[i];
       if (img.startsWith("data:image/")) {
-        setUploadMessage(`Uploading image ${i + 1} of ${finalImages.length}...`);
+        setUploadMessage(
+          `Uploading image ${i + 1} of ${finalImages.length}...`,
+        );
         const uploadRes = await uploadImageAction(img, "categories");
         if (!uploadRes.success || !uploadRes.url) {
-          toast.error(uploadRes.error || "Failed to upload image to Cloudinary.");
+          toast.error(
+            uploadRes.error || "Failed to upload image to Cloudinary.",
+          );
           setLoading(false);
           setUploadMessage(null);
           return;
@@ -148,7 +152,7 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
       toast.success(
         mode === "create"
           ? "Category created successfully"
-          : "Category updated successfully"
+          : "Category updated successfully",
       );
       router.push("/admin/categories");
       router.refresh();
@@ -166,58 +170,42 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
         <div className="flex items-center gap-3.5">
           <Link
             href="/admin/categories"
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 transition-colors"
+            className="p-2.5 rounded-xl border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-2xs"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="sr-only">Back to categories</span>
           </Link>
           <div>
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
-                {mode === "create" ? "Add New Category" : "Edit Category"}
-              </h1>
-              <span
-                className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 ${
-                  status === "ACTIVE"
-                    ? "bg-emerald-500/10 text-emerald-700 border border-emerald-500/20"
-                    : "bg-slate-100 text-slate-600 border border-slate-200"
-                }`}
-              >
-                {status === "ACTIVE" ? (
-                  <>
-                    <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Active
-                  </>
-                ) : (
-                  <>
-                    <AlertCircle className="w-3 h-3 text-slate-500" /> Draft
-                  </>
-                )}
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-50 text-[#00266A] border border-blue-100">
+                Machine Category
+              </span>
+              <span className="text-xs text-slate-400">•</span>
+              <span className="text-xs font-semibold text-slate-500">
+                {mode === "create" ? "New Entry" : "Editing"}
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mt-0.5">
               {mode === "create"
-                ? "Create a new machinery category grouping for the public site."
-                : `Updating ${initialData?.name || "category"} configuration.`}
-            </p>
+                ? name || "Create New Category"
+                : name || "Edit Category"}
+            </h1>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 self-end sm:self-auto">
+        <div className="flex items-center gap-2.5 self-end sm:self-auto">
           <Button
             type="button"
             variant="outline"
-            size="sm"
             onClick={() => router.push("/admin/categories")}
             disabled={loading}
-            className="px-4 text-xs font-semibold rounded-xl border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer"
+            className="h-10 text-xs font-semibold rounded-xl border-slate-200 text-slate-700 hover:bg-slate-100 cursor-pointer"
           >
             Cancel
           </Button>
           <Button
             type="submit"
-            size="sm"
             disabled={loading}
-            className="gap-2 px-6 bg-[#00266A] text-white hover:bg-[#001D52] font-semibold rounded-xl shadow-xs transition-all cursor-pointer"
+            className="h-10 gap-2 bg-[#00266A] text-white hover:bg-[#001D52] font-semibold rounded-xl shadow-xs transition-all cursor-pointer text-xs"
           >
             {loading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -227,20 +215,20 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
             {loading
               ? uploadMessage || "Saving..."
               : mode === "create"
-              ? "Create Category"
-              : "Save Changes"}
+                ? "Create Category"
+                : "Save Changes"}
           </Button>
         </div>
       </div>
 
-      {/* 2-Column Split Grid */}
+      {/* Main Grid: Left Details & Media (2/3), Right Metadata (1/3) */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        {/* Left Main Column (2/3 width) */}
+        {/* Left 2 Columns */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Card 1: Basic Information */}
+          {/* Card 1: Core Category Information */}
           <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
             <CardHeader className="flex flex-row items-center gap-3 border-b border-slate-100 p-5 bg-slate-50/50">
-              <div className="p-2.5 rounded-xl bg-[#00266A]/10 text-[#00266A]">
+              <div className="p-2.5 rounded-xl bg-blue-500/10 text-[#00266A]">
                 <FolderKanban className="h-5 w-5" />
               </div>
               <div>
@@ -248,16 +236,25 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
                   Category Information
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
-                  Category title, URL slug, and summary description
+                  Identify and define the packaging machine category
                 </CardDescription>
               </div>
             </CardHeader>
             <CardContent className="p-6 space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {/* Category Name */}
                 <div className="space-y-2">
-                  <Label htmlFor="name" className="text-xs font-semibold text-slate-700">
-                    Category Name <span className="text-rose-500">*</span>
-                  </Label>
+                  <div className="flex items-center justify-between">
+                    <Label
+                      htmlFor="name"
+                      className="text-xs font-semibold text-slate-700"
+                    >
+                      Category Name <span className="text-rose-500">*</span>
+                    </Label>
+                    <span className="text-[11px] text-slate-400 font-mono">
+                      {name.length}/200
+                    </span>
+                  </div>
                   <Input
                     id="name"
                     required
@@ -266,31 +263,61 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
                     placeholder="e.g. Shrink Packaging Machines"
                     className="text-xs text-slate-900 h-10 rounded-xl border-slate-200 focus:border-[#00266A]"
                   />
+                  <p className="text-[11px] text-slate-400">
+                    The public display title used across the website &amp;
+                    catalog.
+                  </p>
                 </div>
 
+                {/* Slug */}
                 <div className="space-y-2">
-                  <Label htmlFor="slug" className="text-xs font-semibold text-slate-700 flex items-center justify-between">
-                    <span>URL Slug <span className="text-rose-500">*</span></span>
-                    <span className="text-[10px] text-slate-400 font-normal">Auto-generated</span>
-                  </Label>
-                  <Input
-                    id="slug"
-                    required
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                    placeholder="shrink-packaging"
-                    className="text-xs text-slate-900 font-mono h-10 rounded-xl border-slate-200 focus:border-[#00266A]"
-                  />
+                  <div className="flex items-center justify-between">
+                    <Label
+                      htmlFor="slug"
+                      className="text-xs font-semibold text-slate-700"
+                    >
+                      URL Slug <span className="text-rose-500">*</span>
+                    </Label>
+                    <span className="text-[11px] text-slate-400 font-mono">
+                      {slug.length}/200
+                    </span>
+                  </div>
+                  <div className="flex items-center rounded-xl border border-slate-200 bg-slate-50/70 overflow-hidden focus-within:border-[#00266A] focus-within:bg-white transition-all">
+                    <span className="text-[11px] text-slate-400 pl-3 pr-1 select-none font-mono">
+                      /machines/
+                    </span>
+                    <Input
+                      id="slug"
+                      required
+                      value={slug}
+                      onChange={(e) =>
+                        setSlug(
+                          e.target.value
+                            .toLowerCase()
+                            .replace(/[^a-z0-9-]+/g, ""),
+                        )
+                      }
+                      placeholder="shrink-packaging"
+                      className="border-0 bg-transparent text-xs text-slate-900 h-10 focus-visible:ring-0 focus-visible:ring-offset-0 px-0"
+                    />
+                  </div>
+                  <p className="text-[11px] text-slate-400">
+                    SEO friendly URL identifier (lowercase, hyphens only).
+                  </p>
                 </div>
               </div>
 
-              <div className="space-y-2">
+              {/* Description */}
+              <div className="space-y-2 pt-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="description" className="text-xs font-semibold text-slate-700">
-                    Category Description
+                  <Label
+                    htmlFor="description"
+                    className="text-xs font-semibold text-slate-700"
+                  >
+                    Category Overview &amp; Description
                   </Label>
-                  <span className="text-[10px] text-slate-400 font-normal">
-                    {description.length} characters
+                  <span className="text-[11px] text-slate-400 font-mono">
+                    {description.length}/2000
                   </span>
                 </div>
                 <Textarea
@@ -298,11 +325,12 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
                   rows={4}
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Comprehensive description of this machine category for customer catalogues and search results..."
+                  placeholder="Provide a comprehensive summary of this machine category, applications, packaging industries served..."
                   className="text-xs text-slate-900 rounded-xl border-slate-200 focus:border-[#00266A] resize-none"
                 />
                 <p className="text-[11px] text-slate-400">
-                  Displayed as the header summary on the category listing page (`/machines/[slug]`).
+                  Displayed as the header summary on the category listing page
+                  (`/machines/[slug]`).
                 </p>
               </div>
             </CardContent>
@@ -316,10 +344,11 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
               </div>
               <div>
                 <CardTitle className="text-base font-bold text-slate-900">
-                  Category Images & Media (800 × 600 px)
+                  Category Images &amp; Media (800 × 600 px)
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
-                  Upload category banner and showcase images standardized to 800 × 600 px (1st image will be the primary cover)
+                  Upload category banner and showcase images standardized to 800
+                  × 600 px (1st image will be the primary cover)
                 </CardDescription>
               </div>
             </CardHeader>
@@ -344,7 +373,7 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
               </div>
               <div>
                 <CardTitle className="text-base font-bold text-slate-900">
-                  Publishing & Visibility
+                  Publishing &amp; Visibility
                 </CardTitle>
                 <CardDescription className="text-xs text-slate-500">
                   Control category visibility on the public site
@@ -353,21 +382,29 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
             </CardHeader>
             <CardContent className="p-6 space-y-5">
               <div className="space-y-2">
-                <Label htmlFor="status" className="text-xs font-semibold text-slate-700">
+                <Label
+                  htmlFor="status"
+                  className="text-xs font-semibold text-slate-700"
+                >
                   Publication Status
                 </Label>
                 <Select
                   value={status}
-                  onValueChange={(val) => val && setStatus(val as "ACTIVE" | "INACTIVE")}
+                  onValueChange={(val) =>
+                    val && setStatus(val as "ACTIVE" | "INACTIVE")
+                  }
                 >
-                  <SelectTrigger id="status" className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200">
+                  <SelectTrigger
+                    id="status"
+                    className="w-full text-xs text-slate-900 h-10 rounded-xl border-slate-200"
+                  >
                     <SelectValue placeholder="Select Status">
                       {(val) =>
                         val === "ACTIVE"
                           ? "ACTIVE (Public Website)"
                           : val === "INACTIVE"
-                          ? "INACTIVE (Hidden Draft)"
-                          : val || "Select Status"
+                            ? "INACTIVE (Hidden Draft)"
+                            : val || "Select Status"
                       }
                     </SelectValue>
                   </SelectTrigger>
@@ -414,14 +451,18 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
               ) : (
                 <div className="w-full aspect-video rounded-xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center p-4 text-center">
                   <ImageIcon className="w-6 h-6 text-slate-300 mb-1" />
-                  <span className="text-xs font-semibold text-slate-500">No Cover Selected</span>
-                  <span className="text-[11px] text-slate-400 mt-0.5">Upload photos in media gallery</span>
+                  <span className="text-xs font-semibold text-slate-500">
+                    No Cover Selected
+                  </span>
+                  <span className="text-[11px] text-slate-400 mt-0.5">
+                    Upload photos in media gallery
+                  </span>
                 </div>
               )}
             </CardContent>
           </Card>
 
-          {/* Card 4: Action Footer Buttons */}
+          {/* Card 3: Action Footer Buttons */}
           <Card className="border-slate-200 bg-white shadow-2xs rounded-2xl overflow-hidden">
             <CardContent className="p-5 space-y-3">
               <Button
@@ -437,8 +478,8 @@ export function CategoryForm({ mode, initialData }: CategoryFormProps) {
                 {loading
                   ? uploadMessage || "Saving..."
                   : mode === "create"
-                  ? "Create Category"
-                  : "Save Changes"}
+                    ? "Create Category"
+                    : "Save Changes"}
               </Button>
               <Button
                 type="button"

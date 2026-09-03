@@ -52,13 +52,8 @@ export interface TeamMember {
   name: string;
   role: string;
   image: string;
-  socials: {
-    facebook?: string;
-    twitter?: string;
-    youtube?: string;
-    instagram?: string;
-    indiamart?: string;
-  };
+  description: string;
+  location?: string;
 }
 
 export interface TeamSectionOptions {
@@ -284,14 +279,10 @@ export const aboutOptions: AboutPageOptions = {
         id: "alex-navin-kumar",
         name: "Alex Navin Kumar",
         role: "SP Solutions Proprietor",
-        image:
-          "/assets/images/users/alex.jpeg",
-        socials: {
-          facebook: "https://facebook.com",
-          instagram: "https://www.instagram.com/spsolutionschennai/",
-          youtube: "https://www.youtube.com/@spsolutionchennai3961",
-          indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
-        },
+        image: "/assets/images/users/alex.jpeg",
+        description:
+          "Machinery design & custom automation specialist with 10+ years of industrial engineering expertise.",
+        location: "Padi, Chennai",
       },
       {
         id: "bhagavan",
@@ -299,12 +290,9 @@ export const aboutOptions: AboutPageOptions = {
         role: "SP Solutions Manager",
         image:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
-        socials: {
-          facebook: "https://facebook.com",
-          instagram: "https://www.instagram.com/spsolutionschennai/",
-          youtube: "https://www.youtube.com/@spsolutionchennai3961",
-          indiamart: "https://www.indiamart.com/sp-solutions-chennai/",
-        },
+        description:
+          "Operations lead directing factory production, client relations, and rapid 24/7 breakdown service dispatch.",
+        location: "Pan-India Support",
       },
     ],
   },

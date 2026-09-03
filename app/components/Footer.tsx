@@ -1,11 +1,6 @@
 import Link from "next/link";
 import LogoMark from "./icons/LogoMark";
-import {
-  FacebookIcon,
-  InstagramIcon,
-  YouTubeIcon,
-  IndiaMartIcon,
-} from "./icons/SocialIcons";
+import { InstagramIcon, YouTubeIcon, IndiaMartIcon } from "./icons/SocialIcons";
 import { SITE_CONTACTS } from "@/lib/constants";
 
 export default function Footer() {
@@ -29,14 +24,6 @@ export default function Footer() {
               rentals across Tamil Nadu &amp; India.
             </p>
             <div className="footer-social">
-              <a
-                href={socials.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-              >
-                <FacebookIcon />
-              </a>
               <a
                 href={socials.instagram}
                 target="_blank"

@@ -32,6 +32,9 @@ export async function createService(data: unknown): Promise<ActionResult> {
   }
 
   const primaryImageUrl = images[0] || parsed.data.imageUrl || null;
+  const videos = parsed.data.videos || [];
+  const primaryVideoUrl = parsed.data.videoUrl || videos[0] || null;
+
   const { name, slug, shortDescription, description, featured, status, sortOrder } = parsed.data;
 
   try {
@@ -43,6 +46,8 @@ export async function createService(data: unknown): Promise<ActionResult> {
         description: description || null,
         imageUrl: primaryImageUrl,
         images: images,
+        videoUrl: primaryVideoUrl,
+        videos: videos,
         featured,
         status,
         sortOrder,
@@ -81,6 +86,8 @@ export async function updateService(id: string, data: unknown): Promise<ActionRe
   }
 
   const primaryImageUrl = images[0] || parsed.data.imageUrl || null;
+  const videos = parsed.data.videos || [];
+  const primaryVideoUrl = parsed.data.videoUrl || videos[0] || null;
   const { name, slug, shortDescription, description, featured, status, sortOrder } = parsed.data;
 
   try {
@@ -93,6 +100,8 @@ export async function updateService(id: string, data: unknown): Promise<ActionRe
         description: description || null,
         imageUrl: primaryImageUrl,
         images: images,
+        videoUrl: primaryVideoUrl,
+        videos: videos,
         featured,
         status,
         sortOrder,

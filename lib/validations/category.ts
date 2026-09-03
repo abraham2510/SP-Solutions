@@ -11,6 +11,8 @@ export const CategorySchema = z.object({
   description: z.string().max(2000).optional().default(""),
   imageUrl: z.string().optional().default(""),
   images: z.array(z.string()).default([]),
+  videoUrl: z.string().optional().default(""),
+  videos: z.array(z.string()).default([]),
   sortOrder: z.number().int().min(0).max(9999).default(0),
   status: z.enum(["ACTIVE", "INACTIVE"]).default("ACTIVE"),
 });

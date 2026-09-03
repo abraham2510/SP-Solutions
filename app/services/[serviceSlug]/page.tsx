@@ -75,18 +75,25 @@ export default async function ServiceDetailPage({ params }: Props) {
 
         <div className="wrap relative z-10">
           <nav className="flex items-center gap-2 text-[12px] text-white/50 mb-5 flex-wrap">
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
+            <Link href="/" className="hover:text-white transition-colors">
+              Home
+            </Link>
             <span>/</span>
-            <Link href="/services" className="hover:text-white transition-colors">Services</Link>
+            <Link
+              href="/services"
+              className="hover:text-white transition-colors"
+            >
+              Services
+            </Link>
             <span>/</span>
             <span className="text-white/80">{service.name}</span>
           </nav>
 
-          <span className="inline-block text-[11px] tracking-[0.08em] uppercase font-semibold text-[#D5BD66] bg-[#D5BD66]/15 border border-[#D5BD66]/30 px-3 py-1 rounded-full mb-4">
+          <span className="inline-block text-[11px] tracking-[0.08em] uppercase font-semibold !text-[#D5BD66] bg-[#D5BD66]/15 border border-[#D5BD66]/30 px-3 py-1 rounded-full mb-4">
             REPAIR &amp; MAINTENANCE
           </span>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold !text-white tracking-tight leading-tight max-w-2xl">
             {service.name}
           </h1>
           {service.short_description && (
@@ -101,7 +108,9 @@ export default async function ServiceDetailPage({ params }: Props) {
       <div className="wrap py-12 sm:py-16 max-w-3xl mx-auto">
         {service.description ? (
           <div className="prose prose-slate max-w-none">
-            <p className="text-[15.5px] leading-[1.75] text-[#5B6572]">{service.description}</p>
+            <p className="text-[15.5px] leading-[1.75] text-[#5B6572]">
+              {service.description}
+            </p>
           </div>
         ) : (
           <div className="py-12 rounded-2xl bg-[#F8FAFC] border border-[#E7EAEE] text-center">
@@ -114,26 +123,87 @@ export default async function ServiceDetailPage({ params }: Props) {
           </div>
         )}
 
-        {service.images && service.images.length > 1 && (
-          <div className="mt-10 border-t border-slate-100 pt-8">
-            <h3 className="text-sm font-bold text-slate-900 tracking-wide uppercase mb-4">
-              Service Photos &amp; On-Site Gallery
+        {/* Service Media & Photos */}
+        {((service.images && service.images.length > 0) ||
+          (service.videos && service.videos.length > 0) ||
+          service.video_url) && (
+          <div className="mt-10 border-t border-slate-100 pt-8 space-y-6">
+            <h3 className="text-sm font-bold text-slate-900 tracking-wide uppercase">
+              Service Media &amp; Field Photos
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {service.images.map((img, i) => (
-                <div
-                  key={i}
-                  className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs group"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img}
-                    alt={`${service.name} - Photo ${i + 1}`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
-            </div>
+
+            {/* Videos if available */}
+            {((service.videos && service.videos.length > 0) ||
+              service.video_url) && (
+              <div className="grid grid-cols-1 gap-4">
+                {(service.videos && service.videos.length > 0
+                  ? service.videos
+                  : [service.video_url!]
+                ).map((vUrl, vIdx) => (
+                  <div
+                    key={vIdx}
+                    className="aspect-video rounded-2xl overflow-hidden border border-slate-200 bg-black shadow-xs"
+                  >
+                    {vUrl.includes("youtube.com") ||
+                    vUrl.includes("youtu.be") ? (
+                      <iframe
+                        src={
+                          vUrl.includes("embed/")
+                            ? vUrl
+                            : `https://www.youtube-nocookie.com/embed/${
+                                vUrl.match(
+                                  /(?:watch\?v=|youtu\.be\/|shorts\/)([a-zA-Z0-9_-]{11})/,
+                                )?.[1] || ""
+                              }`
+                        }
+                        title={`${service.name} Demonstration Video ${vIdx + 1}`}
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    ) : vUrl.includes("instagram.com") ? (
+                      <iframe
+                        src={`https://www.instagram.com/reel/${
+                          vUrl.match(
+                            /instagram\.com\/(?:p|reel|tv)\/([a-zA-Z0-9_-]+)/,
+                          )?.[1] || ""
+                        }/embed/`}
+                        title={`${service.name} Instagram Reel ${vIdx + 1}`}
+                        className="w-full h-full border-0 bg-black"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                    ) : (
+                      <video
+                        src={vUrl}
+                        controls
+                        playsInline
+                        className="w-full h-full object-contain bg-black"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Photos */}
+            {service.images && service.images.length > 0 && (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {service.images.map((img, i) => (
+                  <div
+                    key={i}
+                    className="aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-100 shadow-2xs group"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img}
+                      alt={`${service.name} - Photo ${i + 1}`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -141,11 +211,14 @@ export default async function ServiceDetailPage({ params }: Props) {
         <div className="mt-12 p-6 sm:p-8 rounded-2xl bg-[#00266A] text-white text-center">
           <h2 className="text-[20px] font-bold mb-2">Book this service</h2>
           <p className="text-white/65 text-[14px] mb-6 max-w-sm mx-auto">
-            Contact our technical team for availability, pricing, and on-site visits.
+            Contact our technical team for availability, pricing, and on-site
+            visits.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a
-              href={SITE_CONTACTS.whatsapp.getUrl(`Hi, I'd like to enquire about ${service.name}`)}
+              href={SITE_CONTACTS.whatsapp.getUrl(
+                `Hi, I'd like to enquire about ${service.name}`,
+              )}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-gold"
