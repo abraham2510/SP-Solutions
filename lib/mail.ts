@@ -1,7 +1,5 @@
 import nodemailer from "nodemailer";
-import path from "path";
-import fs from "fs";
-import { SITE_CONTACTS } from "./constants";
+import { SITE_CONTACTS } from "./constants/site";
 
 export interface EnquiryEmailPayload {
   id: string;
@@ -19,7 +17,7 @@ export interface EnquiryEmailPayload {
  * Returns null if SMTP credentials are missing.
  */
 function getEmailTransporter() {
-  const host = process.env.SMTP_HOST || "smtp.gmail.com";
+  const host = process.env.SMTP_HOST || "smtp.hostinger.com";
   const user = process.env.SMTP_USER;
   let pass = process.env.SMTP_PASS || process.env.SMTP_PASSWORD;
 
@@ -27,13 +25,13 @@ function getEmailTransporter() {
     return null;
   }
 
-  // Remove spaces if it's a 16-char Gmail app password formatted like "xxxx xxxx xxxx xxxx"
+  // Remove spaces if any
   if (pass.includes(" ") && pass.replace(/\s+/g, "").length === 16) {
     pass = pass.replace(/\s+/g, "");
   }
 
-  // If using Gmail, use service: "gmail" for optimal connection handling on cloud/Vercel
-  if (host === "smtp.gmail.com" || !process.env.SMTP_HOST) {
+  // If using Gmail, use service: "gmail"
+  if (host === "smtp.gmail.com") {
     return nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -58,27 +56,6 @@ function getEmailTransporter() {
 }
 
 /**
- * Returns the logo attachment if public/logo.png exists
- */
-function getLogoAttachment() {
-  try {
-    const logoPath = path.join(process.cwd(), "public", "logo.png");
-    if (fs.existsSync(logoPath)) {
-      return [
-        {
-          filename: "logo.png",
-          path: logoPath,
-          cid: "spsolutionslogo",
-        },
-      ];
-    }
-  } catch (err) {
-    console.error("[Nodemailer] Could not resolve logo file:", err);
-  }
-  return [];
-}
-
-/**
  * Sends both Admin Notification and Customer Confirmation emails on inquiry submission.
  */
 export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload): Promise<{
@@ -90,17 +67,16 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
   const inquiryType = enquiry.inquiryType || "General Inquiry";
 
   console.log(`[Nodemailer] Initiating email notifications for Inquiry #${refCode} (${enquiry.email})...`);
-  console.log(`[Nodemailer Runtime Check] SMTP_USER: ${process.env.SMTP_USER ? "DEFINED" : "UNDEFINED"}, SMTP_PASS: ${process.env.SMTP_PASS || process.env.SMTP_PASSWORD ? "DEFINED" : "UNDEFINED"}, SMTP_HOST: ${process.env.SMTP_HOST || "default(smtp.gmail.com)"}`);
 
   const transporter = getEmailTransporter();
 
   if (!transporter) {
-    const errMsg = "[Nodemailer ERROR] SMTP credentials missing in runtime environment! Please check that SMTP_USER and SMTP_PASS are added in your deployment Environment Variables.";
+    const errMsg = "[Nodemailer ERROR] SMTP credentials missing in runtime environment! Please check that SMTP_USER and SMTP_PASS are added in your .env file.";
     console.error(errMsg);
     return { adminSent: false, customerSent: false, error: errMsg };
   }
 
-  const senderEmail = (process.env.SMTP_USER || "abrahambillclinton@gmail.com").trim();
+  const senderEmail = (process.env.SMTP_USER || "info@spsolutionsc.com").trim();
   const senderFrom = {
     name: "SP Solutions",
     address: senderEmail,
@@ -111,9 +87,6 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
     process.env.ADMIN_EMAIL ||
     SITE_CONTACTS.email.primary
   ).trim();
-
-  const attachments = getLogoAttachment();
-  const logoSrc = "https://spsolutionsc.com/logo.png";
 
   let adminSent = false;
   let customerSent = false;
@@ -136,7 +109,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
           .wrapper { width: 100%; padding: 32px 16px; background-color: #F1F5F9; }
           .container { max-width: 620px; margin: 0 auto; background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 4px 14px rgba(0, 38, 106, 0.06); }
           .brand-header { background: #FFFFFF; padding: 24px 32px; border-bottom: 3px solid #00266A; text-align: center; }
-          .brand-logo { max-height: 52px; width: auto; display: inline-block; }
+          .brand-logo { max-height: 48px; width: auto; display: inline-block; }
           .brand-sub { font-size: 11px; font-weight: 700; color: #00266A; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 8px; }
           .banner { background: #00266A; color: #FFFFFF; padding: 18px 32px; }
           .banner-title { font-size: 17px; font-weight: 700; margin: 0 0 4px 0; color: #FFFFFF; letter-spacing: -0.01em; }
@@ -163,13 +136,9 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       <body>
         <div class="wrapper">
           <div class="container">
-            <!-- Brand Header with Logo -->
+            <!-- Brand Header -->
             <div class="brand-header">
-              ${
-                logoSrc
-                  ? `<img src="${logoSrc}" alt="SP Solutions Logo" class="brand-logo" />`
-                  : `<h2 style="margin:0; color:#00266A; font-size:22px; font-weight:800;">SP SOLUTIONS</h2>`
-              }
+              <img src="https://spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
               <div class="brand-sub">Industrial Packaging Machinery &amp; Automation Systems</div>
             </div>
 
@@ -257,7 +226,6 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       subject: `[SP Solutions] New Inquiry - ${enquiry.name} (${enquiry.company || "Individual"}) - Ref #${refCode}`,
       html: adminHtml,
       replyTo: enquiry.email,
-      attachments,
     });
     console.log(`[Nodemailer SUCCESS] Admin email sent to ${adminEmail} (MessageId: ${adminInfo.messageId})`);
     adminSent = true;
@@ -284,7 +252,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
           .wrapper { width: 100%; padding: 32px 16px; background-color: #F1F5F9; }
           .container { max-width: 620px; margin: 0 auto; background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 4px 14px rgba(0, 38, 106, 0.06); }
           .brand-header { background: #FFFFFF; padding: 24px 32px; border-bottom: 3px solid #00266A; text-align: center; }
-          .brand-logo { max-height: 52px; width: auto; display: inline-block; }
+          .brand-logo { max-height: 48px; width: auto; display: inline-block; }
           .brand-sub { font-size: 11px; font-weight: 700; color: #00266A; letter-spacing: 0.12em; text-transform: uppercase; margin-top: 8px; }
           .banner { background: #00266A; color: #FFFFFF; padding: 20px 32px; text-align: center; }
           .banner-title { font-size: 18px; font-weight: 700; margin: 0 0 4px 0; color: #FFFFFF; letter-spacing: -0.01em; }
@@ -307,13 +275,9 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       <body>
         <div class="wrapper">
           <div class="container">
-            <!-- Brand Header with Logo -->
+            <!-- Brand Header -->
             <div class="brand-header">
-              ${
-                logoSrc
-                  ? `<img src="${logoSrc}" alt="SP Solutions Logo" class="brand-logo" />`
-                  : `<h2 style="margin:0; color:#00266A; font-size:22px; font-weight:800;">SP SOLUTIONS</h2>`
-              }
+              <img src="https://spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
               <div class="brand-sub">Industrial Packaging Machinery &amp; Automation Systems</div>
             </div>
 
@@ -380,7 +344,6 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
       subject: `SP Solutions - Inquiry Confirmation [Ref #${refCode}]`,
       html: customerHtml,
       replyTo: adminEmail,
-      attachments,
     });
     console.log(`[Nodemailer SUCCESS] Customer confirmation email sent to ${enquiry.email} (MessageId: ${custInfo.messageId})`);
     customerSent = true;
