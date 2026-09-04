@@ -3,7 +3,9 @@ import { getAllProducts, getAllCategories, getServices } from "@/lib/data/public
 import { getPublishedBlogPosts } from "@/lib/data/blogs";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.spsolutionsc.com";
+  process.env.SITE_URL ||
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  "https://www.spsolutionsc.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, categories, services, blogData] = await Promise.all([

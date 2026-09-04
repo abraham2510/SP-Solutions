@@ -9,6 +9,7 @@ import FloatingContactButtons from "./components/FloatingContactButtons";
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const siteUrl =
+  process.env.SITE_URL ||
   process.env.NEXT_PUBLIC_SITE_URL ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
