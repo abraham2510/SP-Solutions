@@ -76,7 +76,10 @@ export async function generateMetadata({
       publishedTime: new Date(post.publishedAt).toISOString(),
       authors: [post.author || "SP Solutions Team"],
       images: post.coverImage ? [{ url: post.coverImage }] : undefined,
-      url: `https://spsolutionsc.com/news/${post.slug}`,
+      url: `https://www.spsolutionsc.com/news/${post.slug}`,
+    },
+    alternates: {
+      canonical: `/news/${post.slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -125,7 +128,7 @@ export default async function BlogPostDetailPage({
       name: "SP Solutions",
       logo: {
         "@type": "ImageObject",
-        url: "https://spsolutionsc.com/logo.png",
+        url: "https://www.spsolutionsc.com/logo.png",
       },
     },
     description: post.excerpt || post.title,

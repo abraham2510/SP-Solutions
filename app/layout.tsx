@@ -14,7 +14,7 @@ const siteUrl =
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
-    : "https://sp-solutions.vercel.app");
+    : "https://www.spsolutionsc.com");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

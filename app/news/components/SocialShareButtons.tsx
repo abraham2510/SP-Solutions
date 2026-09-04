@@ -23,7 +23,7 @@ export function SocialShareButtons({ title, slug }: SocialShareButtonsProps) {
     if (typeof window !== "undefined") {
       return `${window.location.origin}/news/${slug}`;
     }
-    return `https://spsolutionsc.com/news/${slug}`;
+    return `https://www.spsolutionsc.com/news/${slug}`;
   };
 
   const handleCopyLink = () => {

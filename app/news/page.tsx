@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     description:
       "Explore the latest news, product releases, trade exhibitions, and industrial packaging updates from SP Solutions.",
     type: "website",
-    url: "https://spsolutionsc.com/news",
+    url: "https://www.spsolutionsc.com/news",
+  },
+  alternates: {
+    canonical: "/news",
   },
 };
 

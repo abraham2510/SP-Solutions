@@ -138,7 +138,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
           <div class="container">
             <!-- Brand Header -->
             <div class="brand-header">
-              <img src="https://spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
+              <img src="https://www.spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
               <div class="brand-sub">Industrial Packaging Machinery &amp; Automation Systems</div>
             </div>
 
@@ -277,7 +277,7 @@ export async function sendEnquiryNotificationEmails(enquiry: EnquiryEmailPayload
           <div class="container">
             <!-- Brand Header -->
             <div class="brand-header">
-              <img src="https://spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
+              <img src="https://www.spsolutionsc.com/logo.png" alt="SP Solutions Logo" class="brand-logo" />
               <div class="brand-sub">Industrial Packaging Machinery &amp; Automation Systems</div>
             </div>
 

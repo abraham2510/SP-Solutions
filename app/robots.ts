@@ -1,5 +1,8 @@
 import type { MetadataRoute } from "next";
 
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://www.spsolutionsc.com";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
@@ -9,6 +12,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/admin/", "/api/"],
       },
     ],
-    sitemap: "https://spsolutionsc.com/sitemap.xml",
+    sitemap: `${BASE_URL}/sitemap.xml`,
   };
 }
+
