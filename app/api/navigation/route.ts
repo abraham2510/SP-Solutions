@@ -16,6 +16,7 @@ export async function GET() {
           type: true,
           description: true,
           imageUrl: true,
+          images: true,
           _count: {
             select: {
               products: {
@@ -35,6 +36,7 @@ export async function GET() {
           shortDescription: true,
           description: true,
           imageUrl: true,
+          images: true,
           featured: true,
         },
       }),
@@ -46,7 +48,8 @@ export async function GET() {
       slug: cat.slug,
       type: cat.type,
       description: cat.description || "",
-      imageUrl: cat.imageUrl,
+      imageUrl: cat.imageUrl || (cat.images && cat.images[0]) || null,
+      images: cat.images && cat.images.length > 0 ? cat.images : (cat.imageUrl ? [cat.imageUrl] : []),
       productCount: cat._count.products,
     }));
 
@@ -56,7 +59,8 @@ export async function GET() {
       slug: srv.slug,
       shortDescription: srv.shortDescription || "",
       description: srv.description || srv.shortDescription || "",
-      imageUrl: srv.imageUrl,
+      imageUrl: srv.imageUrl || (srv.images && srv.images[0]) || null,
+      images: srv.images && srv.images.length > 0 ? srv.images : (srv.imageUrl ? [srv.imageUrl] : []),
       featured: srv.featured,
     }));
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Users } from "lucide-react";
+import { Users, Mail } from "lucide-react";
 import type { AboutPageOptions } from "../options";
 
 interface OurTeamProps {
@@ -9,6 +9,8 @@ interface OurTeamProps {
 }
 
 export default function OurTeam({ team }: OurTeamProps) {
+  if (!team) return null;
+
   return (
     <section
       id="our-team"
@@ -44,19 +46,19 @@ export default function OurTeam({ team }: OurTeamProps) {
 
         {/* Executive Leadership Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {team.members.map((member) => (
+          {team.members?.map((member) => (
             <div
               key={member.id}
               className="transition-all duration-300 flex flex-col items-center text-center relative overflow-hidden group"
             >
               {/* Circular Portrait Image with Dual-Ring Elevation */}
-              <div className="relative w-44 h-44 sm:w-42 sm:h-42 rounded-full overflow-hidden mb-5 bg-white border border-[#E7EAEE] shadow-md ring-4 ring-[#00266A]/5">
+              <div className="relative w-44 h-44 sm:w-48 sm:h-48 rounded-full overflow-hidden mb-5 bg-white border border-[#E7EAEE] shadow-md ring-4 ring-[#00266A]/5">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
                   sizes="(max-width: 768px) 176px, 192px"
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
 
@@ -66,9 +68,21 @@ export default function OurTeam({ team }: OurTeamProps) {
               </h3>
 
               {/* Role Badge */}
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#00266A]/6 text-[#00266A] text-xs font-semibold tracking-wide mb-5">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#00266A]/6 text-[#00266A] text-xs font-semibold tracking-wide mb-3">
                 {member.role}
               </div>
+
+              {/* Email Link */}
+              {member.email && (
+                <a
+                  href={`mailto:${member.email}`}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-[#00266A] border border-[#D5DEF0] hover:border-[#00266A] text-xs font-semibold text-[#00266A] hover:!text-white transition-all shadow-xs mb-4 group/mail"
+                  title={`Email ${member.name}`}
+                >
+                  <Mail className="w-3.5 h-3.5 text-[#00266A] group-hover/mail:text-white transition-colors" />
+                  <span>{member.email}</span>
+                </a>
+              )}
 
               {/* Useful Info (1 to 2 lines) */}
               <div className="pt-3 border-t border-[#E7EAEE] w-full max-w-xs">

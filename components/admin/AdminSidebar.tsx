@@ -8,6 +8,7 @@ import {
   Package,
   Tag,
   Wrench,
+  Newspaper,
   MessageSquare,
   Settings,
   LogOut,
@@ -33,6 +34,7 @@ const NAV_ITEMS = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: Tag },
   { href: "/admin/services", label: "Services", icon: Wrench },
+  { href: "/admin/blogs", label: "News & Updates", icon: Newspaper },
   { href: "/admin/enquiries", label: "Enquiries", icon: MessageSquare },
   { href: "/admin/settings", label: "Settings", icon: Settings },
 ];

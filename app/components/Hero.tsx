@@ -43,7 +43,7 @@ export default function Hero() {
           </span>
           <h1 className={`reveal ${loaded ? "in" : ""}`}>
             Packaging machinery &amp; industrial{" "}
-            <span className="inline-flex items-center align-baseline px-2.5 sm:px-3.5 py-0.5 sm:py-1 mx-1 bg-[#C1FF72] text-[#00266A] font-extrabold not-italic shadow-xs">
+            <span className="inline-flex items-center align-baseline px-2.5 sm:px-3.5 py-0.5 sm:py-1 mx-1 bg-[#d9fcac] text-[#00266A] font-extrabold not-italic shadow-xs">
               <RotatingText
                 texts={["Service", "Product", "Rental", "Repair", "Spares"]}
                 mainClassName="inline-flex text-[#00266A] overflow-hidden"

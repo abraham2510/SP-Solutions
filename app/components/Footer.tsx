@@ -81,6 +81,9 @@ export default function Footer() {
                 <Link href="/services">Services &amp; Rentals</Link>
               </li>
               <li>
+                <Link href="/news">News &amp; Updates</Link>
+              </li>
+              <li>
                 <Link href="/faq">FAQ</Link>
               </li>
             </ul>

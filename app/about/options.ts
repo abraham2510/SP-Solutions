@@ -53,6 +53,7 @@ export interface TeamMember {
   role: string;
   image: string;
   description: string;
+  email?: string;
   location?: string;
 }
 
@@ -282,6 +283,7 @@ export const aboutOptions: AboutPageOptions = {
         image: "/assets/images/users/alex.jpeg",
         description:
           "Machinery design & custom automation specialist with 10+ years of industrial engineering expertise.",
+        email: "alexnavinkumar@spsolutionsc.com",
         location: "Padi, Chennai",
       },
       {
@@ -292,6 +294,7 @@ export const aboutOptions: AboutPageOptions = {
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80",
         description:
           "Operations lead directing factory production, client relations, and rapid 24/7 breakdown service dispatch.",
+        email: "kavalibhagavan@spsolutionsc.com",
         location: "Pan-India Support",
       },
     ],

@@ -1,8 +1,3 @@
-/**
- * Centralized Site Constants & Contact Information for SP Solutions.
- * Use these constants across all components, pages, and metadata for consistency.
- */
-
 export const SITE_CONTACTS = {
   name: "SP Solutions",
   tagline: "Packaging Machinery & Service, Chennai",
@@ -39,9 +34,23 @@ export const SITE_CONTACTS = {
   },
 
   email: {
-    primary: "alexnavinkumar@spsolutionsc.com",
+    main: "info@spsolutionsc.com",
+    primary: "info@spsolutionsc.com",
     sales: "sales@spsolutionsc.com",
-    mailto: "mailto:alexnavinkumar@spsolutionsc.com",
+    alex: "alexnavinkumar@spsolutionsc.com",
+    bhagavan: "kavalibhagavan@spsolutionsc.com",
+    aliases: [
+      "alexnavinkumar@spsolutionsc.com",
+      "kavalibhagavan@spsolutionsc.com",
+      "sales@spsolutionsc.com",
+    ],
+    all: [
+      "info@spsolutionsc.com",
+      "alexnavinkumar@spsolutionsc.com",
+      "kavalibhagavan@spsolutionsc.com",
+      "sales@spsolutionsc.com",
+    ],
+    mailto: "mailto:info@spsolutionsc.com",
   },
 
   address: {

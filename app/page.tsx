@@ -55,7 +55,7 @@ export default async function Home() {
       <ClientLogos />
       <Products categories={categories} productCounts={productCounts} />
       <ServicesSection services={services} />
-      <Gallery />
+      <Gallery categories={categories} services={services} />
       <StatsBand />
       <CtaBand />
       <Footer />

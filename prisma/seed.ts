@@ -546,6 +546,85 @@ async function main() {
   }
   console.log(`✓ ${services.length} services seeded`);
 
+  // ── Blog Posts ────────────────────────────────────────────────────────────
+  // ── Blog Posts ────────────────────────────────────────────────────────────
+  const blogPosts = [
+    {
+      title: "SP Solutions Unveils Next-Generation Automatic L-Sealer with High-Speed Shrink Tunnel",
+      slug: "next-gen-auto-l-sealer-shrink-tunnel-launch",
+      excerpt: "Engineered specifically for high-throughput food, pharma, and consumer goods packaging with zero-delay pneumatic sealing and intelligent digital temperature control.",
+      content: "<h2>Next-Generation Packaging Automation</h2><p>SP Solutions is proud to announce the launch of our updated <b>Auto L-Sealer and Synchronized Shrink Tunnel Line</b>, built directly at our manufacturing workshop in Padi, Chennai. Engineered for continuous industrial operations, this automated line delivers unmatched sealing speed and tight, crystal-clear film finishing.</p><h3>Key Engineering Innovations</h3><ul><li><b>Pneumatic Constant-Heat Sealing Bar:</b> Eliminates film residue with Teflon-coated blades and instant temperature recovery.</li><li><b>Synchronized Infeed & Outfeed Conveyors:</b> Seamlessly matches variable production speeds from upstream flow wrappers.</li><li><b>Food-Grade Stainless Steel Contact Zones:</b> Meets strict hygiene and safety standards for food and pharmaceutical packaging.</li></ul><blockquote><p>Our goal with this updated L-sealer line is to help manufacturers reduce manual intervention while achieving 40 to 60 sealed packs per minute with zero packaging downtime.</p></blockquote><p>Live machine trial runs and packaging consultations are available daily at our Chennai facility.</p>",
+      coverImage: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
+      category: "Product Launch",
+      author: "Alex Navin Kumar",
+      tags: ["Auto L Sealer", "Shrink Packaging", "Chennai Manufacturing", "Packaging Line"],
+      gallery: [
+        {
+          url: "https://images.unsplash.com/photo-1530037335614-e68828dcf258?auto=format&fit=crop&w=900&q=80",
+          caption: "Shrink Tunnel with dual high-velocity hot air blowers",
+          sortOrder: 0,
+        },
+        {
+          url: "https://images.unsplash.com/photo-1627163439134-7a8c47e08208?auto=format&fit=crop&w=900&q=80",
+          caption: "Pneumatic sealing head with Teflon-coated impulse cutting wire",
+          sortOrder: 1,
+        },
+      ],
+      externalLink: "https://www.indiamart.com/sp-solutions-chennai/",
+      externalLinkText: "View Product Catalog on IndiaMART",
+      status: "PUBLISHED" as const,
+      featured: true,
+      publishedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+    },
+    {
+      title: "Live Product Trials & Packaging Demonstrations Now Available at Chennai Workshop",
+      slug: "live-machine-trials-at-chennai-workshop",
+      excerpt: "Manufacturers and business owners can now bring their actual product cartons and bottles for free live trial packaging on our industrial shrink and flow wrap machines.",
+      content: "<h2>Experience Before You Invest</h2><p>Choosing the right packaging machinery requires absolute confidence in seal integrity, film clarity, and machine speed. SP Solutions now offers <b>Free Live Machine Trials</b> at our workshop in Padi, Chennai.</p><h3>What You Can Test:</h3><ul><li><b>Shrink Film Trials:</b> POF and PVC shrink film performance on your specific box or bottle dimensions.</li><li><b>Pillow-Pack Flow Wrapping:</b> High-speed sealing for biscuits, confectionery, and bar-shaped hardware.</li><li><b>Tension-Tested Strapping:</b> Semi-automatic PP strapping strength on heavy corrugated cartons.</li></ul><p>Our engineering specialists will calibrate machine speed, fin-seal temperature, and conveyor settings to ensure optimal presentation and cost efficiency for your packaging line.</p>",
+      coverImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+      category: "Company News",
+      author: "SP Solutions Team",
+      tags: ["Machine Trial", "Padi Chennai", "Customer Support", "Live Demo"],
+      gallery: [
+        {
+          url: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=900&q=80",
+          caption: "Technician conducting live temperature calibration test",
+          sortOrder: 0,
+        },
+      ],
+      externalLink: "https://maps.app.goo.gl/qnCcYoVzgguyNfpv6",
+      externalLinkText: "Get Factory Directions on Google Maps",
+      status: "PUBLISHED" as const,
+      featured: false,
+      publishedAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+    },
+    {
+      title: "Enhancing Quality Control: In-Line Digital Metal Detectors for Food & Pharma Lines",
+      slug: "digital-metal-detection-haccp-quality-control",
+      excerpt: "How dual-channel digital signal processing detects ferrous, non-ferrous, and stainless steel contaminants to guarantee HACCP compliance.",
+      content: "<h2>Preventing Contamination with In-Line Inspection</h2><p>In modern industrial production, product purity and safety are paramount. SP Solutions' range of <b>Digital Metal Detectors</b> provides end-of-line verification to protect brand reputation and satisfy stringent regulatory audits.</p><h3>Key Inspection Capabilities</h3><ul><li><b>Multi-Frequency DSP:</b> Detects micro-particles of ferrous, non-ferrous, and stainless steel (SUS316/SUS304).</li><li><b>Automated Rejection Systems:</b> Pneumatic pusher, air jet blow, or drop-flap mechanisms remove contaminated items instantly without stopping the line.</li><li><b>Audit Logging:</b> Stores inspection data and detection history for quality compliance reporting.</li></ul><p>Contact our technical team to schedule an in-line audit assessment for your factory.</p>",
+      coverImage: "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?auto=format&fit=crop&w=1200&q=80",
+      category: "Innovation",
+      author: "SP Solutions Team",
+      tags: ["Metal Detection", "Quality Control", "HACCP", "Food Safety"],
+      gallery: [],
+      status: "PUBLISHED" as const,
+      featured: false,
+      publishedAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000),
+    },
+  ];
+
+
+
+  for (const post of blogPosts) {
+    await prisma.blogPost.upsert({
+      where: { slug: post.slug },
+      update: { ...post, gallery: post.gallery as unknown as object },
+      create: { ...post, gallery: post.gallery as unknown as object },
+    });
+  }
+  console.log(`✓ ${blogPosts.length} blog posts seeded`);
+
   console.log("\n✅ Seed complete!");
   console.log("   Admin login: admin@spsolutionsc.com / Admin@123");
 }

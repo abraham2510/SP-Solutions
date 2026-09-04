@@ -402,6 +402,20 @@ export default function Navbar() {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
+                {/* News & Updates Link */}
+                <NavigationMenuItem>
+                  <Link
+                    href="/news"
+                    className={`nav-link-standard px-3 py-2 text-[14.5px] font-medium rounded-lg transition-colors ${
+                      pathname === "/news" || pathname.startsWith("/news/")
+                        ? "text-[#00266A] font-semibold bg-[#F4F6FA]"
+                        : "text-[#10151C] hover:text-[#00266A]"
+                    }`}
+                  >
+                    News &amp; Updates
+                  </Link>
+                </NavigationMenuItem>
+
                 {/* FAQ Link */}
                 <NavigationMenuItem>
                   <Link
@@ -657,6 +671,20 @@ export default function Navbar() {
                 </div>
               )}
             </div>
+
+            {/* News & Updates */}
+            <Link
+              href="/news"
+              className={`flex items-center justify-between p-3 rounded-xl font-semibold text-[15px] transition-colors ${
+                pathname === "/news" || pathname.startsWith("/news/")
+                  ? "bg-[#F4F6FA] text-[#00266A]"
+                  : "text-[#10151C] hover:bg-[#F4F6FA] hover:text-[#00266A]"
+              }`}
+              onClick={closeDrawer}
+            >
+              <span>News &amp; Updates</span>
+              <ArrowRight className="w-4 h-4 text-[#8892A0]" />
+            </Link>
 
             {/* FAQ */}
             <Link
