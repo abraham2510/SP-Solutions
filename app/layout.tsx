@@ -9,13 +9,9 @@ import FloatingContactButtons from "./components/FloatingContactButtons";
 const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const siteUrl =
-  process.env.SITE_URL ||
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "https://www.spsolutionsc.com");
+  process.env.SITE_URL && !process.env.SITE_URL.includes("vercel.app")
+    ? process.env.SITE_URL
+    : "https://www.spsolutionsc.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
