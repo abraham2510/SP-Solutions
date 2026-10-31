@@ -24,6 +24,7 @@ import { BlogRichTextEditor } from "./BlogRichTextEditor";
 import { BlogGalleryManager } from "./BlogGalleryManager";
 import { BlogPreviewModal } from "./BlogPreviewModal";
 import { createBlogPost, updateBlogPost } from "@/actions/blogs";
+import { uploadImageAction } from "@/actions/upload";
 import {
   BLOG_CATEGORIES,
   type BlogPost,
@@ -88,6 +89,7 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
 
   // UI state
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
   const [coverUploading, setCoverUploading] = useState(false);
 
@@ -105,7 +107,8 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
       toast.error("Invalid image format. Please select JPEG, PNG, or WEBP.");
       return;
     }
@@ -123,10 +126,16 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
         reader.onerror = reject;
         reader.readAsDataURL(file);
       });
-      setCoverImage(base64);
-      toast.success("Cover image loaded.");
+
+      const uploadRes = await uploadImageAction(base64, "blogs/covers");
+      if (uploadRes.success && uploadRes.url) {
+        setCoverImage(uploadRes.url);
+        toast.success("Cover image uploaded successfully!");
+      } else {
+        toast.error(uploadRes.error || "Failed to upload cover image.");
+      }
     } catch {
-      toast.error("Failed to read image file.");
+      toast.error("Failed to process image file.");
     } finally {
       setCoverUploading(false);
       e.target.value = "";
@@ -167,25 +176,63 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
     }
 
     setIsSubmitting(true);
-
-    const payload = {
-      title: title.trim(),
-      slug: slug.trim(),
-      excerpt: excerpt.trim(),
-      content,
-      coverImage: coverImage.trim() || null,
-      category,
-      author: author.trim() || "SP Solutions Team",
-      tags,
-      gallery,
-      externalLink: externalLink.trim() || null,
-      externalLinkText: externalLinkText.trim() || null,
-      status: submitStatus,
-      featured,
-      publishedAt: new Date(publishedAt),
-    };
+    setUploadMessage("Preparing publication...");
 
     try {
+      // 1. Upload cover image to Cloudinary if it is still a base64 data URL
+      let finalCoverImage = coverImage.trim();
+      if (finalCoverImage.startsWith("data:image/")) {
+        setUploadMessage("Uploading cover image to Cloudinary...");
+        const uploadRes = await uploadImageAction(finalCoverImage, "blogs/covers");
+        if (!uploadRes.success || !uploadRes.url) {
+          toast.error(uploadRes.error || "Failed to upload cover image to Cloudinary.");
+          setIsSubmitting(false);
+          setUploadMessage(null);
+          return;
+        }
+        finalCoverImage = uploadRes.url;
+        setCoverImage(finalCoverImage);
+      }
+
+      // 2. Upload any gallery items that are still base64 data URLs
+      const finalGallery = [...gallery];
+      for (let i = 0; i < finalGallery.length; i++) {
+        if (finalGallery[i].url && finalGallery[i].url.startsWith("data:image/")) {
+          setUploadMessage(`Uploading gallery image ${i + 1} of ${finalGallery.length} to Cloudinary...`);
+          const uploadRes = await uploadImageAction(finalGallery[i].url, "blogs/gallery");
+          if (!uploadRes.success || !uploadRes.url) {
+            toast.error(uploadRes.error || `Failed to upload gallery image ${i + 1} to Cloudinary.`);
+            setIsSubmitting(false);
+            setUploadMessage(null);
+            return;
+          }
+          finalGallery[i] = { ...finalGallery[i], url: uploadRes.url };
+        }
+      }
+      setGallery(finalGallery);
+
+      setUploadMessage(submitStatus === "PUBLISHED" ? "Publishing post..." : "Saving draft...");
+
+      const parsedDate = publishedAt ? new Date(publishedAt) : new Date();
+      const validDate = isNaN(parsedDate.getTime()) ? new Date() : parsedDate;
+
+      const payload = {
+        title: title.trim(),
+        slug: slug.trim(),
+        excerpt: excerpt.trim(),
+        content,
+        coverImage: finalCoverImage || null,
+        category,
+        author: author.trim() || "SP Solutions Team",
+        tags,
+        gallery: finalGallery,
+        externalLink: externalLink.trim() || null,
+        externalLinkText: externalLinkText.trim() || null,
+        status: submitStatus,
+        featured,
+        publishedAt: validDate,
+      };
+
       let res;
       if (mode === "create") {
         res = await createBlogPost(payload);
@@ -210,6 +257,7 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
       );
     } finally {
       setIsSubmitting(false);
+      setUploadMessage(null);
     }
   };
 
@@ -253,7 +301,7 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
             ) : (
               <Save className="w-4 h-4" />
             )}
-            <span>Save Draft</span>
+            <span>{isSubmitting && uploadMessage ? uploadMessage : "Save Draft"}</span>
           </Button>
 
           <Button
@@ -268,7 +316,7 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
             ) : (
               <CheckCircle className="w-4 h-4" />
             )}
-            <span>Publish Post</span>
+            <span>{isSubmitting && uploadMessage ? uploadMessage : "Publish Post"}</span>
           </Button>
         </div>
       </div>
@@ -390,7 +438,7 @@ export function BlogForm({ initialData, mode }: BlogFormProps) {
                     <div className="flex flex-col items-center py-2 text-slate-500">
                       <Loader2 className="h-8 w-8 animate-spin text-[#00266A] mb-2" />
                       <span className="text-xs font-semibold text-slate-800">
-                        Reading image file...
+                        Uploading cover photo to Cloudinary...
                       </span>
                     </div>
                   ) : (

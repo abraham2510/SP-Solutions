@@ -1,5 +1,7 @@
 "use client";
 
+import { uploadImageAction } from "@/actions/upload";
+
 import React, { useState } from "react";
 import {
   Upload,
@@ -61,7 +63,7 @@ export function BlogGalleryManager({
       const newItems: BlogGalleryItem[] = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        setUploadProgress(`Loading image ${i + 1} of ${files.length}...`);
+        setUploadProgress(`Uploading image ${i + 1} of ${files.length} to Cloudinary...`);
 
         const base64 = await new Promise<string>((resolve, reject) => {
           const reader = new FileReader();
@@ -70,16 +72,21 @@ export function BlogGalleryManager({
           reader.readAsDataURL(file);
         });
 
-        newItems.push({
-          url: base64,
-          caption: "",
-          sortOrder: items.length + i,
-        });
+        const uploadRes = await uploadImageAction(base64, "blogs/gallery");
+        if (uploadRes.success && uploadRes.url) {
+          newItems.push({
+            url: uploadRes.url,
+            caption: "",
+            sortOrder: items.length + i,
+          });
+        } else {
+          toast.error(uploadRes.error || `Failed to upload image ${file.name} to Cloudinary.`);
+        }
       }
 
       if (newItems.length > 0) {
         onChange([...items, ...newItems]);
-        toast.success(`Added ${newItems.length} gallery image(s).`);
+        toast.success(`Uploaded ${newItems.length} gallery image(s) to Cloudinary.`);
       }
     } catch {
       toast.error("Failed to process image files.");

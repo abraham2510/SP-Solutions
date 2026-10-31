@@ -43,3 +43,7 @@ next-env.d.ts
 
 localData
 /lib/generated/prisma
+
+# database backups
+backup/
+*.sql

@@ -1,3 +1,4 @@
+import { uploadImageAction } from "@/actions/upload";
 import type { Node as PMNode } from "@tiptap/pm/model"
 import type { Transaction } from "@tiptap/pm/state"
 import { clsx, type ClassValue } from "clsx"
@@ -386,7 +387,7 @@ export const handleImageUpload = async (
     );
   }
 
-  return new Promise((resolve, reject) => {
+  const base64 = await new Promise<string>((resolve, reject) => {
     if (abortSignal?.aborted) {
       reject(new Error("Upload cancelled"));
       return;
@@ -395,16 +396,23 @@ export const handleImageUpload = async (
     const reader = new FileReader();
     reader.onprogress = (event) => {
       if (event.lengthComputable && onProgress) {
-        onProgress({ progress: Math.round((event.loaded / event.total) * 100) });
+        onProgress({ progress: Math.round((event.loaded / event.total) * 50) });
       }
     };
     reader.onload = () => {
-      onProgress?.({ progress: 100 });
       resolve(reader.result as string);
     };
     reader.onerror = () => reject(new Error("Failed to read image file"));
     reader.readAsDataURL(file);
   });
+
+  const uploadRes = await uploadImageAction(base64, "blogs/content");
+  if (!uploadRes.success || !uploadRes.url) {
+    throw new Error(uploadRes.error || "Failed to upload image to Cloudinary");
+  }
+
+  onProgress?.({ progress: 100 });
+  return uploadRes.url;
 };
 
 

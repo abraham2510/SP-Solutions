@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 import SmoothScroll from "./components/SmoothScroll";
 import Preloader from "./components/Preloader";
 import FloatingContactButtons from "./components/FloatingContactButtons";
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const geist = localFont({
+  src: [
+    { path: "../node_modules/geist/dist/fonts/geist-sans/Geist-Regular.woff2",    weight: "400", style: "normal" },
+    { path: "../node_modules/geist/dist/fonts/geist-sans/Geist-Medium.woff2",     weight: "500", style: "normal" },
+    { path: "../node_modules/geist/dist/fonts/geist-sans/Geist-SemiBold.woff2",   weight: "600", style: "normal" },
+    { path: "../node_modules/geist/dist/fonts/geist-sans/Geist-Bold.woff2",       weight: "700", style: "normal" },
+  ],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const siteUrl =
   process.env.SITE_URL && !process.env.SITE_URL.includes("vercel.app")
@@ -85,7 +94,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={cn("antialiased", "font-sans", geist.variable)}>
+    <html lang="en" className={cn("antialiased", geist.variable, geist.className)}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
