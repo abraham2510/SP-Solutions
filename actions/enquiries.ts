@@ -5,6 +5,8 @@ import { prisma } from "@/lib/prisma";
 import { EnquirySchema } from "@/lib/validations/enquiry";
 import { sendEnquiryNotificationEmails } from "@/lib/mail";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
+import { detectSpam, isRateLimited } from "@/lib/spam-detector";
 import type { EnquiryStatus } from "@prisma/client";
 import { z } from "zod";
 
@@ -21,6 +23,39 @@ export async function submitEnquiry(data: unknown): Promise<ActionResult> {
   if (!parsed.success) return { success: false, error: formatZodError(parsed.error) };
 
   try {
+    // 1. IP Rate Limiting
+    let clientIp = "unknown";
+    try {
+      const headerList = await headers();
+      const forwarded = headerList.get("x-forwarded-for");
+      clientIp = forwarded ? forwarded.split(",")[0].trim() : headerList.get("x-real-ip") || "unknown";
+    } catch {
+      // Header extraction fallback
+    }
+
+    if (isRateLimited(clientIp)) {
+      console.warn(`[submitEnquiry RateLimit] Blocked request from ${clientIp}`);
+      return { success: false, error: "Too many submissions. Please wait a few minutes before trying again." };
+    }
+
+    // 2. Anti-Spam Detection (Honeypot, Speed, Heuristics, Gibberish)
+    const spamCheck = detectSpam({
+      name: parsed.data.name,
+      email: parsed.data.email,
+      message: parsed.data.message,
+      subject: parsed.data.subject,
+      website_url: parsed.data.website_url,
+      formLoadedAt: parsed.data.formLoadedAt,
+    });
+
+    if (spamCheck.isSpam) {
+      console.warn(`[submitEnquiry SPAM BLOCKED] Reason: ${spamCheck.reason} | IP: ${clientIp} | Name: ${parsed.data.name}`);
+      // Deceptive success response: return simulated reference ID so bots believe they succeeded
+      // but DO NOT write to database and DO NOT dispatch notification emails.
+      const fakeRefId = "cm" + Math.random().toString(36).substring(2, 10) + "fake";
+      return { success: true, id: fakeRefId };
+    }
+
     const subject = parsed.data.subject
       ? `[${parsed.data.inquiryType || "Inquiry"}] ${parsed.data.subject}`
       : parsed.data.inquiryType || null;

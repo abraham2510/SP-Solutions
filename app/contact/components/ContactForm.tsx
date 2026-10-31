@@ -32,6 +32,7 @@ export default function ContactForm() {
     null,
   );
   const [serverError, setServerError] = useState<string | null>(null);
+  const [formLoadedAt] = useState<number>(() => Date.now());
 
   const {
     register,
@@ -49,6 +50,7 @@ export default function ContactForm() {
       inquiryType: "Machine Purchase",
       subject: "",
       message: "",
+      website_url: "",
     },
     mode: "onBlur",
   });
@@ -56,7 +58,10 @@ export default function ContactForm() {
   const onSubmit: SubmitHandler<EnquiryInput> = async (data) => {
     setServerError(null);
     try {
-      const res = await submitEnquiry(data);
+      const res = await submitEnquiry({
+        ...data,
+        formLoadedAt,
+      });
       if (res.success) {
         setSubmissionSuccess(res.id);
         reset();
@@ -154,9 +159,32 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white rounded-3xl border border-[#E7EAEE] p-6 sm:p-10 shadow-[0_20px_50px_-15px_rgba(0,38,106,0.1)] flex flex-col gap-7"
+      className="bg-white rounded-3xl border border-[#E7EAEE] p-6 sm:p-10 shadow-[0_20px_50px_-15px_rgba(0,38,106,0.1)] flex flex-col gap-7 relative overflow-hidden"
       noValidate
     >
+      {/* Anti-spam honeypot field: visually hidden from real users, trapped for automated bots */}
+      <div
+        style={{
+          position: "absolute",
+          left: "-9999px",
+          top: "-9999px",
+          opacity: 0,
+          height: 0,
+          width: 0,
+          zIndex: -1,
+          pointerEvents: "none",
+        }}
+        aria-hidden="true"
+      >
+        <label htmlFor="website_url">Website</label>
+        <input
+          id="website_url"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("website_url")}
+        />
+      </div>
       {/* Header inside form */}
       <div>
         <h3 className="text-2xl sm:text-3xl font-bold text-[#10151C] tracking-tight">

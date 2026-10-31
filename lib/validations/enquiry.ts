@@ -49,6 +49,8 @@ export const EnquirySchema = z.object({
     .max(5000, "Message cannot exceed 5000 characters"),
   productId: z.string().optional().nullable(),
   serviceId: z.string().optional().nullable(),
+  website_url: z.string().optional().nullable(),
+  formLoadedAt: z.number().optional().nullable(),
 });
 
 export type EnquiryInput = z.infer<typeof EnquirySchema>;
